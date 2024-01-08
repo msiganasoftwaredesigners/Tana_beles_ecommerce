@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <!-- breadcrum -->
+    <div class="py-4 container flex gap-3 items-center">
+        <a href="{% url 'home' %}" class="text-primary text-base font-medium uppercase">
+            <i class="fas fa-home"></i>
+        </a>
+        <span class="text-sm text-gray-400"><i class="fas fa-chevron-right"></i></span>
+        <a href="{{single_product.category.get_url}}" class="text-primary text-base font-medium uppercase">
+            {{single_product.category}}
+        </a>
+        <span class="text-sm text-gray-400"><i class="fas fa-chevron-right"></i></span>
+        <p class="text-gray-600 font-medium uppercase">{{single_product.product_name}}</p>
+    </div>
+    <!-- breadcrum end -->
+
+    <!-- product view -->
+    <form action="{% url 'add_cart' single_product.id %}" method="POST">
+        {% csrf_token %}
+    <div class="container pt-4 pb-6 grid lg:grid-cols-2 gap-6">
+        <!-- product image -->
+        <div>
+            <div>
+                <div>
+                    <img id="main-img" src="{{ main_image.image.url }}" class="w-full">
+                </div>
+                <div class="grid grid-cols-5 gap-4 mt-4">
+                    {% for image in other_images %}
+                        <div>
+                            <img src="{{ image.image.url }}" class="single-img w-full cursor-pointer border">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- product image end -->
+        <!-- product content -->
+        <div>
+            <h2 class="md:text-3xl text-2xl font-medium uppercase mb-2">{{single_product.product_name}}</h2>
+            <div class="flex items-center mb-4">
+                <div class="flex gap-1 text-sm text-yellow-400">
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="fas fa-star"></i></span>
+                </div>
+                <div class="text-xs text-gray-500 ml-3">(150 Reviews)</div>
+            </div>
+            <div class="space-y-2">
+                <p class="text-gray-800 font-semibold space-x-2">
+                    <span>Availability: </span>
+                    {% if single_product.product_stock <= 0 %}
+
+                    <span class="text-red-600">out of stock</span>
+                    {% else %}
+                     <span class="text-green-600">In Stock</span>
+                    {% endif %}
+                </p>
+                <p class="space-x-2">
+                    <span class="text-gray-800 font-semibold">Brand: </span>
+                    <span class="text-gray-600">Brand Name here</span>
+                </p>
+                <p class="space-x-2">
+                    <span class="text-gray-800 font-semibold">Category: </span>
+                    <span class="text-gray-600">{{single_product.category|capfirst}}</span>
+                </p>
+                <p class="space-x-2">
+                    
+                    <span class="text-gray-800 font-semibold">Price: </span>
+                    {% load price_filters %}
+                <span class="text-primary font-semibold text-lg">{{single_product.product_price|discounted_price}} birr</span>
+                <span class="text-gray-500 text-base line-through">{{ single_product.product_price }} birr</span>
+                </p>
+            </div>
+            <!-- size -->
+            <div class="mt-4">
+                <h3 class="text-base text-gray-800 mb-1">Size</h3>
+                <div class="flex items-center gap-2">
+                    <!-- single size -->
+                    {% for variation in single_product.variations.all %}
+                                            {% if variation.size %}
+                                            <div class="size-selector">
+                                                <input type="radio"  class="hidden"  value="{{ variation.size.name|lower }}">
+                                                <label
+                                                    class="text-lg md:text-lg border border-gray-200 rounded-sm h-8 w-8 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
+                                                    {{ variation.size.name|capfirst }}
+                                                </label>
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+                </div>
+            </div>
+            <!-- size end -->
+            <!-- color -->
+            <div class="mt-4">
+                <h3 class="text-base text-gray-800 mb-1">Color</h3>
+                <div class="flex items-center gap-2">
+                    {% load color_filters %}
+
+                    {% for variation in single_product.variations.all %}
+                        {% if variation.color %}
+                            <!-- single color -->
+                            <div class="color-selector">
+                                <input type="radio" name="color" class="hidden" id="color-{{ variation.color.name|lower }}" {% if forloop.first %}checked{% endif %}>
+                                <label for="color-{{ variation.color.name|lower }}" style="background-color : {{ color_dict|get_color:variation.color.name|lower }}"
+                                    class="text-xs border border-gray-200 rounded-sm h-5 w-5 flex items-center justify-center cursor-pointer shadow-sm">
+                                </label>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                   
+                </div>
+            </div>
+        
+            <!-- add to cart button -->
+            <div class="flex gap-3 border-b border-gray-200 pb-5 mt-6">
+                {% if single_product.product_stock <= 0 %}
+
+                <span class="text">out of stock</span>
+                {% else %}
+
+                <button type="submit" class="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase 
+                hover:bg-transparent hover:text-primary transition text-sm flex items-center">
+                <span class="mr-2"><i class="fas fa-shopping-bag"></i></span> Add to cart
+            </button>
+                {% endif %}
+                <a href="tel:0995030326" class="bg-red-600 border border-gray-300 text-white px-3 md:px-8 py-2 font-medium rounded uppercase 
+                text-sm flex items-center">
+                <span class="mr-1 md:mr-2 text-blue-500 text-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512">
+                        <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+                        <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/>
+                    </svg>
+                </span>
+                <span class="text-base md:text-lg">09-95-03-03-26</span>
+            </a>
+            </div>
+            <!-- add to cart button end -->
+            <!-- product share icons -->
+            <div class="flex space-x-3 mt-4">
+                <a href="#"
+                    class="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#"
+                    class="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#"
+                    class="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            <!-- product share icons end -->
+        </div>
+        <!-- product content end -->
+    </div>
+    </form>
+    <!-- product view end -->
+
+    <!-- product details and review -->
+    <div class="container pb-16">
+        <!-- detail buttons -->
+        <h3 class="border-b border-gray-200 font-roboto text-gray-800 pb-3 font-medium">
+            Product Details
+        </h3>
+        <!-- details button end -->
+
+        <!-- details content -->
+        <div class="lg:w-4/5 xl:w-3/5 pt-6">
+            <div class="space-y-3 text-gray-600">
+                <p>
+                    {{single_product.product_description}}
+                </p>
+               
+            </div>
+            <!-- details table -->
+            <h3 class="border-b border-gray-200 font-roboto text-gray-800 pb-3 font-medium mt-6">
+                {{single_product.product_name|capfirst}} Specifications
+            </h3>
+            <table class="table-auto border-collapse w-full text-left text-gray-600 text-sm mt-6">
+                <tr>
+                    <th class="py-2 px-4 border border-gray-300 w-40 font-medium">Color</th>
+                    <td class="py-2 px-4 border border-gray-300">Black, Brown, Red</td>
+                </tr>
+                <tr>
+                    <th class="py-2 px-4 border border-gray-300 w-40 font-medium">Material</th>
+                    <td class="py-2 px-4 border border-gray-300">A description place for the material used to build the product.</td>
+                </tr>
+                <tr>
+                    <th class="py-2 px-4 border border-gray-300 w-40 font-medium">Weight</th>
+                    <td class="py-2 px-4 border border-gray-300">55kg</td>
+                </tr>
+            </table>
+            <!-- details table -->
+        </div>
+        <!-- details content end -->
+    </div>
+    <!-- product details and review end -->
+
+    <!-- related products -->
+    {% if related_products %}
+    <div class="container pb-16">
+        <h2 class="text-2xl md:text-3xl font-medium text-gray-800 uppercase mb-6">related products</h2>
+        <div class="grid lg:grid-cols-4 sm:grid-cols-2 gap-6">
+            {% for product in related_products %}
+                <div class="group rounded bg-white shadow overflow-hidden">
+                    <!-- product image -->
+                    <div class="relative">
+                        <img src="{{ product.get_main_image.image.url }}" class="w-full">
+                        <div
+                            class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
+                            <a href="{% url 'product_detail' product.category.category_slug product.product_slug %}"
+                                class="text-white text-lg w-9 h-9 rounded-full bg-primary hover:bg-gray-800 transition flex items-center justify-center">
+                                <i class="fas fa-search"></i>
+                            </a>
+                            <a href="#"
+                                class="text-white text-lg w-9 h-9 rounded-full bg-primary hover:bg-gray-800 transition flex items-center justify-center">
+                                <i class="far fa-heart"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- product image end -->
+                    <!-- product content -->
+                    <div class="pt-4 pb-3 px-4">
+                        <a href="{% url 'product_detail' product.category.category_slug product.product_slug %}">
+                            <h4 class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
+                                {{ product.product_name }}
+                            </h4>
+                        </a>
+                        <div class="flex items-baseline mb-1 space-x-2">
+                            <p class="text-xl text-primary font-roboto font-semibold">{{ product.product_price }}br</p>
+                        </div>
+                        <!-- Add your product rating and reviews here -->
+                    </div>
+                    <!-- product content end -->
+                    <!-- product button -->
+                    <a href="{% url 'product_detail' product.category.category_slug product.product_slug %}"
+                        class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">
+                        Product details
+                    </a>
+                    <!-- product button end -->
+                </div>
+                <!-- single product end -->
+            {% endfor %}
+        </div>
+        <!-- product wrapper end -->
+    </div>
+    {% endif %}
+    <!-- related products end -->
+    <div class="row">
+        <div class="col-md-9">
+            <header class="section-heading">
+                <h3>Customer Reviews </h3>
+            </header>
+        </div>
+    </div>
+
+
+
+<script>
+    let mainImg = document.getElementById('main-img')
+    let imgBars = document.getElementsByClassName('single-img')
+
+    for(let imgBar of imgBars){
+        imgBar.addEventListener('click', function(){
+            clearActive()
+            let imgPath = this.getAttribute('src')
+            mainImg.setAttribute('src', imgPath)
+            this.classList.add('border-primary')
+        })
+    }
+
+    function clearActive(){
+        for(let imgBar of imgBars){
+            imgBar.classList.remove('border-primary')
+        }
+    }
+</script>
+
+</body>
+
+</html>
+
+   
+{% endblock %}

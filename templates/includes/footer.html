@@ -1,0 +1,152 @@
+{% load static %} {% block content %}
+
+<!-- footer -->
+
+<div class="absolute w-full bg-slate-500 pt-16 pb-12 border-gray-100">
+  <div class="container">
+    <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+      <!-- footer text -->
+      <div class="space-y-8 xl:col-span-1">
+        <a href="{% url 'home' %}" class="brand-wrap w-16 ">
+            <img class="logo" src="{% static './images/logo.jpg' %}">
+        </a>
+        <p class="text-white text-base">
+          Msigana software designer is a software development company that provides, web design, 
+          web development, mobile app development, digital marketing, and software development services.
+        </p>
+        <div class="flex space-x-6">
+          <a href="#" class="text-white hover:text-red-600">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="text-white hover:text-red-600">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="text-white hover:text-red-600">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="text-white hover:text-red-600">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+      <!-- footer text end -->
+      <!-- footer links -->
+      <div class="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
+        <div class="md:grid md:grid-cols-2 md:gap-8">
+          <div>
+            <h3
+              class="text-sm font-semibold text-white tracking-wider uppercase"
+            >
+              Solutions
+            </h3>
+            <div class="mt-4 space-y-4">
+              <a
+                href="#"
+                class="text-base text-white hover:text-gray-900 block"
+              >
+                Marketing
+              </a>
+              <a
+                href="#"
+                class="text-base text-white hover:text-gray-900 block"
+              >
+                Marketing
+              </a>
+            </div>
+          </div>
+          <div class="mt-12 md:mt-0">
+            <h3
+              class="text-sm font-semibold text-white tracking-wider uppercase"
+            >
+              Support
+            </h3>
+            <div class="mt-4 space-y-4">
+              <a
+                href="#"
+                class="text-base text-white hover:text-gray-900 block"
+              >
+                Pricing
+              </a>
+
+              <a
+                href="#"
+                class="text-base text-white hover:text-gray-900 block"
+              >
+                Guides
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="md:grid md:grid-cols-2 md:gap-8">
+          <div>
+            <h3
+              class="text-sm font-semibold text-white tracking-wider uppercase sm:hidden"
+            >
+              Company
+            </h3>
+            <div class="mt-4 space-y-4">
+              <a
+                href="#"
+                class="text-base text-white hover:text-gray-900 block"
+              >
+                About
+              </a>
+              <a
+                href="#"
+                class="text-base text-white hover:text-gray-900 block"
+              >
+                Blog
+              </a>
+            </div>
+          </div>
+          <div class="mt-12 md:mt-0 ">
+            <h3
+              class="text-sm font-semibold text-white tracking-wider uppercase "
+            >
+              Legal
+            </h3>
+            <div class="mt-4 space-y-4">
+              <a
+                href="#"
+                class="text-base text-white hover:text-gray-900 block"
+              >
+                Privacy
+              </a>
+              <a
+                href="#"
+                class="text-base text-white hover:text-gray-900 block"
+              >
+                Policy
+              </a>
+              <a
+                href="#"
+                class="text-base text-white hover:text-gray-900 block"
+              >
+                Terms
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- footer links end -->
+    </div>
+  </div>
+</div>
+<!-- copyright -->
+<div class="bg-gray-800 pt-4 py-0 md:py-4  absolute w-full mt-[650px] md:mt-[260px]">
+  <div class="container flex items-center justify-between">
+    <p class="text-white text-base md:text-lg">©copy 2023 Msigana Software Designer</p>
+    <div class="col-md-8 text-md-center">
+      <span class="px-1 md:px-2 text-white text-base md:text-lg">msiganasoftware@gmail.com</span>
+      <span class="px-1 md:px-2 text-white text-base md:text-lg">+251-995-0303-26</span>
+      <span class="px-1 md:px-2 text-white text-base md:text-lg">weatherall str , Addis Ababa</span>
+    </div>
+    <div>
+      <img src="{% static 'images/methods.png' %}" class="h-5" />
+
+    </div>
+  </div>
+</div>
+<!-- copyright end -->
+
+{% endblock %}

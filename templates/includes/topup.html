@@ -1,0 +1,93 @@
+{% load static %}
+{% block content %}
+<head>
+    <style>
+    .scroll-to-top-button {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 50;
+        padding: 1rem;
+        background-color: rgb(107, 107, 102);
+        color: rgb(212, 21, 21);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      @media (max-width: 600px) {
+        .scroll-to-top-button {
+            bottom: 6rem;  
+            right: 0rem;  
+            padding: 1rem;  
+        }
+    }
+      
+      .scroll-to-top-button:hover {
+        background-color: rgb(109, 48, 48);
+        color: yellow;
+      }
+      
+      .scroll-to-top-icon {
+        width: 24px;
+        height: 24px;
+      }
+    </style>
+    </head>
+<button
+  id="scrollToTopButton"
+  class="scroll-to-top-button"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="scroll-to-top-icon"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+  </svg>
+</button>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const scrollToTopButton = document.getElementById('scrollToTopButton');
+        let isButtonVisible = false;
+        let lastScrollTop = 0;
+    
+    
+        function toggleButtonVisibility() {
+            const scrollTop = window.scrollY;
+    
+            if (scrollTop > lastScrollTop) {
+                if (isButtonVisible) {
+                    scrollToTopButton.style.display = 'none';
+                    isButtonVisible = false;
+                }
+            } else {
+    
+                if (scrollTop === 0) {
+                    if (isButtonVisible) {
+                        scrollToTopButton.style.display = 'none';
+                        isButtonVisible = false;
+                    }
+                } else {
+                    if (!isButtonVisible) {
+                        scrollToTopButton.style.display = 'block';
+                        isButtonVisible = true;
+                    }
+                }
+            }
+    
+            lastScrollTop = scrollTop;
+        }
+        toggleButtonVisibility();
+    
+        window.addEventListener('scroll', toggleButtonVisibility);
+    
+        scrollToTopButton.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+    </script>
+
+{% endblock %}
