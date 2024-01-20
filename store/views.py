@@ -1,9 +1,10 @@
+from django.http import JsonResponse
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from carts.models import CartItem
 from carts.views import _cart_id
 from category.models import Category
-from store.models import Product
+from store.models import Product, ProductLike
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse
 
@@ -72,6 +73,22 @@ def product_detail(request, category_slug, product_slug):
     }
     return render(request, 'product-detail.html', context)
 
+
+def like_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    ip_address = get_client_ip(request)
+    product_like, created = ProductLike.objects.get_or_create(ip_address=ip_address, product=product)
+    if not created:
+        product_like.delete()
+    return JsonResponse({'status': 'success'})
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def search(request):
     context = {}

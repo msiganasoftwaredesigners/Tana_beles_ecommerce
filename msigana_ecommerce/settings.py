@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-import django_heroku
 import dj_database_url
 from decouple import config
 
@@ -27,7 +26,7 @@ SECRET_KEY = 'django-insecure-$epx^r=3u8b8pt+yc_3&e)50gr1%-@3jgpl#j-&9&am#$2on*8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "143.244.179.85"]
 
 # Appication definition
 
@@ -96,7 +95,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ecommerce_postgres',
-        'USER': 'postgres',
+        'USER': os.getenv('DB_USERNAME'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': 'localhost',
         'PORT': 5432,
     }
@@ -150,7 +150,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.CustomAccount'
-django_heroku.settings(locals())
+
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
