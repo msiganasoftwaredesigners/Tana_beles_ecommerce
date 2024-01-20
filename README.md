@@ -114,3 +114,10 @@ sudo service postgresql restart
 ```
 psql -U postgres -h localhost -d storage/development_postgres
 ````
+
+```
+python manage.py collectstatic
+```
+
+```
+python manage.py migrate    
