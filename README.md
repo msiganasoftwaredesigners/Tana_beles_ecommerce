@@ -250,3 +250,7 @@ sudo nginx -t
 
 
 sudo systemctl restart nginx
+
+
+
+pip install -r requirements.txt
