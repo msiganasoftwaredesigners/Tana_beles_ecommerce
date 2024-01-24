@@ -95,9 +95,8 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 
 
 DATABASES = {
-    'default': dj_database_url.parse('postgresql://doadmin:AVNS__2t4vNV-jxlJUOaLt1s@private-db-postgresql-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require', conn_max_age=600)
+    'default': dj_database_url.parse('postgresql://doadmin:AVNS__2t4vNV-jxlJUOaLt1s@db-postgresql-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require', conn_max_age=600)
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
