@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import dj_database_url
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -91,14 +92,10 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecommerce_postgres',
-        'USER': 'postgres',
-        'HOST': 'localhost',
-        'PORT': 5432,
-    }
+    'default': dj_database_url.parse('postgresql://doadmin:AVNS__2t4vNV-jxlJUOaLt1s@private-db-postgresql-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require', conn_max_age=600)
 }
 
 # Password validation
