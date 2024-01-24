@@ -93,7 +93,6 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-
 DATABASES = {
     'default': dj_database_url.parse('postgresql://doadmin:AVNS__2t4vNV-jxlJUOaLt1s@db-postgresql-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require', conn_max_age=600)
 }
