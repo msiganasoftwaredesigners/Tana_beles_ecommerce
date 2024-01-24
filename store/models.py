@@ -32,7 +32,6 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     product_created_date = models.DateTimeField(auto_now_add=True)
     product_modified_date = models.DateTimeField(auto_now=True)
-    
 
     def get_store_url(self):
         return reverse('product_detail', args=[self.category.category_slug, self.product_slug])
@@ -43,9 +42,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
-    
-    def get_likes(self):
-        return ProductLike.objects.filter(product=self).count()
     
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
@@ -63,11 +59,6 @@ class ProductImage(models.Model):
         if self.is_main:
             ProductImage.objects.filter(product=self.product, is_main=True).update(is_main=False)
         super().save(*args, **kwargs)
-
-class ProductLike(models.Model):
-    ip_address = models.GenericIPAddressField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    created_date = models.DateTimeField(auto_now_add=True)
 
 class Variation(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variations')
