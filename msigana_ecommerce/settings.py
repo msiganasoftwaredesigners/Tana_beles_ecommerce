@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-from decouple import config
 # import dj_database_url
+# from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-$epx^r=3u8b8pt+yc_3&e)50gr1%-@3jgpl#j-&9&am#$2on*8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['64.23.142.70', 'localhost']
+ALLOWED_HOSTS = []
 
 # Appication definition
 
@@ -91,23 +91,16 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-
-# DATABASES = {
-#     'default': dj_database_url.parse('postgresql://doadmin:AVNS__2t4vNV-jxlJUOaLt1s@db-postgresql-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require', conn_max_age=600)
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'defaultdb',
-        'USER': 'doadmin',
-        'PASSWORD': 'AVNS__2t4vNV-jxlJUOaLt1s',
-        'HOST': 'db-postgresql-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com',
-        'PORT': '25060',
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
+        'NAME': 'ecommerce_postgres',
+        'USER': 'postgres',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
