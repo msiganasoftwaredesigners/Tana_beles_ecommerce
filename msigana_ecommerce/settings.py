@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'carts.apps.CartsConfig',
     'tailwind',
     'theme',
-    'django_browser_reload'
+    'django_browser_reload',
+    'footer.apps.FooterConfig',
+    'heads.apps.HeadsConfig',
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -79,7 +81,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',
-                'carts.context_processors.counter'
+                'carts.context_processors.counter', 
+                'footer.context_processors.footer',
+                'heads.context_processors.head_contents'
 
             ],
         },
@@ -91,9 +95,27 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-
-DATABASES = {
+if  DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'ecommerce_postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'Melaku11@#',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+else:
+    DATABASES = {
     'default': dj_database_url.parse('postgresql://doadmin:AVNS__UNmW45SmZJWh48E_6K@private-db-postgresql-sfo3-44859-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
+   }
+    
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
 }
 
 # Password validation
