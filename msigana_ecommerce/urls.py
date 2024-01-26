@@ -24,6 +24,10 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('store/', include('store.urls')),
     path('carts/', include('carts.urls')),
+    path('blog/', include('blog.urls')),
+    path('privacy-policy/', views.privacy_policy, name='privacy-policy'),
+    path('about-us/', views.about_us, name='about-us'),
+    path('contact-us/', include('contact.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
 if settings.DEBUG:

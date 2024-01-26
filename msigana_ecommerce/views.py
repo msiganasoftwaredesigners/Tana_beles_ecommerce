@@ -8,3 +8,9 @@ def home(request):
         'products': products
     }
     return render(request, 'index.html', context)
+
+def about_us(request):
+    return render(request, 'about-us.html')
+
+def privacy_policy(request):
+    return render(request, 'privacy-policy.html')

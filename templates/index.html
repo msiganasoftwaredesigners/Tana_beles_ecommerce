@@ -56,7 +56,7 @@
           <div class="flex flex-col">
               <div class="m-2 bg-white shadow-md rounded-lg overflow-hidden flex-grow">
                   <a href="{{product.get_store_url}}" class="relative">
-                      <div class="w-full sm:h-32 md:h-64 overflow-hidden">
+                      <div class="w-full h-64 overflow-hidden">
                           {% with product.get_main_image as main_image %}
                           {% if main_image %}
                               <img class="w-full h-full object-cover" src="{{ main_image.image.url }}" alt="{{ product.product_name }}">
@@ -67,25 +67,21 @@
                           {% endwith %}
                       </div>
                   </a>
-              <div class="sm:p-3 md:p-6">
-                <a
-                  href="{{product.get_store_url}}"
-                  class="block text-lg font-semibold text-gray-800 hover:text-blue-600"
-                  >{{product.product_name | capfirst}}</a
-                >
-                <div class="my-2 md:my-4 text-blue-600 md:text-xl">
-                  {% load price_filters%}
-                  {{ product.product_price|discounted_price }}br
-                  <span class="text-gray-500 text-base line-through">{{ product.product_price }}br</span>
-                </div>
+                  <div class="sm:p-3 md:p-6">
+                      <a href="{{product.get_store_url}}" class="block text-lg font-semibold text-gray-800 hover:text-blue-600">{{product.product_name | capfirst}}</a>
+                      <div class="my-2 md:my-4 text-blue-600 md:text-xl">
+                          {% load price_filters%}
+                          {{ product.product_price|discounted_price }}br
+                          <span class="text-gray-500 text-base line-through">{{ product.product_price }}br</span>
+                      </div>
+                  </div>
+                  <div class="bg-blue-600  hover:text-purple-400 text-center py-2 rounded-b">
+                      <a href="{{product.get_store_url}}" class="text-white  w-full inline-block">Show Details</a>
+                  </div>
               </div>
-              <div class="bg-blue-600  hover:text-purple-400 text-center py-2 rounded-b">
-                <a href="{{product.get_store_url}}" class="text-white  w-full inline-block">Show Details</a>
-            </div>
-            </div>
           </div>
           {% endfor %}
-        </div>
+      </div>
         <!-- ad section -->
        
           <a href="#" class="pr-2 md:pr-64">

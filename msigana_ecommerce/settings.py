@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'django_browser_reload',
     'footer.apps.FooterConfig',
     'heads.apps.HeadsConfig',
+    'blog.apps.BlogConfig', 
+    'ckeditor',
+    'contact.apps.ContactConfig',
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -111,12 +114,12 @@ else:
     'default': dj_database_url.parse('postgresql://doadmin:AVNS__UNmW45SmZJWh48E_6K@private-db-postgresql-sfo3-44859-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
    }
     
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'my_cache_table',
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'my_cache_table',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
