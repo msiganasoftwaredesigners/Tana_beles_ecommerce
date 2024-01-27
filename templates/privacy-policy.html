@@ -1,1 +1,106 @@
-privacy - policy
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg overflow-hidden m-4">
+    
+        <article>
+            <h1 class="text-3xl font-semibold mb-4 text-green-600 text-center pt-6">Privacy Policy</h1>
+
+            <section>
+                <h2 class=" text-xl md:text-2xl font-semibold mb-2">Privacy Policy of Tanabeles</h2>
+                <p >
+                    Last Updated: January 2024
+                </p>
+                <p >
+                    Thank you for visiting Tanabeles.com, the online ecommerce platform offered by Tanabeles Ecommerce Company. We are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy outlines how we collect, use, disclose, and protect your information when you use our website and online services.
+                </p>
+            </section>
+
+            <!-- The rest of your sections here -->
+
+            <section>
+                <h2 class="text-xl font-semibold mb-2 pt-6">1. Information We Collect</h2>
+                <p >
+                    <span class="font-bold">A. Personal Information: </span> When you register for our services, make purchases, or interact with our website, we may collect personal information such as your name, email address, phone number, postal address, and other relevant details.
+                </p>
+                <p >
+                    <span class="font-bold">B. Payment Information:</span> If you make a payment for our products, we may collect payment information, such as your credit card number, billing address, and payment details. Please note that we do not store full credit card numbers on our servers.
+                </p>
+                <p >
+                    <span class="font-bold"> C. Usage Data: </span>We may collect information about your interactions with our website and services, including your IP address, browser type, operating system, device information, and usage patterns.
+                </p>
+            </section>
+            <section>
+                <h2 class="text-xl font-semibold mb-2 pt-6">2. How We Use Your Information</h2>
+                <p >
+                    We use the information we collect for the following purposes:
+                </p>
+                <p >
+                    <span class="font-bold"> A. Order Fulfillment:</span> To process and fulfill your orders, including communication with you, processing payments, and providing access to order details.
+                </p>
+                <p >
+                    <span class="font-bold"> B. Customer Support:</span> To respond to your inquiries, comments, or requests for assistance.
+                </p>
+                <p >
+                    <span class="font-bold">C. Improvement:</span> To analyze user behavior, optimize our website, and improve our services.
+                </p>
+                <p >
+                    <span class="font-bold">D. Marketing:</span> To send you promotional materials, newsletters, and updates about our products. You can opt out of these communications at any time.
+                </p>
+            </section>
+            <section>
+                <h2 class="text-xl font-semibold mb-2 pt-6">3. Disclosure of Your Information</h2>
+                <p >
+                    We may share your information with third parties under the following circumstances:
+                </p>
+                <p >
+                    <span class="font-bold"> A. Service Providers:</span>We may share your information with trusted service providers who assist us in delivering our services, such as payment processors and shipping partners.
+
+                </p>
+                <p >
+                    <span class="font-bold">  B. Legal Obligations:</span> We may disclose your information when required by law or to protect our rights and interests.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold mb-2 pt-6">4. Your Choices</h2>
+                <p >
+                    You have the following rights regarding your personal information:
+                </p>
+                <p >
+                    <span class="font-bold"> A. Access and Correction:</span> You can access and update your personal information by logging into your account or contacting us.
+                </p>
+                <p >
+                    <span class="font-bold"> B. Opt-Out:</span> You can opt out of receiving marketing communications from us.
+                </p>
+            </section>
+            <section>
+                <h2 class="text-xl font-semibold mb-2 pt-6">5. Security</h2>
+                <p >
+                    We take reasonable measures to protect your personal information from unauthorized access or disclosure. However, please be aware that no data transmission over the internet is entirely secure.
+
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold mb-2 pt-6">6. Changes to this Privacy Policy</h2>
+                <p >
+                    We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the updated policy will be effective upon posting.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold mb-2 pt-6">7. Contact Us</h2>
+                <p >
+                    If you have any questions or concerns about this Privacy Policy, please contact us at <a href="mailto:{{footer.email}}">{{footer.email}}</a>.
+                </p>
+            </section>
+        </article>
+
+</div>
+<div class="max-w-6xl mx-auto px-4 sm:px-0 m-4">
+    <a href="{% url 'home' %}" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200">
+        <i class="fas fa-arrow-left"></i> Back to shop
+    </a>
+    </div>
+{% endblock content %}

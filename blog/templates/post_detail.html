@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content %}
-<div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md overflow-hidden m-4">
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg overflow-hidden m-4">
     <h1 class="text-3xl text-center text-green-600 font-bold mb-4">{{ post.title }}</h1>
     <div class="w-full h-64 md:h-[480px] overflow-hidden rounded-md">
         <img class="w-full h-full object-cover" src="{{ post.image.url }}" alt="{{ post.title }}">

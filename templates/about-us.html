@@ -1,1 +1,37 @@
-about - us
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-8  overflow-hidden m-4">
+    <h1 class="text-4xl font-bold mb-8 text-green-500 text-center">About Us</h1>
+</div>
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md overflow-hidden m-4">
+    <h1 class="text-4xl font-bold mb-8">About Tanabeles Ecommerce Company</h1>
+    <p class="mb-4">Welcome to Tanabeles – Your Premier Destination for Exquisite Shopping Experiences!</p>
+    <p class="mb-4">At Tanabeles, we believe in creating a seamless and delightful shopping journey that goes beyond the ordinary. Our mission is to curate a diverse collection of high-quality products, providing our customers with a one-stop destination for all their lifestyle needs.</p>
+
+    <h2 class="text-3xl font-bold my-8">Our Story</h2>
+    <p class="mb-4">Founded in [year], Tanabeles Ecommerce Company has grown from a vision to a reality. Inspired by the idea of combining elegance, innovation, and convenience, we embarked on a journey to redefine the online shopping experience. Our commitment to delivering exceptional products and unparalleled customer service has been the driving force behind our success.</p>
+
+    <h2 class="text-3xl font-bold my-8">What Sets Us Apart</h2>
+    <p class="mb-4"><strong>Curated Excellence:</strong> Every product featured on Tanabeles is carefully curated to meet our stringent standards for quality, style, and functionality. We believe in offering only what we would be delighted to have in our own lives.</p>
+    <p class="mb-4"><strong>Customer-Centric Approach:</strong> Your satisfaction is our top priority. From user-friendly interfaces to prompt customer support, we ensure that every aspect of your Tanabeles experience is designed with you in mind.</p>
+    <p class="mb-4"><strong>Innovation in Diversity:</strong> Our product range spans a wide spectrum – from fashion and lifestyle to home essentials and beyond. Tanabeles is not just a marketplace; it's a celebration of diversity and individuality.</p>
+
+    <h2 class="text-3xl font-bold my-8">Our Values</h2>
+    <p class="mb-4"><strong>Integrity:</strong> We operate with honesty, transparency, and a commitment to ethical business practices. Trust is the cornerstone of our relationships – with customers, partners, and the community.</p>
+    <p class="mb-4"><strong>Innovation:</strong> Embracing creativity and innovation, we strive to stay ahead of the curve. Tanabeles is not just a shopping platform; it's an evolving space where new trends and timeless classics coexist.</p>
+    <p class="mb-4"><strong>Community:</strong> Tanabeles is more than just a brand; it's a community. We value the connections we build with our customers and actively contribute to creating a positive impact in the communities we serve.</p>
+
+    <h2 class="text-3xl font-bold my-8">Join the Tanabeles Experience</h2>
+    <p class="mb-4">As you explore Tanabeles, we invite you to be a part of our story. Discover a world of elegance, convenience, and inspiration. Whether you're seeking the latest fashion trends, unique home decor, or innovative gadgets, Tanabeles is here to make your shopping experience extraordinary.</p>
+    <p class="mb-4">Thank you for choosing Tanabeles – where style meets substance, and every purchase tells a story.</p>
+    <p class="mb-4">Happy Shopping!</p>
+    <p class="mb-4">[Your Name]</p>
+    <p class="mb-4">Founder, Tanabeles Ecommerce Company</p>
+</div>
+<div class="max-w-6xl mx-auto px-4 sm:px-0 m-4">
+    <a href="{% url 'home' %}" class="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200">
+        <i class="fas fa-arrow-left"></i> Back to shop
+    </a>
+    </div>
+{% endblock content %}
