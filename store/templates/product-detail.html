@@ -2,9 +2,13 @@
 {% load static %}
 
 {% block content %}
-
+<style>
+    input[type="radio"]:checked + .size-label {
+        background-color: pink;
+    }
+    </style>
     <!-- breadcrum -->
-    <div class="py-4 container flex gap-3 items-center">
+    <div class="py-4 container flex gap-3 items-center md:px-32">
         <a href="{% url 'home' %}" class="text-primary text-base font-medium uppercase">
             <i class="fas fa-home"></i>
         </a>
@@ -20,17 +24,17 @@
     <!-- product view -->
     <form action="{% url 'add_cart' single_product.id %}" method="POST">
         {% csrf_token %}
-    <div class="container pt-4 pb-6 grid lg:grid-cols-2 gap-6">
+    <div class="container pt-4 pb-6 grid lg:grid-cols-2 gap-6 md:px-16 lg:px-12 xl:px-32">
         <!-- product image -->
         <div>
             <div>
                 <div>
-                    <img id="main-img" src="{{ main_image.image.url }}" class="w-full">
+                    <img id="main-img" src="{{ main_image.image.url }}" class="w-full h-64 lg:h-[340px] xl:h-[390px] 2xl:h-[420px]">
                 </div>
                 <div class="grid grid-cols-5 gap-4 mt-4">
                     {% for image in other_images %}
                         <div>
-                            <img src="{{ image.image.url }}" class="single-img w-full cursor-pointer border">
+                            <img src="{{ image.image.url }}" class="single-img w-full h-12 md:h-16 xl:h-20 cursor-pointer border ">
                         </div>
                     {% endfor %}
                 </div>
@@ -62,7 +66,7 @@
                 </p>
                 <p class="space-x-2">
                     <span class="text-gray-800 font-semibold">Brand: </span>
-                    <span class="text-gray-600">Brand Name here</span>
+                    <span class="text-gray-600">{{single_product.product_brand|capfirst}}</span>
                 </p>
                 <p class="space-x-2">
                     <span class="text-gray-800 font-semibold">Category: </span>
@@ -76,45 +80,44 @@
                 <span class="text-gray-500 text-base line-through">{{ single_product.product_price }} birr</span>
                 </p>
             </div>
+           
             <!-- size -->
-            <div class="mt-4">
-                <h3 class="text-base text-gray-800 mb-1">Size</h3>
-                <div class="flex items-center gap-2">
-                    <!-- single size -->
-                    {% for variation in single_product.variations.all %}
-                                            {% if variation.size %}
-                                            <div class="size-selector">
-                                                <input type="radio"  class="hidden"  value="{{ variation.size.name|lower }}">
-                                                <label
-                                                    class="text-lg md:text-lg border border-gray-200 rounded-sm h-8 w-8 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
-                                                    {{ variation.size.name|capfirst }}
-                                                </label>
-                                            </div>
-                                            {% endif %}
-                                        {% endfor %}
-                </div>
+{% if size_variations %}
+<div class="mt-4">
+    <h3 class="text-base text-gray-800 mb-1">Size</h3>
+    <div class="flex items-center gap-2">
+        <!-- single size -->
+        {% for variation in size_variations %}
+            <div class="size-selector">
+                <input type="radio" name="size" class="hidden" id="size-{{ variation.size.name|lower }}" value="{{ variation.size.name|lower }}" {% if forloop.first %}checked{% endif %}>
+                <label for="size-{{ variation.size.name|lower }}"
+                    class="size-label text-lg md:text-lg border border-gray-200 rounded-sm h-8 w-8 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
+                    {{ variation.size.name|capfirst }}
+                </label>
             </div>
-            <!-- size end -->
-            <!-- color -->
-            <div class="mt-4">
-                <h3 class="text-base text-gray-800 mb-1">Color</h3>
-                <div class="flex items-center gap-2">
-                    {% load color_filters %}
-
-                    {% for variation in single_product.variations.all %}
-                        {% if variation.color %}
-                            <!-- single color -->
-                            <div class="color-selector">
-                                <input type="radio" name="color" class="hidden" id="color-{{ variation.color.name|lower }}" {% if forloop.first %}checked{% endif %}>
-                                <label for="color-{{ variation.color.name|lower }}" style="background-color : {{ color_dict|get_color:variation.color.name|lower }}"
-                                    class="text-xs border border-gray-200 rounded-sm h-5 w-5 flex items-center justify-center cursor-pointer shadow-sm">
-                                </label>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                   
-                </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+<!-- size end -->
+<!-- color -->
+{% load color_filters %}
+{% if color_variations %}
+<div class="mt-4">
+    <h3 class="text-base text-gray-800 mb-1">Color</h3>
+    <div class="flex items-center gap-2">
+        {% for variation in color_variations %}
+            <!-- single color -->
+            <div class="color-selector">
+                <input type="radio" name="color" class="hidden" id="color-{{ variation.color.name|lower }}" {% if forloop.first %}checked{% endif %}>
+                <label for="color-{{ variation.color.name|lower }}" style="background-color : {{ color_dict|get_color:variation.color.name|lower }}; {% if forloop.first %}border: 2px solid red;{% endif %}"
+                    class="color-label text-xs rounded-sm h-5 w-5 flex items-center justify-center cursor-pointer shadow-sm">
+                </label>
             </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
         
             <!-- add to cart button -->
             <div class="flex gap-3 border-b border-gray-200 pb-5 mt-6">
@@ -136,11 +139,9 @@
                         <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/>
                     </svg>
                 </span>
-                <span class="text-base md:text-lg">09-95-03-03-26</span>
+                <span class="text-base md:text-lg">{{footer.phone_number|slice:":2"}}-{{footer.phone_number|slice:"2:4"}}-{{footer.phone_number|slice:"4:6"}}-{{footer.phone_number|slice:"6:8"}}-{{footer.phone_number|slice:"8:"}}</span>
             </a>
             </div>
-            <!-- add to cart button end -->
-            <!-- product share icons -->
             <div class="flex space-x-3 mt-4">
                 <a href="#"
                     class="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
@@ -155,61 +156,25 @@
                     <i class="fab fa-instagram"></i>
                 </a>
             </div>
-            <!-- product share icons end -->
         </div>
-        <!-- product content end -->
     </div>
     </form>
-    <!-- product view end -->
-
-    <!-- product details and review -->
-    <div class="container pb-16">
-        <!-- detail buttons -->
+    <div class="container pb-16 md:px-32">
         <h3 class="border-b border-gray-200 font-roboto text-gray-800 pb-3 font-medium">
             Product Details
         </h3>
-        <!-- details button end -->
-
-        <!-- details content -->
         <div class="lg:w-4/5 xl:w-3/5 pt-6">
-            <div class="space-y-3 text-gray-600">
                 <p>
                     {{single_product.product_description}}
                 </p>
-               
-            </div>
-            <!-- details table -->
-            <h3 class="border-b border-gray-200 font-roboto text-gray-800 pb-3 font-medium mt-6">
-                {{single_product.product_name|capfirst}} Specifications
-            </h3>
-            <table class="table-auto border-collapse w-full text-left text-gray-600 text-sm mt-6">
-                <tr>
-                    <th class="py-2 px-4 border border-gray-300 w-40 font-medium">Color</th>
-                    <td class="py-2 px-4 border border-gray-300">Black, Brown, Red</td>
-                </tr>
-                <tr>
-                    <th class="py-2 px-4 border border-gray-300 w-40 font-medium">Material</th>
-                    <td class="py-2 px-4 border border-gray-300">A description place for the material used to build the product.</td>
-                </tr>
-                <tr>
-                    <th class="py-2 px-4 border border-gray-300 w-40 font-medium">Weight</th>
-                    <td class="py-2 px-4 border border-gray-300">55kg</td>
-                </tr>
-            </table>
-            <!-- details table -->
         </div>
-        <!-- details content end -->
     </div>
-    <!-- product details and review end -->
-
-    <!-- related products -->
     {% if related_products %}
-    <div class="container pb-16">
+    <div class="container pb-16 md:px-32">
         <h2 class="text-2xl md:text-3xl font-medium text-gray-800 uppercase mb-6">related products</h2>
         <div class="grid lg:grid-cols-4 sm:grid-cols-2 gap-6">
             {% for product in related_products %}
                 <div class="group rounded bg-white shadow overflow-hidden">
-                    <!-- product image -->
                     <div class="relative">
                         <img src="{{ product.get_main_image.image.url }}" class="w-full">
                         <div
@@ -224,8 +189,6 @@
                             </a>
                         </div>
                     </div>
-                    <!-- product image end -->
-                    <!-- product content -->
                     <div class="pt-4 pb-3 px-4">
                         <a href="{% url 'product_detail' product.category.category_slug product.product_slug %}">
                             <h4 class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
@@ -248,11 +211,10 @@
                 <!-- single product end -->
             {% endfor %}
         </div>
-        <!-- product wrapper end -->
     </div>
     {% endif %}
     <!-- related products end -->
-    <div class="row">
+    <div class="py-4 container flex gap-3 items-center">
         <div class="col-md-9">
             <header class="section-heading">
                 <h3>Customer Reviews </h3>
@@ -271,15 +233,23 @@
             clearActive()
             let imgPath = this.getAttribute('src')
             mainImg.setAttribute('src', imgPath)
-            this.classList.add('border-primary')
+            this.classList.add('border-danger')
         })
     }
 
     function clearActive(){
         for(let imgBar of imgBars){
-            imgBar.classList.remove('border-primary')
+            imgBar.classList.remove('border-danger')
         }
     }
+</script>
+<script>
+$(document).ready(function(){
+    $('input[type=radio][name=color]').change(function() {
+        $('.color-label').css('border', '1px solid gray'); // Reset border color of all colors
+        $('input[type=radio][name=color]:checked + .color-label').css('border', '2px solid red'); // Change border color of selected color
+    });
+});
 </script>
 
 </body>

@@ -38,11 +38,13 @@ def store(request, category_slug=None):
 
 def product_detail(request, category_slug, product_slug):
     try:
-        single_product = Product.objects.get(category__category_slug=category_slug, product_slug=product_slug)
+        single_product = get_object_or_404(Product, category__category_slug=category_slug, product_slug=product_slug)
         in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
         main_image = single_product.images.filter(is_main=True).first()
-        other_images = single_product.images.filter(is_main=False)
+        other_images = single_product.images.all()
         related_products = Product.objects.filter(category=single_product.category).exclude(id=single_product.id).order_by('-product_created_date')[:4]
+        color_variations = single_product.variations.filter(color__isnull=False)
+        size_variations = single_product.variations.filter(size__isnull=False)
     except Exception as e:
         raise e
     
@@ -68,7 +70,9 @@ def product_detail(request, category_slug, product_slug):
         'color_dict': color_dict,
         'main_image': main_image,
         'other_images': other_images,
-        'related_products': related_products
+        'related_products': related_products,
+        'color_variations': color_variations,
+        'size_variations': size_variations,
     }
     return render(request, 'product-detail.html', context)
 
