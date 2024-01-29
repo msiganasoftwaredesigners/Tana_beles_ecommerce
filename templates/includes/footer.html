@@ -2,14 +2,13 @@
  {% block content %}
 
 <!-- footer -->
-
-<div class="absolute w-full bg-slate-500 pt-16 pb-12 border-gray-100">
+<div class="absolute w-full bg-slate-500 pt-16 border-gray-100 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto pb-24 md:pb-8">
   <div class="container">
     <div class="xl:grid xl:grid-cols-3 xl:gap-8">
       <!-- footer text -->
       <div class="space-y-8 xl:col-span-1">
-        <a href="{% url 'home' %}" class="brand-wrap w-16 ">
-            <img class="logo" src="{{footer.company_logo.url}}" alt="logo" />
+        <a href="{% url 'home' %}" class="">
+            <img class="w-64 h-32 object-cover overflow-hidden" src="{{footer.company_logo.url}}" alt="logo" />
         </a>
         <p class="text-white text-base">
           {{footer.company_description}}
@@ -35,7 +34,7 @@
         <div class="md:grid md:grid-cols-2 md:gap-8">
           <div>
             <h3
-              class="text-sm font-semibold text-white tracking-wider uppercase"
+              class="text-base font-semibold text-green-500 tracking-wider uppercase"
             >
               Found Us 
             </h3>
@@ -47,11 +46,13 @@
              {{footer.email}}
               </a>
               <a
-                href="#"
+                href="tel:{{footer.phone_number}}"
                 class="text-base text-white hover:text-gray-900 block"
               >
-              +{{footer.phone_number}}
+              {{footer.phone_number|slice:":2"}}-{{footer.phone_number|slice:"2:4"}}-{{footer.phone_number|slice:"4:6"}}-{{footer.phone_number|slice:"6:8"}}-{{footer.phone_number|slice:"8:"}}
               </a>
+      
+
               <a
                 href="#"
                 class="text-base text-white hover:text-gray-900 block"
@@ -61,53 +62,40 @@
             </div>
           
           </div>
-          <div class="mt-12 md:mt-0 hidden sm:block">
-            <h3
-              class="text-sm font-semibold text-white tracking-wider uppercase"
-            >
-              About us
-            </h3>
-            <div class="mt-4 space-y-4">
-              <a
-                href="#"
-                class="text-base text-white hover:text-gray-900 block"
-              >
-                Blog
-              </a>
-
-            </div>
-          </div>
         </div>
         
         <div class="md:grid md:grid-cols-2 md:gap-8">
           <div class="pl-4 md:pl-auto">
             <h3
-              class="text-sm font-semibold text-white tracking-wider uppercase "
+              class="text-base font-semibold text-green-500 tracking-wider uppercase "
             >
-              Legal
+              Importan Links
             </h3>
             <div class="mt-4 space-y-4">
               <a
                 href="#"
                 class="text-base text-white hover:text-gray-900 block"
               >
-                Privacy
+                Privacy Policy  
               </a>
-            </div>
-          </div>
-          <div class="pl-4 md:pl-auto hidden sm:block">
-            <h3
-              class="text-sm font-semibold text-white tracking-wider uppercase "
-            >
-              Legal
-            </h3>
-            <div class="mt-4 space-y-4">
               <a
-                href="#"
-                class="text-base text-white hover:text-gray-900 block"
-              >
-                Privacy
-              </a>
+              href="#"
+              class="text-base text-white hover:text-gray-900 block"
+            >
+              Contact Us 
+            </a>
+            <a
+            href="#"
+            class="text-base text-white hover:text-gray-900 block"
+          >
+            Blog 
+          </a>
+          <a
+          href="#"
+          class="text-base text-white hover:text-gray-900 block"
+        >
+          About Us
+        </a>
             </div>
           </div>
         </div>
@@ -116,20 +104,23 @@
     </div>
   </div>
 </div>
-<!-- copyright -->
-<div class="bg-gray-800 pt-4 py-0 md:py-4  absolute w-full mt-[650px] md:mt-[260px]">
-  <div class="container flex items-center justify-between">
-    <p class="text-white text-base md:text-lg">©copy 2023 Tanabeles</p>
-    <div class="col-md-8 text-md-center">
-      <span class="px-1 md:px-2 text-white text-base md:text-lg">Powered by</span>
-      <a href="#" ="_blanch",class="px-1 md:px-2 text-white text-base md:text-lg">msigana software designer</a>
+{% comment %} <div class="bg-gray-800 pt-4  md:py-4  w-full"> {% endcomment %}
+  <div class="bg-gray-800 pt-4  md:py-4  w-full">
+    <div class="container flex items-center justify-between">
+      <p class="text-white text-base md:text-lg">©copy 2023 Tanabeles</p>
+      <div class="col-md-8 text-md-center">
+        <span class="px-1 md:px-2 text-white text-base md:text-lg">Powered by</span>
+        <a href="#" ="_blanch",class="px-1 md:px-2 text-white text-base md:text-lg">msigana software designer</a>
+      </div>
+      <div>
+        <img src="{% static 'images/methods.png' %}" class="h-5" />
+  
+      </div>
     </div>
-    <div>
-      <img src="{% static 'images/methods.png' %}" class="h-5" />
-
     </div>
   </div>
-</div>
+<!-- copyright -->
+
 <!-- copyright end -->
 
 {% endblock %}

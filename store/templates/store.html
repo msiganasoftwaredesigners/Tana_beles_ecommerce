@@ -25,7 +25,7 @@
                     <div class="col-md-4">
                         <figure class="card card-product-grid">
 
-                            <a href="{{product.get_store_url}}" class="img-wrap"><img
+                            <a href="{{product.get_store_url}}" class="img-wrap">
                                 {% with product.get_main_image as main_image %}
                                 {% if main_image %}
                                     <img class="w-full h-full object-cover" src="{{ main_image.image.url }}" alt="{{ product.product_name }}">

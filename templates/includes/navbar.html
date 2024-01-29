@@ -2,73 +2,50 @@
 {% load cache %}
 {% block content %}
 
-    <!-- header -->
-    <header class="py-4 shadow-sm bg-sky-200">
-        <div class="container flex items-center justify-between">
-            <!-- logo -->
-                <a href="{% url 'home' %}" class="brand-wrap w-16 ">
-                    <img class="logo" src="{% static './images/logo.jpg' %}">
-                </a>
-            <!-- logo end -->
-
-            <!-- searchbar -->
-            <form action="{% url 'search' %}" method="GET" class="w-full xl:max-w-xl lg:max-w-lg lg:flex relative hidden">
-                <span class="absolute left-4 pt-3 text-lg text-gray-400">
-                    <i class="fas fa-search"></i>
-                </span>
-                <input type="text"
-                    class="pl-12  w-full border border-r-0 border-primary py-3 px-8 rounded-l-md focus:ring-primary focus:border-primary text-lg"
-                    placeholder="search"
-                    id="search" type="text"
-                    name="keyword">
-                <button type="submit"
-                    class="bg-primary border border-primary text-white px-8 font-medium rounded-r-md hover:bg-transparent hover:text-primary transition text-lg">
-                    Search
-                </button>
-            </form>
-            <!-- searchbar end -->
-
-            <!-- navicons -->
-            <div class="space-x-4 flex items-center">
-                <div class="col-lg col-md-6 col-sm-12 col">
-                    <form action="{% url 'search' %}" method="GET" class="flex items-center bg-white rounded-full text-sm relative ">
-                        <input class="w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded-full pr-10" id="search" type="text" placeholder="Search" name="keyword">
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                            <button class="bg-white text-black rounded-full p-2 hover:bg-gray-200 focus:outline-none w-10 h-10 flex items-center justify-center" type="submit">
-                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 50 50" class="fill-current">
-                                    <path d="M 21 3 C 11.622998 3 4 10.623005 4 20 C 4 29.376995 11.622998 37 21 37 C 24.712383 37 28.139151 35.791079 30.9375 33.765625 L 44.085938 46.914062 L 46.914062 44.085938 L 33.886719 31.058594 C 36.443536 28.083 38 24.223631 38 20 C 38 10.623005 30.377002 3 21 3 z M 21 5 C 29.296122 5 36 11.703883 36 20 C 36 28.296117 29.296122 35 21 35 C 12.703878 35 6 28.296117 6 20 C 6 11.703883 12.703878 5 21 5 z"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3 lg:block transition hidden relative">
-                    <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
-                    <span class="badge badge-pill badge-danger notify">{{cart_count}}</span>
-                </a>
-                <a href="login.html" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-3">
-                    Login
-                </a>
+<header class="py-4 shadow-sm bg-sky-200">
+    <div class="container flex items-center justify-between">
+        <a href="{% url 'home' %}" class="brand-wrap w-16 mr-4">
+            <img class="w-64 md:h-16 object-cover overflow-hidden ml-2 md:ml-16" src="{{footer.company_logo.url}}" alt="logo" />
+        </a>
+        <div class="space-x-1 md:space-x-16 flex items-center">
+            <div class="col-lg col-md-6 col-sm-12 col">
+                <form action="{% url 'search' %}" method="GET" class="flex items-center bg-white rounded-full text-sm relative ">
+                    <input class="w-full py-3 px-3 md:px-16 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded-full pr-10" id="search" type="text" placeholder="Search" name="keyword">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <button class="bg-white text-black rounded-full p-2 hover:bg-gray-200 focus:outline-none w-10 h-10 flex items-center justify-center" type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 50 50" class="fill-current">
+                                <path d="M 21 3 C 11.622998 3 4 10.623005 4 20 C 4 29.376995 11.622998 37 21 37 C 24.712383 37 28.139151 35.791079 30.9375 33.765625 L 44.085938 46.914062 L 46.914062 44.085938 L 33.886719 31.058594 C 36.443536 28.083 38 24.223631 38 20 C 38 10.623005 30.377002 3 21 3 z M 21 5 C 29.296122 5 36 11.703883 36 20 C 36 28.296117 29.296122 35 21 35 C 12.703878 35 6 28.296117 6 20 C 6 11.703883 12.703878 5 21 5 z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
             </div>
-            <!-- navicons end -->
-
+            <a href="{% url 'cart' %}" class="relative">
+                <div class="w-14 h-14 rounded-full border flex items-center justify-center">
+                    <i class=" fa fa-shopping-cart text-2xl"></i>
+                </div>
+                <span class="absolute top-0 right-0 px-2 py-1 text-xs font-bold rounded-full bg-red-500 text-white">{{cart_count}}</span>
+            </a>
+            <a href="login.html" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-3">
+                Login
+            </a>
         </div>
-    </header>
-    <!-- header end -->
+    </div>
+</header>
 
     <!-- mobile menubar -->
     <div
-        class="fixed w-full border-t border-gray-200 shadow-sm bg-white py-3 bottom-0 left-0 flex justify-around items-start px-6 lg:hidden z-40">
+        class="fixed w-full border-t border-gray-200 shadow-sm bg-white py-3 bottom-0 left-0 flex justify-around items-start lg:hidden z-40">
         <a href="javascript:void(0)" class="block text-center text-gray-700 hover:text-primary transition relative pr-3">
             <div class="text-2xl" id="menuBar">
                 <i class="fas fa-bars"></i>
             </div>
             <div class="text-xs leading-3">Menu</div>
         </a>
-        {% cache 259200 footer %} 
+      
         <div class="col-lg col-md-6 col-sm-12 col">
-            <a href="tel:+{{footer.phone_number}}" class="flex items-center bg-blue-500 rounded-full text-sm relative ">
-              <div class="w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded-full pr-10 font-bold bg-blue-200 text-xl" id="phone" type="text">{{ footer.phone_number }}</div>
+            <a href="tel:{{footer.phone_number}}" class="flex items-center bg-blue-500 rounded-full text-sm relative ">
+              <div class="w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded-full pr-16 font-bold bg-blue-200 text-xl" id="phone" type="text">{{footer.phone_number|slice:":2"}}-{{footer.phone_number|slice:"2:4"}}-{{footer.phone_number|slice:"4:6"}}-{{footer.phone_number|slice:"6:8"}}-{{footer.phone_number|slice:"8:"}}</div>
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                     <div class="bg-white text-black rounded-full p-2 hover:bg-gray-200 focus:outline-none w-10 h-10 flex items-center justify-center">
                         <i class="fas fa-phone"></i>
@@ -76,11 +53,14 @@
                 </div>
             </a>
         </div>
-        {% endcache %}
-        <a href="{% url 'cart' %}" class="widget-header pl-1 ml-3">
-            <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
-            <span class="badge badge-pill badge-danger notify">{{cart_count}}</span>
+    
+        <a href="{% url 'cart' %}" class="relative">
+            <div class="w-14 h-14 rounded-full border flex items-center justify-center">
+                <i class=" fa fa-shopping-cart text-2xl"></i>
+            </div>
+            <span class="absolute top-0 right-0 px-2 py-1 text-xs font-bold rounded-full bg-red-500 text-white">{{cart_count}}</span>
         </a>
+        
     </div>
     <!-- mobile menu end -->
 
