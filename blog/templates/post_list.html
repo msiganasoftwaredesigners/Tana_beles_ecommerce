@@ -1,10 +1,10 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content %}
-<div class="max-w-6xl mx-auto px-4 sm:px-0 mt-8 md:mt-16">
+<div class="max-w-6xl mx-auto px-4 sm:px-0 mt-8 md:mt-16"  style=" min-height: 20vh; @media (min-width: 768px) { min-height: 100vh; }">
 <h1 class="text-3xl md:text-4xl font-bold  text-center">Blog Posts title</h1>
 </div>
-<div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 sm:px-0 md:m-4">
+<div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 sm:px-0 md:m-4 "  style=" min-height: 20vh; @media (min-width: 768px) { min-height: 100vh; }">
     {% for post in posts %}
     <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden m-4">
         <div class="w-full h-64 overflow-hidden rounded-t-md">
