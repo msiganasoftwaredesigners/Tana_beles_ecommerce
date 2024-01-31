@@ -98,19 +98,19 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# if  DEBUG:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': 'ecommerce_postgres',
-#             'USER': 'postgres',
-#             'PASSWORD': 'Melaku11@#',
-#             'HOST': 'localhost',
-#             'PORT': '5432',
-#         }
-#     }
-# else:
-DATABASES = {
+if  DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'ecommerce_postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'Melaku11@#',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+else:
+    DATABASES = {
     'default': dj_database_url.parse('postgresql://doadmin:AVNS__UNmW45SmZJWh48E_6K@private-db-postgresql-sfo3-44859-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
    }
     

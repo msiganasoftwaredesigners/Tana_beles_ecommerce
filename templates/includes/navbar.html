@@ -21,8 +21,8 @@
                 </form>
             </div>
             <a href="{% url 'cart' %}" class="relative">
-                <div class="w-14 h-14 rounded-full border flex items-center justify-center">
-                    <i class=" fa fa-shopping-cart text-2xl"></i>
+                <div class="w-12 h-12 rounded-full border bg-blue-600 hover:bg-green-600 flex items-center justify-center">
+                    <i class=" fa fa-shopping-cart text-2xl text-white"></i>
                 </div>
                 <span class="absolute top-0 right-0 px-2 py-1 text-xs font-bold rounded-full bg-red-500 text-white">{{cart_count}}</span>
             </a>
@@ -55,8 +55,8 @@
         </div>
     
         <a href="{% url 'cart' %}" class="relative">
-            <div class="w-14 h-14 rounded-full border flex items-center justify-center">
-                <i class=" fa fa-shopping-cart text-2xl"></i>
+            <div class="w-12 h-12 rounded-full border flex items-center justify-center  bg-blue-600 hover:bg-green-600">
+                <i class=" fa fa-shopping-cart text-2xl text-white"></i>
             </div>
             <span class="absolute top-0 right-0 px-2 py-1 text-xs font-bold rounded-full bg-red-500 text-white">{{cart_count}}</span>
         </a>

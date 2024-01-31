@@ -7,6 +7,7 @@ from store.models import Product
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse
 
+
 def store(request, category_slug=None):
     categories = None
     products = None
@@ -32,9 +33,11 @@ def store(request, category_slug=None):
         products_page = paginator.page(paginator.num_pages)
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse({"products": list(products_page)}, safe=False)
+        data = {"products": list(products_page), "end": False}
+        return JsonResponse(data, safe=False)
 
-    return render(request, 'store.html', {'products': products_page})
+
+    return render(request, 'index.html', {'products': products_page})
 
 def product_detail(request, category_slug, product_slug):
     try:
@@ -45,6 +48,11 @@ def product_detail(request, category_slug, product_slug):
         related_products = Product.objects.filter(category=single_product.category).exclude(id=single_product.id).order_by('-product_created_date')[:4]
         color_variations = single_product.variations.filter(color__isnull=False)
         size_variations = single_product.variations.filter(size__isnull=False)
+        
+        # like Implementation
+        product_slug = single_product.product_slug
+         # Check if the product is liked by the current user (using session)
+        liked = request.session.get(f'product_{product_slug}_liked', False)
     except Exception as e:
         raise e
     
@@ -73,10 +81,20 @@ def product_detail(request, category_slug, product_slug):
         'related_products': related_products,
         'color_variations': color_variations,
         'size_variations': size_variations,
+        'liked': liked,
     }
+    if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        return JsonResponse({'liked': liked, 'like_count': single_product.likes_count})
+    
     return render(request, 'product-detail.html', context)
 
 
+def like_product(request, product_slug):
+    single_product = get_object_or_404(Product, product_slug=product_slug)
+    single_product.likes_count += 1
+    single_product.save()
+
+    return JsonResponse({'like_count': single_product.likes_count})
 def search(request):
     context = {}
     if 'keyword' in request.GET:

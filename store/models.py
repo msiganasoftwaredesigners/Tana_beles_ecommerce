@@ -33,6 +33,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     product_created_date = models.DateTimeField(auto_now_add=True)
     product_modified_date = models.DateTimeField(auto_now=True)
+    likes_count = models.PositiveIntegerField(default=0)
 
     def get_store_url(self):
         return reverse('product_detail', args=[self.category.category_slug, self.product_slug])

@@ -105,31 +105,21 @@
             recomended for you
           </h2>
           <!-- product wrapper -->
-          <div class="grid lg:grid-cols-4 sm:grid-cols-2 gap-6">
+          <div class="grid lg:grid-cols-4 sm:grid-cols-2 gap-6 px-4 md:px-0">
+            {% for product in products %}
+            {% if product.likes_count >= 10 %}
             <!-- single product -->
             <div class="group rounded bg-white shadow overflow-hidden">
               <!-- product image -->
               <div class="relative">
-                <img
-                  src="{% static 'images/products/product2.jpg' %}"
-                  class="w-full"
-                />
-                <div
-                  class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
-                >
-                  <a
-                    href="view.html"
-                    class="text-white text-lg w-9 h-9 rounded-full bg-primary hover:bg-gray-800 transition flex items-center justify-center"
-                  >
-                    <i class="fas fa-search"></i>
-                  </a>
-                  <a
-                    href="#"
-                    class="text-white text-lg w-9 h-9 rounded-full bg-primary hover:bg-gray-800 transition flex items-center justify-center"
-                  >
-                    <i class="far fa-heart"></i>
-                  </a>
-                </div>
+                {% with product.get_main_image as main_image %}
+                {% if main_image %}
+                    <img class="w-full h-full object-cover" src="{{ main_image.image.url }}" alt="{{ product.product_name }}">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-red-500 text-lg md:text-2xl font-thin p-2 rounded"><i class="fas fa-star"></i> tanabeles</span>
+                    </div>
+                {% endif %}
+                {% endwith %}
               </div>
               <!-- product image end -->
               <!-- product content -->
@@ -138,15 +128,15 @@
                   <h4
                     class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition"
                   >
-                    Guyer chair
+                    {{product.product_name}}
                   </h4>
                 </a>
                 <div class="flex items-baseline mb-1 space-x-2">
                   <p class="text-xl text-primary font-roboto font-semibold">
-                    $45.00
+                    ${{product.product_price}}
                   </p>
                   <p class="text-sm text-gray-400 font-roboto line-through">
-                    $55.00
+                    ${{product.product_price}}
                   </p>
                 </div>
                 <div class="flex items-center">
@@ -164,14 +154,15 @@
               <!-- product button -->
               <a
                 href="#"
-                class="block w-full py-1 text-center text-white bg-blue-600 border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+                class="block w-full py-1 text-center text-white bg-blue-600 border border-primary rounded-b hover:bg-yellow-400 hover:text-primary transition"
               >
                 Add to Cart
               </a>
               <!-- product button end -->
             </div>
             <!-- single product end -->
-          
+            {% endif %}
+            {% endfor %}
           </div>
           <!-- product wrapper end -->
         </div>
@@ -181,9 +172,12 @@
 
     <script>
       let page = 2; // start from the second page
+      let isLoading = false; // flag to prevent multiple simultaneous requests
+      
       window.onscroll = function (ev) {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-          // you're at the bottom of the page
+        if (!isLoading && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+          isLoading = true; // set the flag to true to indicate that a request is in progress
+      
           fetch(`/store?page=${page}`)
             .then((response) => {
               if (!response.ok) {
@@ -193,25 +187,25 @@
             })
             .then((data) => {
               if (data.end) {
-                window.onscroll = null; // remove the event handler
+                window.onscroll = null; // remove the event handler when there are no more products
               } else {
                 data.products.forEach((product) => {
                   // create a new product card
                   let card = document.createElement("div");
                   card.className = "flex flex-col";
                   card.innerHTML = `
-                              <div class="m-2 bg-white shadow-md rounded-lg overflow-hidden flex-grow">
-                                  <a href="${product.get_store_url}">
-                                      <div class="w-full sm:h-32 md:h-64 overflow-hidden">
-                                          <img class="w-full h-full object-cover" src="${product.product_images}" alt="${product.product_name}">
-                                      </div>
-                                  </a>
-                                  <div class="sm:p-3 md:p-6">
-                                      <a href="${product.get_store_url}" class="block text-lg font-semibold text-gray-800 hover:text-blue-600">${product.product_name}</a>
-                                      <div class="my-2 md:my-4 text-blue-600 md:text-2xl">${product.product_price} birr</div>
-                                  </div>
-                              </div>
-                          `;
+                    <div class="m-2 bg-white shadow-md rounded-lg overflow-hidden flex-grow">
+                      <a href="${product.get_store_url}">
+                        <div class="w-full sm:h-32 md:h-64 overflow-hidden">
+                          <img class="w-full h-full object-cover" src="${product.product_images}" alt="${product.product_name}">
+                        </div>
+                      </a>
+                      <div class="sm:p-3 md:p-6">
+                        <a href="${product.get_store_url}" class="block text-lg font-semibold text-gray-800 hover:text-blue-600">${product.product_name}</a>
+                        <div class="my-2 md:my-4 text-blue-600 md:text-2xl">${product.product_price} birr</div>
+                      </div>
+                    </div>
+                  `;
                   // append the new product card to the product list
                   document.querySelector("#product-list").appendChild(card);
                 });
@@ -219,13 +213,14 @@
               }
             })
             .catch((error) => {
-              console.error(
-                "There has been a problem with your fetch operation:",
-                error
-              );
+              console.error("There has been a problem with your fetch operation:", error);
+            })
+            .finally(() => {
+              isLoading = false; // set the flag back to false when the request is complete
             });
         }
       };
+      
     </script>
   </div>
 </div>

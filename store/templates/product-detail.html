@@ -7,7 +7,6 @@
         background-color: pink;
     }
 </style>
-    <!-- breadcrum -->
     <div class="py-4 container flex gap-3 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
         <a href="{% url 'home' %}" class="text-primary text-base font-medium uppercase">
             <i class="fas fa-home"></i>
@@ -19,48 +18,41 @@
         <span class="text-sm text-gray-400"><i class="fas fa-chevron-right"></i></span>
         <p class="text-blue-600 font-medium uppercase " style="white-space: nowrap;">{{single_product.product_name}}</p>
     </div>
-    <!-- breadcrum end -->
-
-    <!-- product view -->
-    <form action="{% url 'add_cart' single_product.id %}" method="POST">
-        {% csrf_token %}
+  
     <div class="container pt-4 pb-6 grid lg:grid-cols-2 gap-6 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
-        <!-- product image -->
         <div>
             <div>
-               
                 <div style="position: relative; text-align: center;">
                     <img id="main-img" src="{{ main_image.image.url }}" class="w-full h-64 lg:h-[340px] xl:h-[390px] 2xl:h-[420px]">
                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; font-weight: 300; color: red; font-family: 'Pacifico', cursive;">
                         <i class="fas fa-star"></i> Tanabeles
                     </div>
-                    <div style="position: absolute; top: 10px; right: 10px;">
-                        <button onclick="shareProduct(event, '{{ single_product.product_name }}', '{{ request.build_absolute_uri }}')">
-                            <i class="fas fa-share-alt text-2xl"></i>
-                        </button>
+                    <div class="flex justify-end absolute bottom-2 right-2 space-x-2">
+
+                        <!-- Share button -->
+                        <div class="mr-2 md:mr-4">
+                            <div class="w-14 h-14 bg-pink-500 rounded-full flex items-center justify-center">
+                                <button onclick="shareProduct()">
+                                    <i class="fas fa-share-alt text-white text-2xl"></i>
+                                </button>
+                            </div>
+                        </div>
+        
+                        <!-- Heart button -->
+                        <div>
+                            <div class="w-14 h-14 bg-red-500 rounded-full flex items-center justify-center"  id="product-container">
+                                <button class="like-button" data-product-slug="{{ single_product.product_slug }}" data-liked="{{ liked|lower }}">
+                                    <i class="fas fa-heart text-white text-2xl"></i>
+                                </button>
+                            </div>
+                        </div>
+        
                     </div>
-                    
-                    <script>
-                    function shareProduct(event, title, url) {
-                        event.preventDefault();
-                    
-                        if (navigator.share) {
-                            navigator.share({
-                                title: title,
-                                url: url,
-                            })
-                            .then(() => console.log('Successful share'))
-                            .catch((error) => console.log('Error sharing', error));
-                        } else {
-                            console.log('Web Share API not supported');
-                        }
-                    }
-                    </script>
                 </div>
                 <div class="grid grid-cols-5 gap-4 mt-4">
                     {% for image in other_images %}
                         <div>
-                            <img src="{{ image.image.url }}" class="single-img w-full h-12 md:h-16 xl:h-20 cursor-pointer border ">
+                            <img src="{{ image.image.url }}" class="single-img w-full h-12 md:h-16 xl:h-20 cursor-pointer border rounded-lg object-cove">
                         </div>
                     {% endfor %}
                 </div>
@@ -151,11 +143,14 @@
 
                 <span class="text">out of stock</span>
                 {% else %}
+                <form action="{% url 'add_cart' single_product.id %}" method="POST">
+                    {% csrf_token %}
 
                 <button type="submit" class="bg-blue-700 border border-primary text-white px-3 xl:px-8 py-2 font-medium rounded uppercase 
                 hover:bg-pink-500 hover:text-primary transition text-sm flex items-center">
                 <span class="mr-2"><i class="fas fa-shopping-bag"></i></span> Add to cart
             </button>
+            </form>
                 {% endif %}
                 <a href="tel:0995030326" class="bg-red-600 border border-gray-300 text-white px-3 xl:px-8 py-2 font-medium rounded uppercase 
                 text-sm flex items-center">
@@ -232,11 +227,75 @@
     {% endif %}
     <!-- related products end -->
 
-    {{single_product.product_name}}
-    <!-- Share Button -->
-<button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-300 hover:text-primary transition" onclick="shareProduct()">
-    Share
-</button>
+   
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const likeButton = document.querySelector('.like-button');
+            const productContainer = document.getElementById('product-container');
+        
+            if (likeButton && productContainer) {
+                likeButton.addEventListener('click', async function () {
+                    const productSlug = likeButton.dataset.productSlug;
+                    console.log('Clicked on the button. ProductSlug:', productSlug);
+        
+                    try {
+                        const response = await fetch(`/store/product/${productSlug}/like/`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken'),
+                            },
+                            body: JSON.stringify({ action: 'like' }),
+                        });
+        
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+        
+                        const data = await response.json();
+                        console.log('Response Data:', data);
+        
+                        if (data.error) {
+                            console.error('Error:', data.error);
+                            return;
+                        }
+        
+                        const liked = data.liked;
+                        productContainer.style.backgroundColor = liked ? 'red' : 'silver';
+        
+                        console.log(`Product liked: ${liked}`);
+                        console.log(`Like Count: ${data.like_count}`);
+                    } catch (error) {
+                        console.error('Fetch error:', error);
+                    }
+                });
+            }
+        
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+        
+        
+        
+        
+    </script>
+    
+ 
+    
+
 <script>
     function shareProduct() {
         const productName = "{{ single_product.product_name }}";
@@ -255,7 +314,7 @@
             .catch((error) => console.error('Error sharing:', error));
         } else {
             // Fallback for browsers that do not support the Share API
-            alert(`Share this product: ${productName}\n${productUrl}`);
+            alert(`Share this products: ${productName}\n${productUrl}`);
         }
     }
 </script>
@@ -292,9 +351,7 @@ $(document).ready(function(){
 });
 </script>
 
-</body>
 
-</html>
 
    
 {% endblock %}
