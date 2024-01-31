@@ -30,5 +30,6 @@ urlpatterns = [
     path('contact-us/', include('contact.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
+admin.site.site_header = 'Tanabeles Login'
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #media setup
