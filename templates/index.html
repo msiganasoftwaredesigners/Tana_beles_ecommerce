@@ -111,7 +111,7 @@
             <!-- single product -->
             <div class="group rounded bg-white shadow overflow-hidden">
               <!-- product image -->
-              <div class="relative">
+              <div class="w-full h-32 2xl:h-64 overflow-hidden relative">
                 {% with product.get_main_image as main_image %}
                 {% if main_image %}
                     <img class="w-full h-full object-cover" src="{{ main_image.image.url }}" alt="{{ product.product_name }}">
@@ -153,10 +153,10 @@
               <!-- product content end -->
               <!-- product button -->
               <a
-                href="#"
+                href="{% url 'product_detail' product.category.category_slug product.product_slug %}"
                 class="block w-full py-1 text-center text-white bg-blue-600 border border-primary rounded-b hover:bg-yellow-400 hover:text-primary transition"
               >
-                Add to Cart
+                Product detail
               </a>
               <!-- product button end -->
             </div>
