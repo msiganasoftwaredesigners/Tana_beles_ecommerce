@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from store.models import Product
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import generic
 
 
 def home(request):
@@ -14,3 +16,6 @@ def about_us(request):
 
 def privacy_policy(request):
     return render(request, 'privacy-policy.html')
+
+class UserProfile(LoginRequiredMixin, generic.TemplateView):
+    template_name = "profile.html"

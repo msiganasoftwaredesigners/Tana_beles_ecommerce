@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$epx^r=3u8b8pt+yc_3&e)50gr1%-@3jgpl#j-&9&am#$2on*8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['146.190.142.200','localhost']
 
@@ -98,20 +98,20 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# if  DEBUG:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': 'ecommerce_postgres',
-#             'USER': 'postgres',
-#             'PASSWORD': 'Melaku11@#',
-#             'HOST': 'localhost',
-#             'PORT': '5432',
-#         }
-#     }
-# else:
-DATABASES = {
-    'default': dj_database_url.parse('postgresql://doadmin:AVNS__UNmW45SmZJWh48E_6K@private-db-postgresql-sfo3-44859-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
+if  DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'ecommerce_postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'Melaku11@#',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+else:
+    DATABASES = {
+      'default': dj_database_url.parse('postgresql://doadmin:AVNS__UNmW45SmZJWh48E_6K@private-db-postgresql-sfo3-44859-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
    }
     
 # CACHES = {
@@ -168,7 +168,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'users.CustomAccount'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)

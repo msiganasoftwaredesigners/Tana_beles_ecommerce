@@ -28,6 +28,9 @@ urlpatterns = [
     path('privacy-policy/', views.privacy_policy, name='privacy-policy'),
     path('about-us/', views.about_us, name='about-us'),
     path('contact-us/', include('contact.urls')),
+    path('users/', include('users.urls')),
+    path("users/", include("django.contrib.auth.urls")),
+    path("accounts/profile/", views.UserProfile.as_view(), name="profile"),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
 admin.site.site_header = 'Tanabeles Login'

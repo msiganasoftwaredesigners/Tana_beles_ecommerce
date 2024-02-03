@@ -1,71 +1,21 @@
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from .managers import CustomUserManager
 
-
-class CustomAccountManager(BaseUserManager):
-    def create_user(self, first_name, last_name, username, email, password=None):
-        if not email:
-            raise ValueError('Please insert a valid  an email address')
-
-        if not username:
-            raise ValueError('User must have an username')
-
-        user = self.model(
-            email=self.normalize_email(email),
-            username=username,
-            first_name=first_name,
-            last_name=last_name,
-        )
-
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, first_name, last_name, email, username, password):
-        user = self.create_user(
-            email=self.normalize_email(email),
-            username=username,
-            password=password,
-            first_name=first_name,
-            last_name=last_name,
-        )
-        user.is_admin = True
-        user.is_active = True
-        user.is_staff = True
-        user.is_superadmin = True
-        user.save(using=self._db)
-        return user
-
-
-class CustomAccount(AbstractBaseUser, PermissionsMixin):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    username = models.CharField(max_length=50, unique=True)
-    email = models.EmailField(max_length=100, unique=True)
-    phone_number = models.CharField(max_length=50)
-
-    # required
-    date_joined = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now_add=True)
-    is_admin = models.BooleanField(default=False)
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(_("email address"), unique=True)
+    first_name = models.CharField(_("first name"), max_length=30, blank=True)
+    last_name = models.CharField(_("last name"), max_length=30, blank=True)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
-    is_superadmin = models.BooleanField(default=False)
-    groups = models.ManyToManyField('auth.Group', blank=True)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
 
-    objects = CustomAccountManager()
-
-    def full_name(self):
-        return f'{self.first_name} {self.last_name}'
+    objects = CustomUserManager()
 
     def __str__(self):
         return self.email
-
-    def has_perm(self, perm, obj=None):
-        return self.is_admin
-
-    def has_module_perms(self, add_label):
-        return True
