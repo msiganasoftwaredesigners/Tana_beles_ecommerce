@@ -111,7 +111,7 @@
             <!-- single product -->
             <div class="group rounded bg-white shadow overflow-hidden">
               <!-- product image -->
-              <div class="w-full h-32 2xl:h-64 overflow-hidden relative">
+              <div class="w-full h-64 overflow-hidden relative">
                 {% with product.get_main_image as main_image %}
                 {% if main_image %}
                     <img class="w-full h-full object-cover" src="{{ main_image.image.url }}" alt="{{ product.product_name }}">
