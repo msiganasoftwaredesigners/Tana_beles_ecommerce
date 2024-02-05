@@ -1,0 +1,32 @@
+{% extends 'base.html' %}  {# Use your base template #}
+{% load static %}
+{% load allauth %}
+{% load allauth account %}
+{% block content %}
+<div  style=" min-height: 20vh; @media (min-width: 768px) { min-height: 500vh; }">
+    <div class="flex items-center justify-center py-8 lg:py-16 px-4  my-8 lg:my-16 xl:my-24 mx-4">
+        <div class="w-full max-w-md p-8 rounded shadow-2xl shadow-red-600">
+            <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900">
+                Logout
+            </h2>
+            <p class="mt-2 text-center text-gray-600">
+                Are you sure you want to sign out?
+            </p>
+            {% url 'account_logout' as action_url %}
+            {% element form method="post" action=action_url no_visible_fields=True %}
+                {% slot body %}
+                    {% csrf_token %}
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                {% endslot %}
+                {% slot actions %}
+                    <button type="submit" class="btn-primary">
+                        Sign Out
+                    </button>
+                {% endslot %}
+            {% endelement %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

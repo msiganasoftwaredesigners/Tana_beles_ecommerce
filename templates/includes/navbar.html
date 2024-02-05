@@ -26,9 +26,16 @@
                 </div>
                 <span class="absolute top-0 right-0 px-2 py-1 text-xs font-bold rounded-full bg-red-500 text-white">{{cart_count}}</span>
             </a>
-            <a href="login.html" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-3">
-                Login
-            </a>
+            {% if user.is_authenticated %}
+    <a href="{% url 'users_profiles' %}" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-3">
+        Profile
+    </a>
+{% else %}
+    <a href="{% url 'account_login' %}" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-3">
+        Login
+    </a>
+{% endif %}
+
         </div>
     </div>
 </header>

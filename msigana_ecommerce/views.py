@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from store.models import Product
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import generic
-
+# from django.contrib.auth import logout
+# from django.shortcuts import redirect
 
 def home(request):
     products = Product.objects.all().filter(product_is_available=True)
@@ -17,5 +16,5 @@ def about_us(request):
 def privacy_policy(request):
     return render(request, 'privacy-policy.html')
 
-class UserProfile(LoginRequiredMixin, generic.TemplateView):
-    template_name = "profile.html"
+def users_profiles(request):
+    return render(request, 'profile.html')

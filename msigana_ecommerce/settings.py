@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$epx^r=3u8b8pt+yc_3&e)50gr1%-@3jgpl#j-&9&am#$2on*8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['146.190.142.200','localhost']
 
@@ -50,7 +50,21 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig', 
     'ckeditor',
     'contact.apps.ContactConfig',
+    # 'crispy_forms',
+
+
+     'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
 ]
+# CRISPY_TEMPLATE_PACK = 'tailwind'
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # Email verification turned off for simplicity
+LOGIN_REDIRECT_URL = '/'  # Redirect to home after login
+SOCIALACCOUNT_QUERY_EMAIL = True  # Set to True to get email from social account providers
+
 
 TAILWIND_APP_NAME = 'theme'
 
@@ -63,6 +77,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
@@ -121,6 +136,13 @@ else:
 #     }
 # }
 
+
+AUTHENTICATION_BACKENDS = [
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    
+]
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -172,3 +194,25 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '853190814013-ufc76ofqcv2lj72i5l8rehpa03tp3gk7.apps.googleusercontent.com',
+            'secret': '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',
+        }
+    },
+    'facebook': {
+        'APP': {
+            'client_id': '378221998142570',
+            'secret': '3d9b77b8daad0a6686ff0713ec7b3cd5',
+        }
+    }
+}
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+
+# settings.py
+
+SOCIALACCOUNT_ADAPTER = 'users.adapters.account_adapter.CustomSocialAccountAdapter'

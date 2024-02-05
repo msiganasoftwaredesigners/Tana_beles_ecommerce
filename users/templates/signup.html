@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% load static %}
+{% comment %} {% extends 'base.html' %} {% load static %}
+{% load socialaccount %}
 
 {% block title %}Sign Up{% endblock %}
 
@@ -9,4 +10,8 @@
   {{ form.as_p }}
   <button type="submit">Sign Up</button>
 </form>
-{% endblock %}
+
+<p>or</p>
+
+<a href="{% provider_login_url 'google' %}">Sign Up with Google</a>
+{% endblock %} {% endcomment %}
