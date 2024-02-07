@@ -12,7 +12,11 @@ class CustomerUser(CustomUser):
     class Meta:
         proxy = True
 
-class StaffUserAdmin(admin.ModelAdmin):  # Use admin.ModelAdmin instead of UserAdmin
+class NoAddUserAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+class StaffUserAdmin(NoAddUserAdmin):  # Use admin.ModelAdmin instead of UserAdmin
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = StaffUser
@@ -38,7 +42,7 @@ class StaffUserAdmin(admin.ModelAdmin):  # Use admin.ModelAdmin instead of UserA
     def get_queryset(self, request):
         return self.model.objects.filter(is_staff=True)
 
-class CustomerUserAdmin(admin.ModelAdmin):  # Use admin.ModelAdmin instead of UserAdmin
+class CustomerUserAdmin(NoAddUserAdmin):  # Use admin.ModelAdmin instead of UserAdmin
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomerUser

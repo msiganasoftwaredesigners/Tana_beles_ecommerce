@@ -2,6 +2,7 @@
 from django.db import models
 from django.urls import reverse
 from category.models import Category
+from users.models import CustomUser
 
 class VariationManager(models.Manager):
     def colors(self):
@@ -34,6 +35,9 @@ class Product(models.Model):
     product_created_date = models.DateTimeField(auto_now_add=True)
     product_modified_date = models.DateTimeField(auto_now=True)
     likes_count = models.PositiveIntegerField(default=0)
+    product_phone = models.CharField(max_length=15, blank=True, null=True)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='owned_products', default=1)
+
 
     def get_store_url(self):
         return reverse('product_detail', args=[self.category.category_slug, self.product_slug])

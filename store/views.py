@@ -49,6 +49,8 @@ def product_detail(request, category_slug, product_slug):
         color_variations = single_product.variations.filter(color__isnull=False)
         size_variations = single_product.variations.filter(size__isnull=False)
         
+
+        is_owner = request.user == single_product.owner
         # like Implementation
         product_slug = single_product.product_slug
          # Check if the product is liked by the current user (using session)
@@ -82,6 +84,7 @@ def product_detail(request, category_slug, product_slug):
         'color_variations': color_variations,
         'size_variations': size_variations,
         'liked': liked,
+        'is_owner': is_owner,
     }
     if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         return JsonResponse({'liked': liked, 'like_count': single_product.likes_count})

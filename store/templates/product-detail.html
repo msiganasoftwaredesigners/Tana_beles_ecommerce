@@ -61,9 +61,48 @@
         <!-- product image end -->
         <!-- product content -->
         <div>
+            
             <h2 class="md:text-3xl text-2xl font-medium uppercase mb-2">{{single_product.product_name}}</h2>
-            <div class="flex items-center mb-4">
-                <div class="flex gap-1 text-sm text-yellow-400">
+            <div class="flex flex-col-2 gap-4">
+                <div class="w-1/2">
+                    <span class="flex items-center">
+                        <span>{{ single_product.owner.first_name | capfirst }}</span>
+                        <img class="h-8 ml-1" src="{% static 'images/verified-badge.png' %}" alt="Verified Badge">
+                      </span>
+                      
+            <div class="space-y-1">
+                <p class="text-sm md:text-base text-gray-800 font-semibold space-x-2">
+                    <span>Availability: </span>
+                    {% if single_product.product_stock <= 0 %}
+
+                    <span class="text-sm md:text-base text-red-600">out of stock</span>
+                    {% else %}
+                     <span class="text-sm md:text-base text-green-600">In Stock</span>
+                    {% endif %}
+                </p>
+                <p class="space-x-2">
+                    <span class="text-sm md:text-base text-gray-800 font-semibold">Brand: </span>
+                    <span class="text-sm md:text-base text-gray-600">{{single_product.product_brand|capfirst}}</span>
+                </p>
+                <p class="space-x-2">
+                    <span class="text-sm md:text-base text-gray-800 font-semibold">Category: </span>
+                    <span class="text-sm md:text-base text-gray-600">{{single_product.category|capfirst}}</span>
+                </p>
+                <p class="space-x-0 md:space-x-2">
+                    
+                    <span class="text-sm md:text-base text-gray-800 font-semibold">Price: </span>
+                    {% load price_filters %}
+                <span class="text-sm md:text-base text-primary font-semibold">{{single_product.product_price|discounted_price}} birr</span>
+                <span class="text-gray-500 text-base line-through">{{ single_product.product_price }} birr</span>
+                </p>
+            </div>
+        </div>
+        <div class="w-1/2">
+            
+            
+            <div class="flex items-center mb-0 md:mb-4">
+                
+                <div class="flex gap-1 text-xs md:text-sm text-yellow-400">
                     <span><i class="fas fa-star"></i></span>
                     <span><i class="fas fa-star"></i></span>
                     <span><i class="fas fa-star"></i></span>
@@ -72,44 +111,17 @@
                 </div>
                 <div class="text-xs text-gray-500 ml-3">(150 Reviews)</div>
             </div>
-            <div class="space-y-2">
-                <p class="text-gray-800 font-semibold space-x-2">
-                    <span>Availability: </span>
-                    {% if single_product.product_stock <= 0 %}
-
-                    <span class="text-red-600">out of stock</span>
-                    {% else %}
-                     <span class="text-green-600">In Stock</span>
-                    {% endif %}
-                </p>
-                <p class="space-x-2">
-                    <span class="text-gray-800 font-semibold">Brand: </span>
-                    <span class="text-gray-600">{{single_product.product_brand|capfirst}}</span>
-                </p>
-                <p class="space-x-2">
-                    <span class="text-gray-800 font-semibold">Category: </span>
-                    <span class="text-gray-600">{{single_product.category|capfirst}}</span>
-                </p>
-                <p class="space-x-2">
-                    
-                    <span class="text-gray-800 font-semibold">Price: </span>
-                    {% load price_filters %}
-                <span class="text-primary font-semibold text-lg">{{single_product.product_price|discounted_price}} birr</span>
-                <span class="text-gray-500 text-base line-through">{{ single_product.product_price }} birr</span>
-                </p>
-            </div>
-           
-            <!-- size -->
+                        <!-- size -->
 {% if size_variations %}
-<div class="mt-4">
-    <h3 class="text-base text-gray-800 mb-1">Size</h3>
-    <div class="flex items-center gap-2">
+<div class="mt-2 md:mt-4">
+    <h3 class="text-sm md:text-base text-gray-800 font-semibold mb-1">Size</h3>
+    <div class="flex flex-row flex-wrap items-center gap-2">
         <!-- single size -->
         {% for variation in size_variations %}
             <div class="size-selector">
                 <input type="radio" name="size" class="hidden" id="size-{{ variation.size.name|lower }}" value="{{ variation.size.name|lower }}" {% if forloop.first %}checked{% endif %}>
                 <label for="size-{{ variation.size.name|lower }}"
-                    class="size-label text-lg md:text-lg border border-gray-200 rounded-sm h-8 w-8 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
+                    class="size-label text-sm md:text-base border border-gray-200 rounded-sm h-6 md:h-8 px-1 md:px-2 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
                     {{ variation.size.name|capfirst }}
                 </label>
             </div>
@@ -122,7 +134,7 @@
 {% load color_filters %}
 {% if color_variations %}
 <div class="mt-4">
-    <h3 class="text-base text-gray-800 mb-1">Color</h3>
+    <h3 class="text-sm md:text-base text-gray-800 font-semibold mb-1">Color</h3>
     <div class="flex items-center gap-2">
         {% for variation in color_variations %}
             <!-- single color -->
@@ -136,6 +148,11 @@
     </div>
 </div>
 {% endif %}
+</div>
+</div>
+            
+           
+
         
             <!-- add to cart button -->
             <div class="flex gap-3 border-b border-gray-200 pb-5 mt-6">
@@ -160,7 +177,7 @@
                         <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/>
                     </svg>
                 </span>
-                <span class="text-base md:text-base xl:text-lg">{{footer.phone_number|slice:":2"}}-{{footer.phone_number|slice:"2:4"}}-{{footer.phone_number|slice:"4:6"}}-{{footer.phone_number|slice:"6:8"}}-{{footer.phone_number|slice:"8:"}}</span>
+                <span class="text-base md:text-base xl:text-lg">{{single_product.product_phone|slice:":2"}}-{{single_product.product_phone|slice:"2:4"}}-{{single_product.product_phone|slice:"4:6"}}-{{single_product.product_phone|slice:"6:8"}}-{{single_product.product_phone|slice:"8:"}}</span>
             </a>
             </div>
             <div class="flex space-x-3 mt-4">
