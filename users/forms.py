@@ -7,13 +7,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ("email",)  # Include password fields
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['password1'].widget = forms.PasswordInput()
-    #     self.fields['password2'].widget = forms.PasswordInput()
-
+        fields = ("email",)  
 
 class CustomUserChangeForm(UserChangeForm):
 
