@@ -3,7 +3,6 @@ from django.db import models
 from django.urls import reverse
 from category.models import Category
 from users.models import CustomUser
-from ckeditor.fields import RichTextField
 # from django.db.models import Count, F, Manager
 
 class VariationManager(models.Manager):
@@ -33,7 +32,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=150, unique=True)
     product_brand = models.CharField(max_length=150, blank=True,default='Unknown Brand')
     product_slug = models.SlugField(max_length=150, unique=True)
-    product_description = RichTextField(blank=True, null=True)
+    product_description = models.TextField(blank=True, null=True)
     product_price = models.IntegerField()
     product_stock = models.IntegerField()
     product_is_available = models.BooleanField(default=True)

@@ -8,7 +8,7 @@
     <meta http-equiv="cache-control" content="max-age=604800"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% for content in head_contents %}
-    {{ content.content|safe }}
+    {{ content.header_meta_data|safe }}
     {% endfor %}
     <link href="#fabinco" rel="shortcut icon" type="image/x-icon">
 
@@ -39,4 +39,7 @@ $(document).ready(function() {
 {% include 'includes/topup.html' %}
 
 </body>
+{% for content in head_contents %}
+    {{ content.footer_meta_data|safe }}
+    {% endfor %}
 </html>

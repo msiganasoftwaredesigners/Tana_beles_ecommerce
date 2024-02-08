@@ -10,7 +10,7 @@ from users.models import CustomUser
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Count
-
+from .context_processors import most_liked_products
 
 def store(request, category_slug=None):
     categories = None
@@ -22,20 +22,8 @@ def store(request, category_slug=None):
     else:
         products = Product.objects.filter(product_is_available=True).prefetch_related('images').order_by('-product_created_date')
 
-    most_liked_products = Product.objects.most_liked()[:10]
-    most_liked_products_with_count = []
-    for product in most_liked_products:
-        likes_count = product.likes.count()
-        most_liked_products_with_count.append({
-            'product': product,
-            'likes_count': likes_count,
-        })
-        print("Product:", product)
-        print("Likes count:", likes_count)
-        print("Category slug:", product.category.category_slug)
-        print("Product slug:", product.product_slug)
-    print("Number of most liked products:", len(most_liked_products_with_count))
-
+    most_liked_products_with_count = most_liked_products(request)['most_liked_products']
+    
     paginator = Paginator(products, 12)
     page = request.GET.get('page')
 

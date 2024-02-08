@@ -5,7 +5,7 @@
 <header class="py-4 shadow-sm bg-sky-200">
     <div class="container flex items-center justify-between">
         <a href="{% url 'home' %}" class="brand-wrap w-16 mr-4">
-            <img class="w-64 md:h-16 object-cover overflow-hidden ml-2 md:ml-16" src="{{footer.company_logo.url}}" alt="logo" />
+            <img class="w-64 md:h-16 object-cover overflow-hidden ml-2 md:ml-16" src="{{footer.nav_company_logo.url}}" alt="logo" />
         </a>
         <div class="space-x-1 md:space-x-16 flex items-center">
             <div class="col-lg col-md-6 col-sm-12 col">
@@ -51,14 +51,16 @@
         </a>
       
         <div class="col-lg col-md-6 col-sm-12 col">
-            <a href="tel:{{footer.phone_number}}" class="flex items-center bg-blue-500 rounded-full text-sm relative ">
-              <div class="w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded-full pr-16 font-bold bg-blue-200 text-xl" id="phone" type="text">{{footer.phone_number|slice:":2"}}-{{footer.phone_number|slice:"2:4"}}-{{footer.phone_number|slice:"4:6"}}-{{footer.phone_number|slice:"6:8"}}-{{footer.phone_number|slice:"8:"}}</div>
+            <form action="{% url 'search' %}" method="GET" class="flex items-center bg-white rounded-full text-sm relative ">
+                <input class="w-3/4 py-3 px-4 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded-full pr-10" id="search" type="text" placeholder="Search" name="keyword">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                    <div class="bg-white text-black rounded-full p-2 hover:bg-gray-200 focus:outline-none w-10 h-10 flex items-center justify-center">
-                        <i class="fas fa-phone"></i>
-                    </div>
+                    <button class="bg-white text-black rounded-full p-2 hover:bg-gray-200 focus:outline-none w-10 h-10 flex items-center justify-center" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 50 50" class="fill-current">
+                            <path d="M 21 3 C 11.622998 3 4 10.623005 4 20 C 4 29.376995 11.622998 37 21 37 C 24.712383 37 28.139151 35.791079 30.9375 33.765625 L 44.085938 46.914062 L 46.914062 44.085938 L 33.886719 31.058594 C 36.443536 28.083 38 24.223631 38 20 C 38 10.623005 30.377002 3 21 3 z M 21 5 C 29.296122 5 36 11.703883 36 20 C 36 28.296117 29.296122 35 21 35 C 12.703878 35 6 28.296117 6 20 C 6 11.703883 12.703878 5 21 5 z"></path>
+                        </svg>
+                    </button>
                 </div>
-            </a>
+            </form>
         </div>
     
         <a href="{% url 'cart' %}" class="relative">

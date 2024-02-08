@@ -1,9 +1,8 @@
-# admin.py
 from django.contrib import admin
 from .models import HeadContent
 
 class HeadContentAdmin(admin.ModelAdmin):
-    list_display = ('content',)
+    list_display = ('header_meta_data','footer_meta_data')
 
     def has_add_permission(self, request):
         # if HeadContent object already exists, do not allow new ones to be added

@@ -2,7 +2,8 @@
 from django.db import models
 
 class HeadContent(models.Model):
-    content = models.TextField()
+    header_meta_data = models.TextField(blank=True, null=True)
+    footer_meta_data = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.content[:50]  
+        return f"Header: {self.header_meta_data[:50]}, Footer: {self.footer_meta_data[:50]}"

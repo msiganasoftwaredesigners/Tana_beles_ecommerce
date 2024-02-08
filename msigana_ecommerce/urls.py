@@ -31,8 +31,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     
     path("accounts/profile/", views.users_profiles, name="users_profiles"),
-    path("__reload__/", include("django_browser_reload.urls")),
+    # path("__reload__/", include("django_browser_reload.urls")),
 ]
-# admin.site.site_header = 'Tanabeles Login'
+admin.site.site_header = 'Tanabeles Login'
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #media setup

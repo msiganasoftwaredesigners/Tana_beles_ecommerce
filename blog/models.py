@@ -1,10 +1,9 @@
 from django.db import models
 from django.utils.text import slugify
-from ckeditor.fields import RichTextField
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    content = RichTextField(blank=True, null=True)
+    content = models.TextField()
     image = models.ImageField(upload_to='images/posts', blank=True)
     slug = models.SlugField(max_length=200, unique=True)
     short_description = models.CharField(max_length=200, blank=True)

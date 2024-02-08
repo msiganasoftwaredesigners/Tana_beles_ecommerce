@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$epx^r=3u8b8pt+yc_3&e)50gr1%-@3jgpl#j-&9&am#$2on*8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['146.190.142.200','localhost']
 
@@ -44,11 +44,10 @@ INSTALLED_APPS = [
     'carts.apps.CartsConfig',
     'tailwind',
     'theme',
-    'django_browser_reload',
+    # 'django_browser_reload',
     'footer.apps.FooterConfig',
     'heads.apps.HeadsConfig',
     'blog.apps.BlogConfig', 
-    'ckeditor',
     'contact.apps.ContactConfig',
     # 'crispy_forms',
 
@@ -72,7 +71,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    # "django_browser_reload.middleware.BrowserReloadMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -103,7 +102,6 @@ TEMPLATES = [
                 'footer.context_processors.footer',
                 'heads.context_processors.head_contents',
                 'store.context_processors.most_liked_products',
-                'users.context_processors.social_links',
 
             ],
         },

@@ -31,11 +31,23 @@ class ProductAdmin(admin.ModelAdmin):
         return obj.likes.count()
     likes_count.short_description = 'Likes Count'
 
+    def save_model(self, request, obj, form, change):
+        if not change:  # the object is being created, so set the user
+            obj.product_owner = request.user
+        obj.save()
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if not request.user.is_superuser:
-            qs = qs.filter(owner=request.user)
+            qs = qs.filter(product_owner=request.user)
         return qs
+    
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        # remove the email field from the form if the user is not a superuser
+        if not request.user.is_superuser:
+            form.base_fields.pop('product_owner', None)
+        return form
     
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Color)

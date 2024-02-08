@@ -7,8 +7,8 @@
     <div class="xl:grid xl:grid-cols-3 xl:gap-8">
       <!-- footer text -->
       <div class="space-y-8 xl:col-span-1">
-        <a href="{% url 'home' %}" class="">
-            <img class="w-64 h-32 object-cover overflow-hidden" src="{{footer.company_logo.url}}" alt="logo" />
+        <a href="{% url 'home' %}" class="brand-wrap">
+            <img class="w-64 h-32 object-cover overflow-hidden" src="{{footer.footer_company_logo.url}}" alt="logo" />
         </a>
         <p class="text-white text-base">
           {{footer.company_description}}
