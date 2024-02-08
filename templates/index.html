@@ -105,65 +105,48 @@
             recomended for you
           </h2>
           <!-- product wrapper -->
-          <div class="grid lg:grid-cols-4 sm:grid-cols-2 gap-6 px-4 md:px-0">
-            {% for product in products %}
-            {% if product.likes_count >= 10 %}
-            <!-- single product -->
-            <div class="group rounded bg-white shadow overflow-hidden">
-              <!-- product image -->
-              <div class="w-full h-64 overflow-hidden relative">
-                {% with product.get_main_image as main_image %}
-                {% if main_image %}
-                    <img class="w-full h-full object-cover" src="{{ main_image.image.url }}" alt="{{ product.product_name }}">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="text-red-500 text-lg md:text-2xl font-thin p-2 rounded"><i class="fas fa-star"></i> tanabeles</span>
+          <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 md:gap-3 sm:mr-64">
+            {% for product in most_liked_products %}
+            <div class="flex flex-col">
+                <div class="m-2 bg-white shadow-md rounded-lg overflow-hidden flex-grow">
+                    <a href="{{product.get_store_url}}" class="relative">
+                      <div class="w-full h-32 2xl:h-64 overflow-hidden relative">
+                        {% with product.get_main_image as main_image %}
+                        {% if main_image %}
+                            <img class="w-full h-full object-cover" src="{{ main_image.image.url }}" alt="{{ product.product_name }}">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-red-500 text-lg md:text-2xl font-thin p-2 rounded"><i class="fas fa-star"></i> tanabeles</span>
+                            </div>
+                        {% endif %}
+                        {% endwith %}
                     </div>
-                {% endif %}
-                {% endwith %}
-              </div>
-              <!-- product image end -->
-              <!-- product content -->
-              <div class="pt-4 pb-3 px-4">
-                <a href="view.html">
-                  <h4
-                    class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition"
-                  >
-                    {{product.product_name}}
-                  </h4>
-                </a>
-                <div class="flex items-baseline mb-1 space-x-2">
-                  <p class="text-xl text-primary font-roboto font-semibold">
-                    ${{product.product_price}}
-                  </p>
-                  <p class="text-sm text-gray-400 font-roboto line-through">
-                    ${{product.product_price}}
-                  </p>
+                    </a>
+                    <div class="sm:p-2 pl-4 md:p-6 md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
+                        <a href="{{product.get_store_url}}" class="block text-base md:text-lg font-semibold text-gray-800 hover:text-blue-600">{{product.product_name | capfirst}}</a>
+                        <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
+                            {% load price_filters%}
+                            {{ product.product_price|discounted_price }}br
+                          
+                            <span class="text-gray-500 text-base line-through">{{ product.product_price }}br</span>
+                        </div>
+                        <div class="flex items-center">
+                          <div class="flex gap-1 text-sm text-yellow-400">
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                            <span><i class="fas fa-star"></i></span>
+                          </div>
+                          <div class="text-xs text-gray-500 ml-3">(150)</div>
+                        </div>
+                    </div>
+                    <div class="bg-blue-600  hover:text-purple-400 text-center py-2 rounded-b mt-1">
+                        <a href="{{product.get_store_url}}" class="text-white  w-full inline-block">Show Details</a>
+                    </div>
                 </div>
-                <div class="flex items-center">
-                  <div class="flex gap-1 text-sm text-yellow-400">
-                    <span><i class="fas fa-star"></i></span>
-                    <span><i class="fas fa-star"></i></span>
-                    <span><i class="fas fa-star"></i></span>
-                    <span><i class="fas fa-star"></i></span>
-                    <span><i class="fas fa-star"></i></span>
-                  </div>
-                  <div class="text-xs text-gray-500 ml-3">(150)</div>
-                </div>
-              </div>
-              <!-- product content end -->
-              <!-- product button -->
-              <a
-                href="{% url 'product_detail' product.category.category_slug product.product_slug %}"
-                class="block w-full py-1 text-center text-white bg-blue-600 border border-primary rounded-b hover:bg-yellow-400 hover:text-primary transition"
-              >
-                Product detail
-              </a>
-              <!-- product button end -->
             </div>
-            <!-- single product end -->
-            {% endif %}
             {% endfor %}
-          </div>
+        </div>
           <!-- product wrapper end -->
         </div>
         <!-- recomended for you end -->

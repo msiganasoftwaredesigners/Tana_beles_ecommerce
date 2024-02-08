@@ -26,16 +26,20 @@ class StaffUserAdmin(NoAddUserAdmin):  # Use admin.ModelAdmin instead of UserAdm
         (None, {"fields": ("email", "password")}),
         ("Personal Info", {"fields": ("first_name", "last_name")}),
         ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
+        ("Social Links", {"fields": ("facebook_url", "telegram_url", "whatsapp_url")}),
     )
     add_fieldsets = (
         (None, {
-            "classes": ("wide",),
-            "fields": (
-                "email", "password1", "password2", "is_staff",
-                "is_active", "groups", "user_permissions", "first_name", "last_name"
-            )}
+             "classes": ("wide",),
+             "fields": (
+                 "email", "password1", "password2", "is_staff",
+                 "is_active", "groups", "user_permissions", "first_name", "last_name"
+             )}
         ),
-    )
+        ("Social Links", {
+            "fields": ("facebook_url", "telegram_url", "whatsapp_url")}
+        ),
+   )
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email",)
 

@@ -3,6 +3,8 @@ from django.db import models
 from django.urls import reverse
 from category.models import Category
 from users.models import CustomUser
+from ckeditor.fields import RichTextField
+# from django.db.models import Count, F, Manager
 
 class VariationManager(models.Manager):
     def colors(self):
@@ -22,32 +24,67 @@ class Size(models.Model):
 
     def __str__(self):
         return self.name
+    
+# class ProductManager(Manager):
+#     def most_liked(self):
+#         return self.annotate(likes_count=Count('likes')).order_by('-likes_count')
 
 class Product(models.Model):
     product_name = models.CharField(max_length=150, unique=True)
     product_brand = models.CharField(max_length=150, blank=True,default='Unknown Brand')
     product_slug = models.SlugField(max_length=150, unique=True)
-    product_description = models.TextField(max_length=400, blank=True)
+    product_description = RichTextField(blank=True, null=True)
     product_price = models.IntegerField()
     product_stock = models.IntegerField()
     product_is_available = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     product_created_date = models.DateTimeField(auto_now_add=True)
     product_modified_date = models.DateTimeField(auto_now=True)
-    likes_count = models.PositiveIntegerField(default=0)
+    likes = models.ManyToManyField(CustomUser, through="Like", related_name="liked_products")
+    product_views_count = models.PositiveIntegerField(default=0)
     product_phone = models.CharField(max_length=15, blank=True, null=True)
-    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='owned_products', default=1)
-
-
+    product_owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='owned_products', default=1)
+    
+    # objects = ProductManager()
+    
+    def increment_views(self):
+        self.product_views_count += 1
+        self.save()
+        
     def get_store_url(self):
-        return reverse('product_detail', args=[self.category.category_slug, self.product_slug])
+        if self.category and self.category.category_slug and self.product_slug:
+            return reverse('product_detail', args=[self.category.category_slug, self.product_slug])
+        else:
+            return "#"
 
     def get_main_image(self):
         main_images = [image for image in self.images.all() if image.is_main]
         return main_images[0] if main_images else None
+    
+    def likes_count(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.product_name
+    
+
+class Like(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_likes")
+    liked_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+        self.product.product_likes_count = self.product.product_likes.count()
+        self.product.save()
+
+    def delete(self, *args, **kwargs):
+        product = self.product
+        super().delete(*args, **kwargs)  # Call the "real" delete() method.
+        product.product_likes_count = product.product_likes.count()
+        product.save()
+
+    def __str__(self):
+        return f"{self.liked_by} liked {self.product.product_name}"
     
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)

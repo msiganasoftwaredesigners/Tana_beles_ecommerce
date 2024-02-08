@@ -101,7 +101,9 @@ TEMPLATES = [
                 'category.context_processors.menu_links',
                 'carts.context_processors.counter', 
                 'footer.context_processors.footer',
-                'heads.context_processors.head_contents'
+                'heads.context_processors.head_contents',
+                'store.context_processors.most_liked_products',
+                'users.context_processors.social_links',
 
             ],
         },

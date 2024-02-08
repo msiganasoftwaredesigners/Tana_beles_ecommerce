@@ -12,6 +12,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
+    facebook_url = models.URLField(_("facebook url"), blank=True, default='#')
+    telegram_url = models.URLField(_("telegram url"), blank=True, default='#')
+    whatsapp_url = models.URLField(_("whatsapp url"), blank=True, default='#')
+
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

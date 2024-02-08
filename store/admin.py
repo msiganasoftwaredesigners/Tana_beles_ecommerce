@@ -12,7 +12,7 @@ class ProductImageInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'product_slug': ('product_name',)}
     list_display = (
-        'product_name', 'product_phone', 'product_stock', 'category',
+        'product_name','likes_count','product_phone', 'product_stock', 'category',
         'product_created_date', 'product_modified_date', 'product_is_available',
         'display_colors', 'display_sizes'  # Custom methods for display
     )
@@ -26,6 +26,10 @@ class ProductAdmin(admin.ModelAdmin):
 
     def display_sizes(self, obj):
         return ", ".join([var.size.name for var in obj.variations.all() if var.size])
+    
+    def likes_count(self, obj):
+        return obj.likes.count()
+    likes_count.short_description = 'Likes Count'
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
