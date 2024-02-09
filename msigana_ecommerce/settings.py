@@ -126,8 +126,8 @@ if  DEBUG:
     }
 else:
     DATABASES = {
-      'default': dj_database_url.parse('postgresql://doadmin:AVNS__UNmW45SmZJWh48E_6K@private-db-postgresql-sfo3-44859-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
-   }
+        'default': dj_database_url.parse('postgresql://doadmin:AVNS_xVlsGZNSwpnqS3pW_wL@private-db-postgresql-sfo3-65925-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
+    }
     
 # CACHES = {
 #     'default': {
