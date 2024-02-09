@@ -30,7 +30,7 @@ class Size(models.Model):
 
 class Product(models.Model):
     product_name = models.CharField(max_length=150, unique=True)
-    product_brand = models.CharField(max_length=150, blank=True,default='Unknown Brand')
+    product_brand = models.CharField(max_length=150, blank=True,default='Custom')
     product_slug = models.SlugField(max_length=150, unique=True)
     product_description = models.TextField(blank=True, null=True)
     product_price = models.IntegerField()
