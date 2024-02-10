@@ -8,7 +8,11 @@
       <!-- footer text -->
       <div class="space-y-8 xl:col-span-1">
         <a href="{% url 'home' %}" class="brand-wrap">
+          {% if not footer.footer_company_logo.url %}
+          <p>Please insert footer company logo</p>
+          {% else %}
             <img class="w-64 h-32 object-cover overflow-hidden" src="{{footer.footer_company_logo.url}}" alt="logo" />
+          {% endif %}
         </a>
         <p class="text-white text-base">
           {{footer.company_description}}

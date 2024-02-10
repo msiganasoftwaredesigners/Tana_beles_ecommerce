@@ -5,7 +5,11 @@
 <header class="py-4 shadow-sm bg-sky-200">
     <div class="container flex items-center justify-between">
         <a href="{% url 'home' %}" class="brand-wrap w-16 mr-4">
-            <img class="w-64 md:h-16 object-cover overflow-hidden ml-2 md:ml-16" src="{{footer.nav_company_logo.url}}" alt="logo" />
+            {% if not footer.nav_company_logo.url %}
+            <p>Please insert nav company logo</p>
+            {% else %}
+            <img src="{{footer.nav_company_logo.url}}" alt="Main page image" />
+         {% endif %}
         </a>
         <div class="space-x-1 md:space-x-16 flex items-center">
             <div class="col-lg col-md-6 col-sm-12 col">

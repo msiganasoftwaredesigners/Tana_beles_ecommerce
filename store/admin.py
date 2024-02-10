@@ -1,5 +1,6 @@
 from django.contrib import admin
 from store.models import Product, Variation, Color, Size, ProductImage
+from django.core.cache import cache
 
 class VariationInline(admin.TabularInline):
     model = Variation
@@ -35,6 +36,13 @@ class ProductAdmin(admin.ModelAdmin):
         if not change:  # the object is being created, so set the user
             obj.product_owner = request.user
         obj.save()
+
+    def delete_model(self, request, obj):
+        # Clear the most liked products cache
+        cache.delete('most_liked_products')
+
+        # Call the original delete method
+        super().delete_model(request, obj)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

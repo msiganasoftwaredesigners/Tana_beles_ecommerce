@@ -16,7 +16,11 @@
       <!-- banner -->
       <div
         class="bg-cover bg-no-repeat bg-center py-36 relative"
+        {% if not footer.main_page_image.url %}
+        <p>Please insert main page image</p>
+        {% else %}
         style="background-image: url({{footer.main_page_image.url}})">
+         {% endif %}
         <div class="container">
           <!-- banner content -->
           <h1
