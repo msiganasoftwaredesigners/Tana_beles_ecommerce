@@ -8,9 +8,12 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse
 from users.models import CustomUser
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
 from django.db.models import Count
 from .context_processors import most_liked_products
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.http import require_POST
+
 
 def store(request, category_slug=None):
     categories = None
@@ -18,13 +21,14 @@ def store(request, category_slug=None):
 
     if category_slug != None:
         categories = get_object_or_404(Category, category_slug=category_slug)
-        products = Product.objects.filter(category=categories, product_is_available=True).prefetch_related('images').order_by('product_created_date')
+        # products = Product.objects.filter(category=categories, product_is_available=True).prefetch_related('images').order_by('product_created_date')
+        products = Product.objects.filter(category=categories, product_is_available=True).select_related('category').prefetch_related('images').order_by('product_created_date')
     else:
         products = Product.objects.filter(product_is_available=True).prefetch_related('images').order_by('-product_created_date')
 
     most_liked_products_with_count = most_liked_products(request)['most_liked_products']
     
-    paginator = Paginator(products, 12)
+    paginator = Paginator(products, 15)
     page = request.GET.get('page')
 
     try:
@@ -47,13 +51,15 @@ def store(request, category_slug=None):
     return render(request, 'index.html', {'products': products_page, 'most_liked_product': most_liked_product})
 
 def product_detail(request, category_slug, product_slug):
+    print("product_detail view was called")
     try:
         single_product = get_object_or_404(Product, category__category_slug=category_slug, product_slug=product_slug)
-        single_product.increment_views()
+        if request.META.get('HTTP_X_MOZ') == 'prefetch':
+            return HttpResponse('No prefetch', status=200)
         in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
         main_image = single_product.images.filter(is_main=True).first()
         other_images = single_product.images.all()
-        related_products = Product.objects.filter(category=single_product.category).exclude(id=single_product.id).order_by('-product_created_date')[:4]
+        related_products = Product.objects.filter(category=single_product.category).exclude(id=single_product.id).order_by('-product_created_date')[:8]
         color_variations = single_product.variations.filter(color__isnull=False)
         size_variations = single_product.variations.filter(size__isnull=False)
         
@@ -101,6 +107,14 @@ def product_detail(request, category_slug, product_slug):
     
     return render(request, 'product-detail.html', context)
 
+# @csrf_exempt
+# @require_POST
+def increment_view_count(request, product_slug):
+    print("increment_view_count was called with product_slug:", product_slug)
+    product = get_object_or_404(Product, product_slug=product_slug)
+    product.increment_views()
+    print("product_views_count after incrementing:", product.product_views_count)
+    return JsonResponse({'product_views_count': product.product_views_count})
 
 @login_required
 def like_product(request, product_slug):

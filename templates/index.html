@@ -52,7 +52,7 @@
           </h2>
         </header>
           <!-- product wrapper -->
-           <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 md:gap-3 sm:mr-64">
+           <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 2xl:gap-3  lg:pr-16 xl:pr-32 2xl:pr-64">
             {% for product in most_liked_products %}
             <div class="flex flex-col">
                 <div class="m-2 bg-white shadow-md rounded-lg overflow-hidden flex-grow">
@@ -68,8 +68,8 @@
                         {% endwith %}
                     </div>
                     </a>
-                    <div class="sm:p-2 pl-4 md:p-6 md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
-                        <a href="{{product.get_store_url}}" class="block text-base md:text-lg font-semibold text-gray-800 hover:text-blue-600">{{product.product_name | capfirst}}</a>
+                    <div class="sm:p-2 pl-4  md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
+                        <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.product_name|slice:":16"|capfirst }}</a>
                         <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
                             {% load price_filters%}
                             {{ product.product_price|discounted_price }}br
@@ -97,19 +97,19 @@
         <!-- ad section -->
        
           <a href="#" class="pr-2 md:pr-64">
-            <img src="{% static 'images/offer.jpg' %}" />
+            <img src="{{ advertizement_first.advertizement_first_image.url }}" class="lg:pr-16 xl:pr-32 2xl:pr-64" />
           </a>
       
         <!-- ad section end -->
 
         <!-- recomended for you -->
-        <div class="container pb-16 lg:pr-64">
+        <div class="container pb-16 lg:pr-16 xl:pr-32 2xl:pr-64">
           <h2
             class="text-2xl md:text-3xl font-medium text-gray-800 uppercase mb-6"
           >
             New products
           </h2>
-        <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 md:gap-3 sm:mr-64">
+        <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 2xl:gap-3 ">
           {% for product in products %}
           <div class="flex flex-col">
               <div class="m-2 bg-white shadow-md rounded-lg overflow-hidden flex-grow">
@@ -125,8 +125,8 @@
                       {% endwith %}
                   </div>
                   </a>
-                  <div class="sm:p-2 pl-4 md:p-6 md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
-                      <a href="{{product.get_store_url}}" class="block text-base md:text-lg font-semibold text-gray-800 hover:text-blue-600">{{product.product_name | capfirst}}</a>
+                  <div class="sm:p-2 pl-4 md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
+                      <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  2xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.get_short_name|capfirst }}</a>
                       <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
                           {% load price_filters%}
                           {{ product.product_price|discounted_price }}br

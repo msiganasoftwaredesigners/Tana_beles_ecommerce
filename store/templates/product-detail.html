@@ -228,10 +228,10 @@
                     <div class="w-full h-32 2xl:h-64 overflow-hidden relative">
                         <img src="{{ product.get_main_image.image.url }}" class="w-full">
                     </div>
-                    <div class="pt-4 pb-3 px-4">
+                    <div class="pt-4 pb-3 pl-2  md:px-4 ">
                         <a href="{% url 'product_detail' product.category.category_slug product.product_slug %}">
-                            <h4 class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
-                                {{ product.product_name }}
+                            <h4 class="uppercase font-medium text-base lg:text-sm  xl:text-lg mb-2 text-gray-800 hover:text-primary transition">
+                                {{ product.get_short_name|capfirst }}
                             </h4>
                         </a>
                         <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
@@ -260,16 +260,31 @@
 
 
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var viewedProducts = JSON.parse(localStorage.getItem('viewedProducts')) || {};
-
-        if (!viewedProducts['{{ single_product.id }}']) {
-            viewedProducts['{{ single_product.id }}'] = true;
+    
+        console.log('viewedProducts:', viewedProducts);
+    
+        if (!viewedProducts['{{ single_product.product_slug }}']) {
+            console.log('Product not viewed before, making fetch request');
+            viewedProducts['{{ single_product.product_slug }}'] = true;
             localStorage.setItem('viewedProducts', JSON.stringify(viewedProducts));
-
+    
             // Increment the view count
-            fetch('/increment-view-count/{{ single_product.id }}/', { method: 'POST' });
+            fetch('/increment-view-count/{{ single_product.product_slug }}/', { 
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                console.log('Fetch response:', response);
+            }).catch(error => {
+                console.log('Fetch error:', error);
+            });
         }
     });
 </script>
@@ -332,6 +347,25 @@
         } else {
             // Fallback for browsers that do not support the Share API
             alert(`Share this products: ${productName}\n${productUrl}`);
+        }
+    }
+</script>
+<script>
+    let mainImg = document.getElementById('main-img')
+    let imgBars = document.getElementsByClassName('single-img')
+
+    for(let imgBar of imgBars){
+        imgBar.addEventListener('click', function(){
+            clearActive()
+            let imgPath = this.getAttribute('src')
+            mainImg.setAttribute('src', imgPath)
+            this.classList.add('border-green-600')
+        })
+    }
+
+    function clearActive(){
+        for(let imgBar of imgBars){
+            imgBar.classList.remove('border-green-600')
         }
     }
 </script>

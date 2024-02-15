@@ -110,6 +110,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
             quantity += cart_item.quantity
         tax = (15 * total) / 100
         grand_total = total + tax
+        request.session['total'] = total
 
     except ObjectDoesNotExist:
         pass

@@ -24,6 +24,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('store/', include('store.urls')),
     path('carts/', include('carts.urls')),
+    path('orders/', include('orders.urls')),
     path('blog/', include('blog.urls')),
     path('privacy-policy/', views.privacy_policy, name='privacy-policy'),
     path('about-us/', views.about_us, name='about-us'),
@@ -31,7 +32,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     
     path("accounts/profile/", views.users_profiles, name="users_profiles"),
-    # path("__reload__/", include("django_browser_reload.urls")),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 admin.site.site_header = 'Tanabeles Login'
 if settings.DEBUG:

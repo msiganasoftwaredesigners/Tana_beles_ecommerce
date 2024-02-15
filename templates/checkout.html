@@ -2,8 +2,8 @@
 {% load static %}
 {% block content %}
     <!-- breadcrum -->
-    <div class="py-4 container flex gap-3 items-center">
-        <a href="index.html" class="text-primary text-base">
+    <div class="py-4 container flex gap-3 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
+        <a href="{% url 'home' %}" class="text-primary text-base">
             <i class="fas fa-home"></i>
         </a>
         <span class="text-sm text-gray-400"><i class="fas fa-chevron-right"></i></span>
@@ -12,68 +12,46 @@
     <!-- breadcrum end -->
 
     <!-- checkout wrapper -->
-    <div class="container lg:grid grid-cols-12 gap-6 items-start pb-16 pt-4">
+    <div class="py-4 container grid grid-cols-2 gap-3 items-start px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
         <!-- checkout form -->
-        <div class="lg:col-span-8 border border-gray-200 px-4 py-4 rounded">
+        <div class=" border px-4 border-gray-200  py-4 rounded">
             <form action="">
                 <h3 class="text-lg font-medium capitalize mb-4">
                     checkout
                 </h3>
 
                 <div class="space-y-4">
-                    <div class="grid sm:grid-cols-2 gap-4">
+                
                         <div>
                             <label class="text-gray-600 mb-2 block">
-                                First Name <span class="text-primary">*</span>
+                                First Name <span class="text-red-600">*</span>
                             </label>
                             <input type="text" class="input-box">
                         </div>
-                        <div>
-                            <label class="text-gray-600 mb-2 block">
-                                Last Name <span class="text-primary">*</span>
-                            </label>
-                            <input type="text" class="input-box">
-                        </div>
-                    </div>
+                       
+                    
                     <div>
                         <label class="text-gray-600 mb-2 block">
-                            Company Name
+                            Father Name <span class="text-red-600">*</span>
+                        </label>
+                        <input type="text" class="input-box">
+                    </div>
+                   
+                    <div>
+                        <label class="text-gray-600 mb-2 block">
+                            Phone Number <span class="text-red-600">*</span>
                         </label>
                         <input type="text" class="input-box">
                     </div>
                     <div>
                         <label class="text-gray-600 mb-2 block">
-                            County/Region <span class="text-primary">*</span>
+                            Email Address <span class="text-red-600">*</span>
                         </label>
                         <input type="text" class="input-box">
                     </div>
                     <div>
                         <label class="text-gray-600 mb-2 block">
-                            Street Address <span class="text-primary">*</span>
-                        </label>
-                        <input type="text" class="input-box">
-                    </div>
-                    <div>
-                        <label class="text-gray-600 mb-2 block">
-                            Town/City <span class="text-primary">*</span>
-                        </label>
-                        <input type="text" class="input-box">
-                    </div>
-                    <div>
-                        <label class="text-gray-600 mb-2 block">
-                            Zip Code <span class="text-primary">*</span>
-                        </label>
-                        <input type="text" class="input-box">
-                    </div>
-                    <div>
-                        <label class="text-gray-600 mb-2 block">
-                            Phone Number <span class="text-primary">*</span>
-                        </label>
-                        <input type="text" class="input-box">
-                    </div>
-                    <div>
-                        <label class="text-gray-600 mb-2 block">
-                            Email Address <span class="text-primary">*</span>
+                            Address <span class="text-red-600">*</span>
                         </label>
                         <input type="text" class="input-box">
                     </div>
@@ -83,7 +61,7 @@
         <!-- checkout form end -->
 
         <!-- order summary -->
-        <div class="lg:col-span-4 border border-gray-200 px-4 py-4 rounded mt-6 lg:mt-0">
+        <div class=" border border-gray-200 px-3 py-4 rounded  ">
             <h4 class="text-gray-800 text-lg mb-4 font-medium uppercase">ORDER SUMMARY</h4>
             <div class="space-y-2">
                 <div class="flex justify-between" v-for="n in 3" :key="n">
@@ -119,7 +97,7 @@
             </div>
 
             <!-- checkout -->
-            <a href="{% url 'order_complete' %}" class="bg-primary border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-transparent
+            <a href="{% url 'order_complete' %}" class="bg-blue-500 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-blue-800
          hover:text-primary transition text-sm w-full block text-center">
                 Place order
             </a>

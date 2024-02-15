@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+    <!-- checkout form -->
+    <div class=" border px-4 border-gray-200  py-4 rounded">
+        <form method="POST" action="{% url 'create_order' %}">
+            {% csrf_token %}
+            <h3 class="text-lg font-medium capitalize mb-4">
+                checkout
+            </h3>
+            <div class="space-y-4">
+                {{ form.as_p }}
+                <button type="submit" class="bg-blue-500 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-blue-800
+                hover:text-primary transition text-sm w-full block text-center">Place order</button>
+            </div>
+        </form>
+    </div>
+    <!-- checkout form end -->
+{% endblock %}

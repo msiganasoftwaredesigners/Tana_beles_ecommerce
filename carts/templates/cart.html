@@ -3,7 +3,13 @@
 {% block content %}
 <section style=" min-height: 20vh; @media (min-width: 768px) { min-height: 55vh; }">
      <!-- cart wrapper -->
-     <div class="pt-4 pb-6  items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto ">
+     <div class="py-4 container flex gap-3 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
+        <a href="{% url 'home' %}" class="text-primary text-base font-medium uppercase">
+            <i class="fas fa-home"></i>
+        </a>
+        <span class="text-sm text-gray-400"><i class="fas fa-chevron-right"></i></span>
+    </div>
+     <div class="py-4 container gap-3 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto ">
         {% if not cart_items %}
         <h2 class="text-center">Your shopping cart is Empty</h2>
         <br>
@@ -124,7 +130,7 @@
             <p class="text-center mb-3">
                 <img src="{% static 'images/pay.jpg' %}" height="26">
             </p>
-            <a href="{% url 'checkout' %}" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
+            <a href="{% url 'create_order' %}" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
              hover:text-primary transition text-sm w-full block text-center">
                 Process to checkout
             </a>

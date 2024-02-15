@@ -47,8 +47,14 @@ class Product(models.Model):
     # objects = ProductManager()
     
     def increment_views(self):
+        print("increment_views was called on product with slug:", self.product_slug)
         self.product_views_count += 1
         self.save()
+        print("product_views_count after incrementing:", self.product_views_count)
+    
+    def save(self, *args, **kwargs):
+        print("Product is being saved. Current views count is", self.product_views_count)
+        super().save(*args, **kwargs)
         
     def get_store_url(self):
         if self.category and self.category.category_slug and self.product_slug:
@@ -56,9 +62,15 @@ class Product(models.Model):
         else:
             return "#"
 
+    def get_short_name(self):
+        return self.product_name[:16]
+    # def get_main_image(self):
+    #     main_images = [image for image in self.images.all() if image.is_main]
+    #     return main_images[0] if main_images else None
     def get_main_image(self):
-        main_images = [image for image in self.images.all() if image.is_main]
-        return main_images[0] if main_images else None
+        main_image = self.images.filter(is_main=True).first()
+        return main_image
+    
     
     def likes_count(self):
         return self.likes.count()
