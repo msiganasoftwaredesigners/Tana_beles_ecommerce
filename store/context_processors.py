@@ -39,7 +39,7 @@ def most_liked_products(request):
             product_modified_date__gte=ninety_days_ago
         ).annotate(
             likes_count=Count('likes')
-        ).order_by('-likes_count')[:10]
+        ).order_by('-likes_count')[:8]
 
         # Store the most liked products in cache for 3 days
         cache.set('most_liked_products', most_liked_products, 60)

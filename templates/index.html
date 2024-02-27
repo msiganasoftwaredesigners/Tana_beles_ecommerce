@@ -43,16 +43,19 @@
         </div>
       </div>
       <!-- banner end -->
+      <div class="mt-4 md:pt-6 container">  <a href="{{advertizement_first.advertizement_first_url}}">
+        <img src="{{ advertizement_first.advertizement_first_image.url }}" class="px-2 md:px-0 lg:pr-16 xl:pr-32 2xl:pr-64 w-full  h-32 xl:h-64 object-cover" />
+      </a> </div>
       <div class="container">
         <header class="section-heading">
           <h2
-            class="text-2xl md:text-3xl font-medium text-gray-800 uppercase mb-6"
+            class="text-2xl md:text-3xl font-medium text-gray-800 uppercase mb-6 mt-4 px-6 md:px-0"
           >
             recomended for you
           </h2>
         </header>
           <!-- product wrapper -->
-           <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 2xl:gap-3  lg:pr-16 xl:pr-32 2xl:pr-64">
+           <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-1 2xl:gap-3  lg:pr-16 xl:pr-32 2xl:pr-64 mb-6 lg:mb-8">
             {% for product in most_liked_products %}
             <div class="flex flex-col">
                 <div class="m-2 bg-white shadow-md rounded-lg overflow-hidden flex-grow">
@@ -72,9 +75,7 @@
                         <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.product_name|slice:":16"|capfirst }}</a>
                         <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
                             {% load price_filters%}
-                            {{ product.product_price|discounted_price }}br
-                          
-                            <span class="text-gray-500 text-base line-through">{{ product.product_price }}br</span>
+                            {{ product.default_price }} br
                         </div>
                         <div class="flex items-center">
                           <div class="flex gap-1 text-sm text-yellow-400">
@@ -95,17 +96,16 @@
             {% endfor %}
         </div> 
         <!-- ad section -->
-       
-          <a href="#" class="pr-2 md:pr-64">
-            <img src="{{ advertizement_first.advertizement_first_image.url }}" class="lg:pr-16 xl:pr-32 2xl:pr-64" />
-          </a>
+          <a href="{{advertizement_second.advertizement_second_url}}" class="pr-2 md:pr-64 pt-6 md:mt-32">
+            <img src="{{ advertizement_second.advertizement_second_image.url }}" class="px-2 md:px-0 lg:pr-16 xl:pr-32 2xl:pr-64 w-full h-32 xl:h-64 object-cover" />
+          </a>        
       
         <!-- ad section end -->
 
-        <!-- recomended for you -->
+        <!-- New product for you -->
         <div class="container pb-16 lg:pr-16 xl:pr-32 2xl:pr-64">
           <h2
-            class="text-2xl md:text-3xl font-medium text-gray-800 uppercase mb-6"
+            class="text-2xl md:text-3xl font-medium text-gray-800 uppercase px-6 md:px-0mb-6"
           >
             New products
           </h2>
@@ -129,8 +129,7 @@
                       <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  2xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.get_short_name|capfirst }}</a>
                       <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
                           {% load price_filters%}
-                          {{ product.product_price|discounted_price }}br
-                          <span class="text-gray-500 text-base line-through">{{ product.product_price }}br</span>
+                          {{ product.default_price }} br
                       </div>
                       <div class="flex items-center">
                         <div class="flex gap-1 text-sm text-yellow-400">
@@ -152,7 +151,7 @@
       </div>
           <!-- product wrapper end -->
         </div>
-        <!-- recomended for you end -->
+        <!-- New product for you end -->
       </div>
     </section>
 

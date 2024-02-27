@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'carts.apps.CartsConfig',
     'orders.apps.OrdersConfig',
+    'nested_admin',
     'tailwind',
     'theme',
     'django_browser_reload',

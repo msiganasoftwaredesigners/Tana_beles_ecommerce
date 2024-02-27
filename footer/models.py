@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+
 class Footer(models.Model):
     nav_company_logo = models.ImageField(upload_to='images/contacts', blank=True, null=True)
     footer_company_logo = models.ImageField(upload_to='images/contacts', blank=True, null=True)
@@ -9,7 +10,26 @@ class Footer(models.Model):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     company_main_page_title = models.TextField(max_length=100, blank=True, null=True)
     company_description = models.TextField(blank=True, null=True)
+
     def save(self, *args, **kwargs):
+        try:
+            # is the object in the database yet?
+            this = Footer.objects.get(id=self.id)
+            if this.nav_company_logo != self.nav_company_logo:
+                this.nav_company_logo.delete(save=False)
+            if this.footer_company_logo != self.footer_company_logo:
+                this.footer_company_logo.delete(save=False)
+            if this.main_page_image != self.main_page_image:
+                this.main_page_image.delete(save=False)
+        except: pass # when new photo then we do nothing, normal case
+
         if not self.pk and Footer.objects.exists():
             raise ValidationError('There is can be only one Footer instance')
-        return super(Footer, self).save(*args, **kwargs)
+
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.nav_company_logo.delete(save=False)
+        self.footer_company_logo.delete(save=False)
+        self.main_page_image.delete(save=False)
+        super().delete(*args, **kwargs)

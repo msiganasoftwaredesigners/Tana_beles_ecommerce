@@ -2,16 +2,36 @@
 {% load static %}
 {% block content %}
     <!-- checkout form -->
-    <div class=" border px-4 border-gray-200  py-4 rounded">
+    <div class="container mx-auto lg:w-2/3  2xl:w-2/5 pt-4 pb-6 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-4xl ">
+       
         <form method="POST" action="{% url 'create_order' %}">
             {% csrf_token %}
             <h3 class="text-lg font-medium capitalize mb-4">
-                checkout
+               Finsh your order
             </h3>
             <div class="space-y-4">
-                {{ form.as_p }}
+                <div>
+                    <label for="id_first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                    <input id="id_first_name" type="text" name="first_name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ form.first_name.value|default:'' }}">
+                </div>
+                <div>
+                    <label for="id_last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                    <input id="id_last_name" type="text" name="last_name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ form.last_name.value|default:'' }}">
+                </div>
+                <div>
+                    <label for="id_order_phone" class="block text-sm font-medium text-gray-700">Phone</label>
+                    <input id="id_order_phone" type="text" name="order_phone" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ form.order_phone.value|default:'' }}">
+                </div>
+                <div>
+                    <label for="id_order_email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input id="id_order_email" type="email" name="order_email" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ form.order_email.value|default:'' }}">
+                </div>
+                <div>
+                    <label for="id_order_address" class="block text-sm font-medium text-gray-700">Address</label>
+                    <input id="id_order_address" type="text" name="order_address" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ form.order_address.value|default:'' }}">
+                </div>
                 <button type="submit" class="bg-blue-500 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-blue-800
-                hover:text-primary transition text-sm w-full block text-center">Place order</button>
+                hover:text-primary transition text-sm w-full block text-center">Submit order</button>
             </div>
         </form>
     </div>

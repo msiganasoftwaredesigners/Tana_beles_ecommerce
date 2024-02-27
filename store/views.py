@@ -13,18 +13,25 @@ from .context_processors import most_liked_products
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
+from .models import Variation, SizeVariation
+from django.core.exceptions import ObjectDoesNotExist
+import uuid
+
 
 
 def store(request, category_slug=None):
     categories = None
     products = None
+    template = 'index.html'
 
     if category_slug != None:
         categories = get_object_or_404(Category, category_slug=category_slug)
         # products = Product.objects.filter(category=categories, product_is_available=True).prefetch_related('images').order_by('product_created_date')
         products = Product.objects.filter(category=categories, product_is_available=True).select_related('category').prefetch_related('images').order_by('product_created_date')
+        template = 'store.html'
     else:
         products = Product.objects.filter(product_is_available=True).prefetch_related('images').order_by('-product_created_date')
+
 
     most_liked_products_with_count = most_liked_products(request)['most_liked_products']
     
@@ -48,21 +55,27 @@ def store(request, category_slug=None):
 
     # Your existing code
     most_liked_product = most_liked_products_with_count[0] if most_liked_products_with_count else None
-    return render(request, 'index.html', {'products': products_page, 'most_liked_product': most_liked_product})
+    return render(request, template, {'products': products_page, 'most_liked_product': most_liked_product})
 
 def product_detail(request, category_slug, product_slug):
     print("product_detail view was called")
     try:
         single_product = get_object_or_404(Product, category__category_slug=category_slug, product_slug=product_slug)
+        single_product.increment_views()
         if request.META.get('HTTP_X_MOZ') == 'prefetch':
             return HttpResponse('No prefetch', status=200)
-        in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
+        try:
+            uuid.UUID(_cart_id(request))
+            in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
+        except ValueError:
+            in_cart = False
         main_image = single_product.images.filter(is_main=True).first()
         other_images = single_product.images.all()
         related_products = Product.objects.filter(category=single_product.category).exclude(id=single_product.id).order_by('-product_created_date')[:8]
-        color_variations = single_product.variations.filter(color__isnull=False)
-        size_variations = single_product.variations.filter(size__isnull=False)
-        
+        # color_variations = single_product.variations.filter(color__isnull=False)
+        # size_variations = single_product.variations.filter(size__isnull=False)
+        size_variations = single_product.sizevariation_set.all()
+        color_variations = [variation for size_variation in size_variations for variation in size_variation.variation_set.filter(color__isnull=False)]
 
         is_owner = request.user == single_product.product_owner
         # like Implementation
@@ -74,26 +87,9 @@ def product_detail(request, category_slug, product_slug):
     except Exception as e:
         raise e
     
-    color_dict = {
-    'red': '#ff0000',
-    'blue': '#0000ff',
-    'green': '#008000',
-    'yellow': '#ffff00',
-    'orange': '#ffa500',
-    'purple': '#800080',
-    'black': '#000000',
-    'white': '#ffffff',
-    'gray': '#808080',
-    'brown': '#a52a2a',
-    'pink': '#ffc0cb',
-    'gold': '#ffd700',
-    'silver': '#c0c0c0',
-    
-    }
     context = {
         'single_product': single_product,
         'in_cart': in_cart,
-        'color_dict': color_dict,
         'main_image': main_image,
         'other_images': other_images,
         'related_products': related_products,
@@ -106,6 +102,32 @@ def product_detail(request, category_slug, product_slug):
         return JsonResponse({'liked': liked})
     
     return render(request, 'product-detail.html', context)
+
+def get_price_and_colors(request):
+    variation_id = request.GET.get('variation_id')
+    print(f"get_price_and_colors view was called with variation_id: {variation_id}")
+    if variation_id is not None:
+        try:
+            variation = Variation.objects.get(id=variation_id)
+            price = variation.size_variation.price
+            colors = [color.name for color in variation.color.all()]
+            return JsonResponse({'price': price, 'colors': colors})
+        except ObjectDoesNotExist:
+            return JsonResponse({'error': 'Variation does not exist'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+# def get_price(request):
+#     variation_id = request.GET.get('variation_id')
+#     print(f"get_price view was called with variation_id: {variation_id}")
+#     if variation_id is not None:
+#         try:
+#             variation = Variation.objects.get(id=variation_id)
+#             price = variation.price
+#             return JsonResponse({'price': price})
+#         except ObjectDoesNotExist:
+#             return JsonResponse({'error': 'Variation does not exist'}, status=400)
+#     else:
+#         return JsonResponse({'error': 'Invalid request'}, status=400)
 
 # @csrf_exempt
 # @require_POST
