@@ -8,6 +8,7 @@ from PIL import Image
 from django.core.files.base import ContentFile
 from io import BytesIO 
 import os
+from django_quill.fields import QuillField
 # from django.db.models import Count, F, Manager
 
 class VariationManager(models.Manager):
@@ -34,7 +35,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=150, unique=True)
     product_brand = models.CharField(max_length=150, blank=True,default='Custom')
     product_slug = models.SlugField(max_length=150, unique=True)
-    product_description = models.TextField(blank=True, null=True)
+    product_description = QuillField()
     product_stock = models.IntegerField()
     product_is_available = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

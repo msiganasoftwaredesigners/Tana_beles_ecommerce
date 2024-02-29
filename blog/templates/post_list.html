@@ -8,12 +8,13 @@
 <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 sm:px-0 md:m-4">
     {% for post in posts %}
     <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden m-4">
-        <div class="w-full h-64 overflow-hidden rounded-t-md">
+        <div class="w-full h-64 overflow-hidden rounded-t-md relative">
             <img class="w-full h-full object-cover" src="{{ post.image.url }}" alt="{{ post.title }}">
         </div>
         <div class="p-8">
             <div class="uppercase tracking-wide text-md text-green-500 font-semibold">
                 <a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
+                
             </div>
             <p class="mt-2 text-gray-500">{{ post.short_description|safe }}</p>
         </div>

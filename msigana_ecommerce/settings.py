@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'nested_admin',
     'tailwind',
     'theme',
+    'django_quill',
     'django_browser_reload',
     'footer.apps.FooterConfig',
     'heads.apps.HeadsConfig',
