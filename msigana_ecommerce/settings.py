@@ -133,22 +133,10 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 #         }
 #     }
 # else:
-# DATABASES = {
-#         'default': dj_database_url.parse('postgresql://doadmin:AVNS_xVlsGZNSwpnqS3pW_wL@private-db-postgresql-sfo3-65925-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
-#     }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'defaultdb',
-        'USER': 'doadmin',
-        'PASSWORD': 'AVNS_Hb9Nhg89MYv_2-SoBeS',
-        'HOST': 'private-tanabeles-one-do-user-15632631-0.c.db.ondigitalocean.com',
-        'PORT': '25060',
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
+        'default': dj_database_url.parse('postgresql://doadmin:AVNS_Hb9Nhg89MYv_2-SoBeS@tanabeles-one-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
     }
-}
+
 
 
     
