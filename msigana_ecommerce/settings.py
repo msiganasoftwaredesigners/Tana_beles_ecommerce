@@ -109,6 +109,7 @@ TEMPLATES = [
                 'advertizement.context_processors.advertizement_first',
                 'advertizement.context_processors.advertizement_second',
                 'advertizement.context_processors.advertizement_third',
+                'advertizement.context_processors.favicon',
                 'users.context_processors.liked_products',
 
             ],

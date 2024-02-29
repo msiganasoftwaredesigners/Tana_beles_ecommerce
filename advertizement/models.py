@@ -7,7 +7,7 @@ from io import BytesIO
 
 class AdvertizementFirst(models.Model):
     advertizement_first_image = models.ImageField(upload_to='images/advertizements', blank=True, null=True)
-    advertizement_first_url = models.URLField(default='#')
+    advertizement_first_url = models.URLField(blank=True)
 
     def save(self, *args, **kwargs):
         try:
@@ -40,7 +40,7 @@ class AdvertizementFirst(models.Model):
 # Similar changes can be made to AdvertizementSecond and Favicon models
 class AdvertizementSecond(models.Model):
     advertizement_second_image = models.ImageField(upload_to='images/advertizements', blank=True, null=True)
-    advertizement_second_url = models.URLField(default='#')
+    advertizement_second_url = models.URLField(blank=True)
    
     def save(self, *args, **kwargs):
         try:
@@ -72,7 +72,7 @@ class AdvertizementSecond(models.Model):
 
 class AdvertizementThird(models.Model):
     advertizement_third_image = models.ImageField(upload_to='images/advertizements', blank=True, null=True)
-    advertizement_third_url = models.URLField(default='#')
+    advertizement_third_url = models.URLField(blank=True)
    
     def save(self, *args, **kwargs):
         try:
