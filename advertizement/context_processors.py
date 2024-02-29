@@ -27,3 +27,10 @@ def advertizement_third(request):
         advertizement_third = AdvertizementThird.objects.first()
         cache.set('advertizement_third', advertizement_third, 60*00)  
     return {'advertizement_third': advertizement_third}
+
+def favicon(request):
+    favicon = cache.get('favicon')
+    if not favicon:
+        favicon = AdvertizementThird.objects.first()
+        cache.set('favicon', favicon, 60*60*00)  
+    return {'favicon': favicon}

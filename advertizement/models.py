@@ -37,7 +37,7 @@ class AdvertizementFirst(models.Model):
         self.advertizement_first_image.delete(save=False)
         super().delete(*args, **kwargs)
 
-# Similar changes can be made to AdvertizementSecond and AdvertizementThird models
+# Similar changes can be made to AdvertizementSecond and Favicon models
 class AdvertizementSecond(models.Model):
     advertizement_second_image = models.ImageField(upload_to='images/advertizements', blank=True, null=True)
     advertizement_second_url = models.URLField(default='#')
@@ -100,4 +100,35 @@ class AdvertizementThird(models.Model):
     
     def delete(self, *args, **kwargs):
         self.advertizement_third_image.delete(save=False)
+        super().delete(*args, **kwargs)
+
+class Favicon(models.Model):
+    favicon_image = models.ImageField(upload_to='images/advertizements', blank=True, null=True)
+   
+    def save(self, *args, **kwargs):
+        try:
+            # is the object in the database yet?
+            this = Favicon.objects.get(id=self.id)
+            if this.favicon_image != self.favicon_image:
+                this.favicon_image.delete(save=False)
+        except: pass # when new photo then we do nothing, normal case
+
+        if not self.pk and Favicon.objects.exists():
+            raise ValidationError('There is can be only one Favicon instance')
+
+        # Optimize image before saving
+        if self.favicon_image:
+            img = Image.open(self.favicon_image)
+            output = BytesIO()
+
+            # Save the image in its original format
+            img_format = img.format
+            img.save(output, format=img_format, quality=75)
+            output.seek(0)
+            self.favicon_image = ContentFile(output.read(), self.favicon_image.name)
+
+        return super().save(*args, **kwargs)
+    
+    def delete(self, *args, **kwargs):
+        self.favicon_image.delete(save=False)
         super().delete(*args, **kwargs)
