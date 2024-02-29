@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-$epx^r=3u8b8pt+yc_3&e)50gr1%-@3jgpl#j-&9&am#$2on*8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tanabeles.com','www.tanabeles.com','146.190.142.200','localhost']
+ALLOWED_HOSTS = ['tanabeles.com','www.tanabeles.com', '146.190.142.200','localhost']
 
 # Appication definition
 
@@ -133,9 +133,23 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 #         }
 #     }
 # else:
+# DATABASES = {
+#         'default': dj_database_url.parse('postgresql://doadmin:AVNS_xVlsGZNSwpnqS3pW_wL@private-db-postgresql-sfo3-65925-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
+#     }
 DATABASES = {
-    'default': dj_database_url.parse('postgresql://doadmin:AVNS_RrzN6nPqfbBtedmooPh@private-db-postgresql-nyc3-12171-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'defaultdb',
+        'USER': 'doadmin',
+        'PASSWORD': 'AVNS_RrzN6nPqfbBtedmooPh',
+        'HOST': 'private-db-postgresql-nyc3-12171-do-user-15632631-0.c.db.ondigitalocean.com',
+        'PORT': '25060',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
+    }
 }
+    
 # CACHES = {
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
