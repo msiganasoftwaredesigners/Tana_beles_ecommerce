@@ -50,7 +50,7 @@ class CustomerUserAdmin(NoAddUserAdmin):  # Use admin.ModelAdmin instead of User
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomerUser
-    list_display = ("email", "is_active",)
+    list_display = ("email","address","phone_number", "is_active",)
     list_filter = ("is_staff", "is_active",)
     fieldsets = (
         (None, {"fields": ("email", "password")}),
@@ -71,6 +71,7 @@ class CustomerUserAdmin(NoAddUserAdmin):  # Use admin.ModelAdmin instead of User
     
     def get_queryset(self, request):
         return self.model.objects.filter(is_staff=False)
+    
 
 admin.site.register(StaffUser, StaffUserAdmin)  # Register the admin for staff
 admin.site.register(CustomerUser, CustomerUserAdmin)  # Register the default admin for customers

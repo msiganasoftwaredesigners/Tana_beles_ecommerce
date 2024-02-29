@@ -1,8 +1,13 @@
+#users/models.py
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("email address"), unique=True)
@@ -12,9 +17,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    facebook_url = models.URLField(_("facebook url"), blank=True, default='#')
-    telegram_url = models.URLField(_("telegram url"), blank=True, default='#')
-    whatsapp_url = models.URLField(_("whatsapp url"), blank=True, default='#')
+    facebook_url = models.URLField(_("facebook url"), blank=True)
+    telegram_url = models.URLField(_("telegram url"), blank=True)
+    whatsapp_url = models.URLField(_("whatsapp url"), blank=True)
+    phone_number = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True)
 
 
     USERNAME_FIELD = "email"
@@ -24,3 +31,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+
+class UserProductLike(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    product = models.ForeignKey('store.Product', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')

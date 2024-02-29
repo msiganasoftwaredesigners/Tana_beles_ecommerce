@@ -525,3 +525,92 @@ from .models import Order
 orders = Order.objects.all()
 for order in orders:
     sheet.append_row([order.first_name, order.last_name, order.order_phone, order.order_email, order.order_date, order.order_total_prices, order.order_address, order.payment_status, order.status])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container pt-4 pb-6  gap-6 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
+    <div class="py-4 container flex gap-3 items-center">
+        <a href="{% url 'home' %}" class="text-primary text-base">
+            <i class="fas fa-home"></i>
+        </a>
+        <span class="text-sm text-gray-400"><i class="fas fa-chevron-right"></i></span>
+        <p class="text-gray-600 font-medium uppercase">My Account</p>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+    </form>
+    <p>Username: {{ user.first_name }}</p>
+
+    <h2>Liked products:</h2>
+    <ul>
+        {% for product in liked_products %}
+            <li>{{ product.product_name }}</li>
+            <img src="{{ product.get_main_image.image.url }}" alt="{{ product.product_name }}">
+        {% empty %}
+            <li>No liked products</li>
+        {% endfor %}
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+     <div class="space-y-1 pl-8 shadow ">
+                           <a href="account.html" 
+                               class="relative text-sm md:text-base font-medium capitalize h transition block text-black pl-4">
+                                   Customer Email
+                               <span class="absolute -left-8 top-0 text-base px-4 text-green-600">
+                                   <i class="far fa-address-card sm:hidden md:block"></i>
+                               </span>
+                           </a>
+                           <a href="profile-info.html" class=" txt-sm block pl-4">{{user.email}}</a>
+                       </div>

@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<div class="grid grid-cols-4 gap-2">
-  <div class="col-span-1 bg-white h-screen fixed overflow-auto md:block hidden">
+<div class="grid grid-cols-4 md:grid-cols-12 gap-2">
+  <div class="col-span-2 bg-white h-screen overflow-auto md:block hidden">
     <div class="p-6 pt-0">
       <a class="dropdown-item text-rose-600" href="{% url 'store' %}">All products</a>
       {% for category in links %}
@@ -10,8 +10,9 @@
         data-category-slug="{{ category.category_slug }}">{{ category.category_name }}</a>
       {% endfor %}
     </div>
+    
   </div>
-  <div class="col-span-4 md:pl-64">
+  <div class="col-span-10">
     <section class="section-name">
       <!-- banner -->
       <div
@@ -49,7 +50,7 @@
       <div class="container">
         <header class="section-heading">
           <h2
-            class="text-2xl md:text-3xl font-medium text-gray-800 uppercase mb-6 mt-4 px-6 md:px-0"
+            class="text-2xl md:text-3xl font-medium text-gray-800 uppercase pt-4 mb-4 mt-4 px-6 md:px-0"
           >
             recomended for you
           </h2>
@@ -103,9 +104,9 @@
         <!-- ad section end -->
 
         <!-- New product for you -->
-        <div class="container pb-16 lg:pr-16 xl:pr-32 2xl:pr-64">
+        <div class="container pb-6 md:pb-12 xl:16 lg:pr-16 xl:pr-32 2xl:pr-64">
           <h2
-            class="text-2xl md:text-3xl font-medium text-gray-800 uppercase px-6 md:px-0mb-6"
+            class="text-2xl md:pb-4  pt-2 md:text-3xl font-medium text-gray-800 uppercase px-6 md:px-0 mb-4 md:mb-6"
           >
             New products
           </h2>

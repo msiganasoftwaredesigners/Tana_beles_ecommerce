@@ -23,3 +23,4 @@ class GoogleLoginCallbackView(OAuth2CallbackView):
             # For example, you can redirect the user to the login page or display a message
             messages.error(request, 'You are already registered. Please log in.')
             return redirect('account_login')  # Use the appropriate login URL
+

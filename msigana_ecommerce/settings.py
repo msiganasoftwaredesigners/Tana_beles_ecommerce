@@ -108,6 +108,7 @@ TEMPLATES = [
                 'advertizement.context_processors.advertizement_first',
                 'advertizement.context_processors.advertizement_second',
                 'advertizement.context_processors.advertizement_third',
+                'users.context_processors.liked_products',
 
             ],
         },
@@ -216,9 +217,9 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+ACCOUNT_FORMS = {'signup': 'users.forms.CustomSignupForm'}
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
 
-# settings.py
 
 SOCIALACCOUNT_ADAPTER = 'users.adapters.account_adapter.CustomSocialAccountAdapter'
