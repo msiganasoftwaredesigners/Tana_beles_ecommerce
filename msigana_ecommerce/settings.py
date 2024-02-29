@@ -141,14 +141,16 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'defaultdb',
         'USER': 'doadmin',
-        'PASSWORD': 'AVNS_RrzN6nPqfbBtedmooPh',
-        'HOST': 'private-db-postgresql-nyc3-12171-do-user-15632631-0.c.db.ondigitalocean.com',
+        'PASSWORD': 'AVNS_Hb9Nhg89MYv_2-SoBeS',
+        'HOST': 'private-tanabeles-one-do-user-15632631-0.c.db.ondigitalocean.com',
         'PORT': '25060',
         'OPTIONS': {
             'sslmode': 'require',
         },
     }
 }
+
+
     
 # CACHES = {
 #     'default': {
