@@ -134,9 +134,8 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 #     }
 # else:
 DATABASES = {
-        'default': dj_database_url.parse('postgresql://doadmin:AVNS_xVlsGZNSwpnqS3pW_wL@private-db-postgresql-sfo3-65925-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
-    }
-    
+    'default': dj_database_url.parse('postgresql://doadmin:AVNS_RrzN6nPqfbBtedmooPh@private-db-postgresql-nyc3-12171-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
+}
 # CACHES = {
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
