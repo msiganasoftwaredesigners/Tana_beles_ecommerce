@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'django_quill',
-    'django_browser_reload',
+    # 'django_browser_reload',
     'footer.apps.FooterConfig',
     'heads.apps.HeadsConfig',
     'blog.apps.BlogConfig', 
@@ -75,7 +75,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    # "django_browser_reload.middleware.BrowserReloadMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -121,19 +121,19 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-if  DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'ecommerce_postgres',
-            'USER': 'postgres',
-            'PASSWORD': 'Melaku11@#',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
-    }
-else:
-    DATABASES = {
+# if  DEBUG:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'NAME': 'ecommerce_postgres',
+#             'USER': 'postgres',
+#             'PASSWORD': 'Melaku11@#',
+#             'HOST': 'localhost',
+#             'PORT': '5432',
+#         }
+#     }
+# else:
+DATABASES = {
         'default': dj_database_url.parse('postgresql://doadmin:AVNS_xVlsGZNSwpnqS3pW_wL@private-db-postgresql-sfo3-65925-tanabeles-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require')
     }
     

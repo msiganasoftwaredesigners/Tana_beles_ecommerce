@@ -18,7 +18,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     
     path("accounts/profile/", views.update_profile, name="users_profiles"),
-    path("__reload__/", include("django_browser_reload.urls")),
+    # path("__reload__/", include("django_browser_reload.urls")),
 ]
 admin.site.site_header = 'Tanabeles Login'
 if settings.DEBUG:
