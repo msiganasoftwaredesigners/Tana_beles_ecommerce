@@ -48,8 +48,8 @@ DATABASES = {
         'NAME': config('PROD_DATABASE_NAME'),
         'USER': config('PROD_DATABASE_USER'),
         'PASSWORD': config('PROD_DATABASE_PASSWORD'),
-        'HOST': config('PROD_DATABASE_HOST', default='localhost'),
-        'PORT': config('PROD_DATABASE_PORT', default='5432'),
+        'HOST': config('PROD_DATABASE_HOST'),
+        'PORT': config('PROD_DATABASE_PORT'),
     }
 }
 
