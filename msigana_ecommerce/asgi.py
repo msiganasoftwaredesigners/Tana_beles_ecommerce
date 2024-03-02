@@ -1,16 +1,13 @@
-"""
-ASGI config for msigana_ecommerce project.
-
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/3.2/howto/deployment/asgi/
-"""
-
 import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'msigana_ecommerce.settings')
+#os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'msigana_ecommerce.settings.dev')
+
+environment = os.environ.get('ENVIRONMENT', 'development')
+settings_module = 'msigana_ecommerce.settings.dev' if environment == 'development' else 'msigana_ecommerce.settings.prod'
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
+
 
 application = get_asgi_application()

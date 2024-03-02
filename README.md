@@ -614,3 +614,95 @@ for order in orders:
                            </a>
                            <a href="profile-info.html" class=" txt-sm block pl-4">{{user.email}}</a>
                        </div>
+
+
+pip install dj-database-url
+
+```
+nano ~/.bashrc
+```
+
+### refresh terinal 
+
+```
+source ~/.bashrc
+```
+
+
+SECRET_KEY = 'django-insecure-$epx^r=3u8b8pt+yc_3&e)50gr1%-@3jgpl#j-&9&am#$2on*8'
+ALLOWED_HOSTS = ['tanabeles.com','www.tanabeles.com', '146.190.142.200','localhost']
+
+
+
+
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'ecommerce_postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'Melaku11@#',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+DEV_DATABASE_URL=postgres://postgres:Melaku11@#localhost:5432/ecommerce_postgres
+
+
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '853190814013-ufc76ofqcv2lj72i5l8rehpa03tp3gk7.apps.googleusercontent.com',
+            'secret': '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',
+        }
+    },
+    'facebook': {
+        'APP': {
+            'client_id': '378221998142570',
+            'secret': '3d9b77b8daad0a6686ff0713ec7b3cd5',
+        }
+    }
+}
+
+
+
+import secrets
+
+print(secrets.token_hex(50))
+
+
+
+
+v
+
+
+
+
+# HTTPS settings
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+
+
+# HSTS settings
+SECURE_HSTS_SECONDS = 31536000 # 1 year
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+
+
+(venv) m@m-HP-EliteBook-840-G4:~/pro/etl/check$ python manage.py check --deploy
+
+
+
+
+
+export DEBUG=False
+export SECRET_KEY="c7660112717ac26fc6cf6f0f216bd067c257eaf0b270f9359262ee4a83ef3e3aff144243dfe6721f4796841c52a6e807c97b"
+export ALLOWED_HOSTS="tanabeles.com,www.tanabeles.com,146.190.142.200,localhost"
+export PROD_DATABASE_URL="postgresql://doadmin:AVNS_Hb9Nhg89MYv_2-SoBeS@tanabeles-one-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
+export GOOGLE_CLIENT_ID="853190814013-ufc76ofqcv2lj72i5l8rehpa03tp3gk7.apps.googleusercontent.com"
+export GOOGLE_SECRET="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"
+export FACEBOOK_CLIENT_ID="378221998142570"
+export FACEBOOK_SECRET="3d9b77b8daad0a6686ff0713ec7b3cd5"

@@ -7,11 +7,6 @@ def advertizement_first(request):
         advertizement_first = AdvertizementFirst.objects.first()
         cache.set('advertizement_first', advertizement_first, 60*00)  
 
-    # Debugging
-    print("advertizement_first:", advertizement_first)
-    if advertizement_first:
-        print("advertizement_first_image_url:", advertizement_first.advertizement_first_image.url)
-
     return {'advertizement_first': advertizement_first}
 
 def advertizement_second(request):
