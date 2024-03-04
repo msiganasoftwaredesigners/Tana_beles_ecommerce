@@ -1,5 +1,5 @@
 from .base import *
-from decouple import  config, Csv
+from decouple import  config
 
 DEBUG = False
 
@@ -23,15 +23,16 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'carts.apps.CartsConfig',
     'orders.apps.OrdersConfig',
+    'footer.apps.FooterConfig',
+    'advertizement.apps.AdvertizementConfig',
+    'contact.apps.ContactConfig',
+    'blog.apps.BlogConfig', 
+    'heads.apps.HeadsConfig',
+    'telebirrpay.apps.TelebirrpayConfig',
     'nested_admin',
     'tailwind',
     'theme',
     'django_quill',
-    'footer.apps.FooterConfig',
-    'heads.apps.HeadsConfig',
-    'blog.apps.BlogConfig', 
-    'contact.apps.ContactConfig',
-    'advertizement.apps.AdvertizementConfig',
   
      'allauth',
     'allauth.account',

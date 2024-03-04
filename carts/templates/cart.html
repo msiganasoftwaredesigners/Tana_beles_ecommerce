@@ -173,9 +173,17 @@
             <!-- searchbar end -->
 
             <!-- checkout -->
-            <p class="text-center mb-3">
+            {% comment %} <p class="text-center mb-3">
                 <img src="{% static 'images/pay.jpg' %}" height="26">
-            </p>
+            </p> {% endcomment %}
+            <form method="post" action="{% url 'make_payment' %}">
+                {% csrf_token %}
+                <input type="hidden" name="totalAmount" value="{{total}}">
+                <button type="submit" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
+                 hover:text-primary transition text-sm w-full block text-center">
+                    Process to pay
+                </button>
+            </form>
             <a href="{% url 'create_order' %}" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
              hover:text-primary transition text-sm w-full block text-center">
                 Process to checkout
