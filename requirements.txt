@@ -6,7 +6,8 @@ cffi==1.16.0
 chardet==5.2.0
 charset-normalizer==2.0.9
 cryptography==42.0.2
-django-allauthasgiref==3.7.2
+django-allauth
+asgiref==3.7.2
 django-tailwind==3.8.0
 Django==5.0.1
 defusedxml==0.7.1
