@@ -157,7 +157,7 @@ class TelebirrWeb:
         self.shortCode = shortCode
         self.publicKey = publicKey
         self.receiveName = receiveName
-        self.url = "http://196.188.120.3:11443/ammapi/payment/service-openup/toTradeWebPay/"
+        self.url = "https://app.ethiomobilemoney.et:2121/ammapi/payment/service-openup/toTradeWebPay"
 
     def send_request(self, subject, totalAmount, nonce, outTradeNo, notifyUrl, returnUrl=None):
         if totalAmount <= 0:
