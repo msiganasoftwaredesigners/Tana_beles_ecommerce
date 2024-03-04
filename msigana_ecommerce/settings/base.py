@@ -1,22 +1,17 @@
-#msigana_ecommerce/settings/base.py
 import os
 from pathlib import Path
 from decouple import  config
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['tanabeles.com','www.tanabeles.com', '146.190.142.200']
 
-
-
-ACCOUNT_EMAIL_VERIFICATION = 'none'  # Email verification turned off for simplicity
-LOGIN_REDIRECT_URL = '/'  # Redirect to home after login
-SOCIALACCOUNT_QUERY_EMAIL = True  # Set to True to get email from social account providers
+ACCOUNT_EMAIL_VERIFICATION = 'none'  
+LOGIN_REDIRECT_URL = '/'  
+SOCIALACCOUNT_QUERY_EMAIL = True  
 
 
 TAILWIND_APP_NAME = 'theme'
@@ -24,9 +19,11 @@ TAILWIND_APP_NAME = 'theme'
 
 ROOT_URLCONF = 'msigana_ecommerce.urls'
 
+
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -58,13 +55,6 @@ WSGI_APPLICATION = 'msigana_ecommerce.wsgi.application'
 
 
     
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-#         'LOCATION': 'my_cache_table',
-#     }
-# }
-
 
 AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -72,7 +62,6 @@ AUTHENTICATION_BACKENDS = [
     
 ]
 
-# Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -101,12 +90,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / '../static',
-]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -125,7 +112,7 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     'facebook': {
         'APP': {
-            
+
             'client_id': config('FACEBOOK_CLIENT_ID'),
             'secret': config('FACEBOOK_SECRET'),
         }
@@ -138,4 +125,3 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
 
 
 SOCIALACCOUNT_ADAPTER = 'users.adapters.account_adapter.CustomSocialAccountAdapter'
-

@@ -1,5 +1,3 @@
-# msigana_ecommerce/settings/dev.py
-
 from .base import *
 from decouple import  config
 
@@ -9,7 +7,7 @@ DEBUG = True
 SECRET_KEY = config('SECRET_KEY')
 
 
-ALLOWED_HOSTS = [config('ALLOWED_HOSTS_DEV')]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS_DEV').split(',')
 
 
 # Appication definition
@@ -71,3 +69,6 @@ MIDDLEWARE = [
 
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / '../static',
+]

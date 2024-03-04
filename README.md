@@ -698,11 +698,11 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 
 
-export DEBUG=False
 export SECRET_KEY="c7660112717ac26fc6cf6f0f216bd067c257eaf0b270f9359262ee4a83ef3e3aff144243dfe6721f4796841c52a6e807c97b"
 export ALLOWED_HOSTS="tanabeles.com,www.tanabeles.com,146.190.142.200,localhost"
 export PROD_DATABASE_URL="postgresql://doadmin:AVNS_Hb9Nhg89MYv_2-SoBeS@tanabeles-one-do-user-15632631-0.c.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
-export GOOGLE_CLIENT_ID="853190814013-ufc76ofqcv2lj72i5l8rehpa03tp3gk7.apps.googleusercontent.com"
-export GOOGLE_SECRET="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"
-export FACEBOOK_CLIENT_ID="378221998142570"
-export FACEBOOK_SECRET="3d9b77b8daad0a6686ff0713ec7b3cd5"
+export DEBUG=False
+export GOOGLE_CLIENT_ID=853190814013-ufc76ofqcv2lj72i5l8rehpa03tp3gk7.apps.googleusercontent.com
+export GOOGLE_SECRET=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
+export FACEBOOK_CLIENT_ID=378221998142570
+export FACEBOOK_SECRET=3d9b77b8daad0a6686ff0713ec7b3cd5

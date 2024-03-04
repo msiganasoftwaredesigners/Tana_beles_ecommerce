@@ -1,4 +1,3 @@
-#msigna_ecommerce/settings/prod.py
 from .base import *
 from decouple import  config, Csv
 
@@ -8,7 +7,7 @@ DEBUG = False
 SECRET_KEY = config('SECRET_KEY')
 
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS_PROD', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS_PROD').split('.')
 
 
 INSTALLED_APPS = [
@@ -68,8 +67,6 @@ MIDDLEWARE = [
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 
