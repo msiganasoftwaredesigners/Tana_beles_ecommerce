@@ -49,6 +49,9 @@ DATABASES = {
         'PASSWORD': config('PROD_DATABASE_PASSWORD'),
         'HOST': config('PROD_DATABASE_HOST'),
         'PORT': config('PROD_DATABASE_PORT'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
