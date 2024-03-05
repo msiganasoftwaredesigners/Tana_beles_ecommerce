@@ -706,3 +706,7 @@ export GOOGLE_CLIENT_ID=853190814013-ufc76ofqcv2lj72i5l8rehpa03tp3gk7.apps.googl
 export GOOGLE_SECRET=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
 export FACEBOOK_CLIENT_ID=378221998142570
 export FACEBOOK_SECRET=3d9b77b8daad0a6686ff0713ec7b3cd5
+
+
+
+sudo chown -R tanabelesu:tanabelesu /var/www

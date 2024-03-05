@@ -49,8 +49,8 @@ DATABASES = {
         'NAME': config('DEV_DATABASE_NAME'),
         'USER': config('DEV_DATABASE_USER'),
         'PASSWORD': config('DEV_DATABASE_PASSWORD'),
-        'HOST': config('DEV_DATABASE_HOST', default='localhost'),
-        'PORT': config('DEV_DATABASE_PORT', default='5432'),
+        'HOST': config('DEV_DATABASE_HOST'),
+        'PORT': config('DEV_DATABASE_PORT'),
     }
 }
 MIDDLEWARE = [
@@ -70,3 +70,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / '../static',
 ]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
