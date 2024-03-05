@@ -7,7 +7,7 @@ DEBUG = True
 SECRET_KEY = config('SECRET_KEY')
 
 
-ALLOWED_HOSTS = [config('ALLOWED_HOSTS_PROD')]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS_PROD').split(',')
 
 
 INSTALLED_APPS = [
