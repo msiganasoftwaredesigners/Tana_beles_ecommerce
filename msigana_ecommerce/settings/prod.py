@@ -67,9 +67,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-
 
 # # HTTPS settings
 # SESSION_COOKIE_SECURE = True
