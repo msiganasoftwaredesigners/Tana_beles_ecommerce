@@ -216,10 +216,12 @@ class TelebirrWeb:
             encrypted_decode = b"".join(result)
             encrypted_encode = base64.b64encode(encrypted_decode)
             encrypted = str(encrypted_encode, "utf-8")
+            print('Encrypted data:', encrypted)
         except Exception as e:
             raise TypeError(e)
-
+        print('Encrypted data length:', len(encrypted))
         stringB = sha256(stringA.encode()).hexdigest().upper()
+        print('StringB value:', stringB)
         data = {"appid": self.appId, "sign": stringB, "ussd": encrypted}
         print('ecrypted data',data)
         headers = {
