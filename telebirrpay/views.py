@@ -112,7 +112,7 @@ class MakePaymentView(View):
             print('telebirr',telebirr)
 
             response = telebirr.send_request(subject, totalAmount, nonce, outTradeNo, notifyUrl, returnUrl)
-            print('ssssssssssssssssssssssssssssssssssssssssssssssssssssssssent', response)
+            print('Response from Telebirr API', response)
             
             if response.get('code') == 200 and 'data' in response and 'toPayUrl' in response['data']:
                 if request.is_ajax():  # Check if it's an AJAX request
@@ -172,6 +172,7 @@ class TelebirrWeb:
         self.url = "https://app.ethiomobilemoney.et:2121/ammapi/payment/service-openup/toTradeWebPay"
 
     def send_request(self, subject, totalAmount, nonce, outTradeNo, notifyUrl, returnUrl=None):
+        
         if totalAmount <= 0:
             raise TypeError("amount must be greater than 0.")
 
@@ -220,7 +221,7 @@ class TelebirrWeb:
 
         stringB = sha256(stringA.encode()).hexdigest().upper()
         data = {"appid": self.appId, "sign": stringB, "ussd": encrypted}
-        print(data)
+        print('ecrypted data',data)
         headers = {
             "Content-Type": "application/json;charset=utf-8",
         }
