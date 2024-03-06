@@ -220,6 +220,9 @@
 
             // Serialize the form data
             var formData = $(this).serialize();
+            // Inside the AJAX function in cart.html
+            console.log('Form data:', formData);
+
 
             // Send an AJAX POST request
             $.ajax({

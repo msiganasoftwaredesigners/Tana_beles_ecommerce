@@ -87,6 +87,7 @@ class MakePaymentView(View):
 
     def post(self, request, *args, **kwargs):
         print("payment view recived POST request")  
+        print("Received form data:", request.POST)
      
         try:
             subject = config('SUBJECT')
@@ -96,6 +97,10 @@ class MakePaymentView(View):
             outTradeNo = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_letters + string.digits, k=6))
             notifyUrl = config('NOTIFY_URL')
             returnUrl = config('RETURN_URL')
+            print('notifyUrl',notifyUrl)
+            print('returnUrl',returnUrl)
+            print('outTradeNo',outTradeNo)
+            print('nonce',nonce)
          
             telebirr = TelebirrWeb(
                 appId=config('TELEBIRR_APP_ID'), 
@@ -104,6 +109,7 @@ class MakePaymentView(View):
                 publicKey=config('TELEBIRR_PUBLIC_KEY'), 
                 receiveName=config('TELEBIRR_RECEIVE_NAME')
             )
+            print('telebirr',telebirr)
 
             response = telebirr.send_request(subject, totalAmount, nonce, outTradeNo, notifyUrl, returnUrl)
             print('ssssssssssssssssssssssssssssssssssssssssssssssssssssssssent', response)
@@ -174,6 +180,7 @@ class TelebirrWeb:
         
         stringA = f"appId={self.appId}&appKey={self.appKey}&nonce={nonce}&notifyUrl={notifyUrl}&outTradeNo={outTradeNo}&receiveName={self.receiveName}&returnUrl={returnUrl}&shortCode={self.shortCode}&subject={subject}&timeoutExpress={timeoutExpress}&timestamp={timestamp}&totalAmount={totalAmount}"
         logger.info(f"Constructed stringA: {stringA}")
+        print('Constructed stringA:', stringA)
 
         ussdjson = {
             "appId":self.appId,
@@ -236,6 +243,7 @@ class TelebirrWeb:
     def get_decrypt_data(self, data):
         try:
             data = base64.b64decode(data)
+            print('Received encrypted data:', data)
         except Exception as e:
             raise TypeError(e)
 
