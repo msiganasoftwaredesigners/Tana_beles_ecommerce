@@ -36,7 +36,7 @@ def payment_notification(request):
         # print(request.POST) 
         # Extract the encrypted data from the request
         encrypted_data = request.body.decode('utf-8')
-        # print("encrypted data",encrypted_data)
+        print("encrypted data",encrypted_data)
         if not encrypted_data:
             return JsonResponse({"error": "Invalid request"}, status=400)
 
@@ -83,14 +83,15 @@ def payment_notification(request):
 
 class MakePaymentView(View):
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        return render(request,'cart.html')
 
     def post(self, request, *args, **kwargs):
+        print("payment view recived POST request")  
      
         try:
             subject = config('SUBJECT')
             totalAmount = float(request.POST.get('totalAmount'))
-       
+            print('totalAmount',totalAmount)
             nonce = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_lowercase, k=3))
             outTradeNo = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_letters + string.digits, k=6))
             notifyUrl = config('NOTIFY_URL')
@@ -104,12 +105,17 @@ class MakePaymentView(View):
                 receiveName=config('TELEBIRR_RECEIVE_NAME')
             )
 
-     
             response = telebirr.send_request(subject, totalAmount, nonce, outTradeNo, notifyUrl, returnUrl)
+            print('ssssssssssssssssssssssssssssssssssssssssssssssssssssssssent', response)
+            
             if response.get('code') == 200 and 'data' in response and 'toPayUrl' in response['data']:
-                return HttpResponseRedirect(response['data']['toPayUrl'])
+                if request.is_ajax():  # Check if it's an AJAX request
+                    return JsonResponse({'toPayUrl': response['data']['toPayUrl']})  # Return JSON response
+                else:
+                    return HttpResponseRedirect(response['data']['toPayUrl'])  # Redirect if it's not an AJAX request
             else:
-                return JsonResponse({"error": "An error occurred during payment processing"}, status=500)
+                return JsonResponse({"error": "An error occurred during payment processing"}, status=500)  # Return JSON response for errors
+
         except Exception as e:
             logger.error(f"Error occurred during payment processing: {e}")
             return JsonResponse({"error": "An error occurred during payment processing"}, status=500)
@@ -185,7 +191,7 @@ class TelebirrWeb:
         logging.info(f"Shortcode value: {self.shortCode}")
         ussdjson = json.dumps(ussdjson).encode('utf-8')
         # Print the data before encryption
-        # print(f"data before encryption: {ussdjson}")
+        print(f"data before encryption: {ussdjson}")
         public_key = RSA.import_key(base64.urlsafe_b64decode(self.publicKey))
         encryptor = PKCS1_v1_5.new(public_key)
 
@@ -207,7 +213,7 @@ class TelebirrWeb:
 
         stringB = sha256(stringA.encode()).hexdigest().upper()
         data = {"appid": self.appId, "sign": stringB, "ussd": encrypted}
-        # print(data)
+        print(data)
         headers = {
             "Content-Type": "application/json;charset=utf-8",
         }

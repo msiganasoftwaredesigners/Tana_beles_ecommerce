@@ -176,14 +176,25 @@
             {% comment %} <p class="text-center mb-3">
                 <img src="{% static 'images/pay.jpg' %}" height="26">
             </p> {% endcomment %}
-            <form method="post" action="{% url 'make_payment' %}">
+            {% comment %} <form method="post" action="{% url 'make_payment' %}">
                 {% csrf_token %}
                 <input type="hidden" name="totalAmount" value="{{total}}">
                 <button type="submit" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
                  hover:text-primary transition text-sm w-full block text-center">
                     Process to pay
                 </button>
+            </form> {% endcomment %}
+            <form id="payment-form">
+                {% csrf_token %}
+                <!-- Add your input fields here, e.g., total amount -->
+                <input type="hidden" name="totalAmount" value="{{ total }}">
+                <!-- Add other required input fields -->
+            
+                <!-- Submit button -->
+                <button type="submit" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
+                hover:text-primary transition text-sm w-full block text-center">Proceed to Payment</button>
             </form>
+            
             <a href="{% url 'create_order' %}" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
              hover:text-primary transition text-sm w-full block text-center">
                 Process to checkout
@@ -199,5 +210,37 @@
     {% endif %}
 </div>
     <!-- cart wrapper end -->
+    <!-- Your HTML content -->
+
+<script>
+    $(document).ready(function() {
+        $('#payment-form').submit(function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            // Serialize the form data
+            var formData = $(this).serialize();
+
+            // Send an AJAX POST request
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'make_payment' %}',  // Update the URL to your endpoint
+                data: formData,
+                success: function(response) {
+                    // Handle the success response
+                    console.log('Payment successful');
+                    // You can redirect the user to a success page or do any other actions here
+                },
+                error: function(xhr, errmsg, err) {
+                    // Handle any errors
+                    console.log('Error occurred:', errmsg);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
+
 </section>
 {% endblock %}
