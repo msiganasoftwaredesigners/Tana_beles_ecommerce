@@ -71,7 +71,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    'https://tanabeles.com',
+    'tanabeles.com',
+    'https://www.tanabeles.com',
+    'http://64.23.192.127',
+    'http://localhost:8000',
+    'http://localhost',
+    '24.199.76.86',
+]
+
 
 # # HTTPS settings
 # SESSION_COOKIE_SECURE = True
