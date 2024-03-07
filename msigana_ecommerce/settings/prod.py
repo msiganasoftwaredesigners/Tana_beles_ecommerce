@@ -10,6 +10,8 @@ SECRET_KEY = config('SECRET_KEY')
 ALLOWED_HOSTS = config('ALLOWED_HOSTS_PROD').split(',')
 
 
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -69,7 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS_PROD', default='')
+CORS_ORIGIN_ALLOW_ALL = True
 
 # # HTTPS settings
 # SESSION_COOKIE_SECURE = True
