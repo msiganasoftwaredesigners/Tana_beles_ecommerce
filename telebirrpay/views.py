@@ -120,7 +120,10 @@ class MakePaymentView(View):
                 else:
                     return HttpResponseRedirect(response['data']['toPayUrl'])  # Redirect if it's not an AJAX request
             else:
-                return JsonResponse({"error": "An error occurred during payment processing"}, status=500)  # Return JSON response for errors
+                if request.is_ajax():
+                    return JsonResponse({"error": "An error occurred during payment processing"}, status=500)
+                else:
+                    pass
 
         except Exception as e:
             logger.error(f"Error occurred during payment processing: {e}")
