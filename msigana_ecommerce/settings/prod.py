@@ -61,7 +61,6 @@ DATABASES = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,17 +68,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.proxy.middleware.XForwardedProtoMiddleware'
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'https://tanabeles.com',
-    'tanabeles.com',
-    'https://www.tanabeles.com',
-    'http://64.23.192.127',
-    'http://localhost:8000',
-    'http://localhost',
-    '24.199.76.86',
-]
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 
 # # HTTPS settings
