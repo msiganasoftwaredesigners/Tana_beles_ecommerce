@@ -187,11 +187,11 @@
             <form id="payment-form">
                 {% csrf_token %}
                 <!-- Add your input fields here, e.g., total amount -->
-                <input type="hidden" name="totalAmount" value="{{ total }}">
+                <input type="hidden" id="totalAmount" name="totalAmount" value="{{ total }}">
                 <!-- Add other required input fields -->
-                
+                            
                 <!-- Submit button -->
-                <button type="submit" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400 hover:text-primary transition text-sm w-full block text-center">Proceed to Payment</button>
+                <button type="submit" id="proceed-payment" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400 hover:text-primary transition text-sm w-full block text-center">Proceed to Payment</button>
             </form>
             
             <a href="{% url 'create_order' %}" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
@@ -215,18 +215,16 @@
             $('#payment-form').submit(function(event) {
                 // Prevent the default form submission
                 event.preventDefault();
-        
-                // Serialize the form data
-                var formData = $(this).serialize();
-        
+                
+                // Get the total amount from the hidden input field
+                var totalAmount = $('#totalAmount').val();
+                
                 // Send an AJAX POST request to your backend server
                 $.ajax({
                     type: 'POST',
-                    url: '{% url 'make_payment' %}',  // Update the URL to your endpoint
-                    data: formData,
-                    crossDomain: true,
-                    xhrFields: {
-                        withCredentials: true
+                    url: '{% url 'telebirrpay:make_payment' %}',  // Update the URL to your endpoint
+                    data: {
+                        totalAmount: totalAmount
                     },
                     success: function(response) {
                         // Handle the success response
