@@ -170,7 +170,7 @@ class TelebirrWeb:
         self.publicKey = publicKey
         self.receiveName = receiveName
         self.url = "https://app.ethiomobilemoney.et:2121/ammapi/payment/service-openup/toTradeWebPay"
-
+        print("Public Key:", publicKey)
     def send_request(self, subject, totalAmount, nonce, outTradeNo, notifyUrl, returnUrl=None):
         
         if totalAmount <= 0:
