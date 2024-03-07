@@ -201,6 +201,7 @@ class TelebirrWeb:
         # Print the data before encryption
         print(f"data before encryption: {ussdjson}")
         public_key = RSA.import_key(base64.urlsafe_b64decode(self.publicKey))
+        print('Public Keyyyyyyyyyyyyyyyyy:', public_key)
         encryptor = PKCS1_v1_5.new(public_key)
 
         maxEncryptSize = 245
