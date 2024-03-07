@@ -109,10 +109,9 @@ class MakePaymentView(View):
                 publicKey=config('TELEBIRR_PUBLIC_KEY'), 
                 receiveName=config('TELEBIRR_RECEIVE_NAME')
             )
-            print('telebirr',telebirr)
-
+            # Send the payment request to Telebirr
             response = telebirr.send_request(subject, totalAmount, nonce, outTradeNo, notifyUrl, returnUrl)
-            print('Response from Telebirr API', response)
+            print('Response from Telebirr APIi', response)
             
             if response.get('code') == 200 and 'data' in response and 'toPayUrl' in response['data']:
                 # Redirect the user to the Telebirr H5 Web Payment URL
@@ -223,7 +222,7 @@ class TelebirrWeb:
         stringB = sha256(stringA.encode()).hexdigest().upper()
         print('StringB value:', stringB)
         data = {"appid": self.appId, "sign": stringB, "ussd": encrypted}
-        print('ecrypted data',data)
+        print('data',data)
         headers = {
             "Content-Type": "application/json;charset=utf-8",
         }
