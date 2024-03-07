@@ -219,6 +219,7 @@ class TelebirrWeb:
             encrypted = str(encrypted_encode, "utf-8")
             print('Encrypted data:', encrypted)
         except Exception as e:
+            print("Error during encryption:", e)
             raise TypeError(e)
         print('Encrypted data length:', len(encrypted))
         stringB = sha256(stringA.encode()).hexdigest().upper()
