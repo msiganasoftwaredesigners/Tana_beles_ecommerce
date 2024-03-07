@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 import base64
 import time
@@ -115,15 +115,10 @@ class MakePaymentView(View):
             print('Response from Telebirr API', response)
             
             if response.get('code') == 200 and 'data' in response and 'toPayUrl' in response['data']:
-                if request.is_ajax():  # Check if it's an AJAX request
-                    return JsonResponse({'toPayUrl': response['data']['toPayUrl']})  # Return JSON response
-                else:
-                    return HttpResponseRedirect(response['data']['toPayUrl'])  # Redirect if it's not an AJAX request
+                # Redirect the user to the Telebirr H5 Web Payment URL
+                return redirect(response['data']['toPayUrl'])
             else:
-                if request.is_ajax():
-                    return JsonResponse({"error": "An error occurred during payment processing"}, status=500)
-                else:
-                    pass
+                return JsonResponse({"error": "An error occurred during payment processing"}, status=500)
 
         except Exception as e:
             logger.error(f"Error occurred during payment processing: {e}")
