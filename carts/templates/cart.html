@@ -211,31 +211,24 @@
     <!-- cart wrapper end -->
     <!-- Your HTML content -->
     <script>
-    $(document).ready(function() {
-        $('#payment-form').submit(function(event) {
-            // Prevent the default form submission
-            event.preventDefault();
-    
-            // Serialize the form data
-            var formData = $(this).serialize();
-    
-            // Send an AJAX POST request to your backend server
-            $.ajax({
-                type: 'POST',
-                url: '{% url 'make_payment' %}',  // Update the URL to your endpoint
-                data: formData,
-                success: function(response) {
-                    // Handle the success response
-                    console.log('Payment successful');
-                    // You can redirect the user to a success page or do any other actions here
-                },
-                error: function(xhr, errmsg, err) {
-                    // Handle any errors
-                    console.log('Error occurred:', errmsg);
-                }
-            });
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'make_payment' %}',
+            data: formData,
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function(response) {
+                // Handle success
+                console.log('Payment successful');
+            },
+            error: function(xhr, errmsg, err) {
+                // Handle error
+                console.log('Error occurred:', errmsg);
+            }
         });
-    });
+        
     </script>
     
 </body>
