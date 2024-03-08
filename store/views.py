@@ -112,12 +112,16 @@ def get_price_and_colors(request):
     logger.info(f"get_price_and_colors view was called with variation_id: {variation_id}")
     if variation_id is not None:
         try:
+            print(f"Trying to fetch Variation with ID: {variation_id}")
+            logger.info(f"Trying to fetch Variation with ID: {variation_id}")
             variation = Variation.objects.get(id=variation_id)
             logger.info(f"Fetched variation: {variation}")
             price = variation.size_variation.price
             colors = [color.name for color in variation.color.all()]
             return JsonResponse({'price': price, 'colors': colors})
         except ObjectDoesNotExist:
+            print(f"Exception when trying to fetch Variation: {e}")
+            logger.error(f"Exception when trying to fetch Variation: {e}")
             logger.error('Variation does not exist')
             return JsonResponse({'error': 'Variation does not exist'}, status=400)
     else:
