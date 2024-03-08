@@ -284,7 +284,11 @@
                          $('#selected-size').val($('.size-radio:checked').val());
                          $('#selected-color').val($('#color-container input:checked').next().text());
                      }
-                 }
+                 },
+
+                 error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX error:', textStatus, ', Exception:', errorThrown);
+                }
              });
          });
      
