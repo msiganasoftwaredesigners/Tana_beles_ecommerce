@@ -119,7 +119,7 @@ def get_price_and_colors(request):
             price = variation.size_variation.price
             colors = [color.name for color in variation.color.all()]
             return JsonResponse({'price': price, 'colors': colors})
-        except ObjectDoesNotExist:
+        except Variation.DoesNotExist as e:
             print(f"Exception when trying to fetch Variation: {e}")
             logger.error(f"Exception when trying to fetch Variation: {e}")
             logger.error('Variation does not exist')
