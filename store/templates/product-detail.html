@@ -300,7 +300,11 @@
              var variationId = $(this).data('id');
              console.log('Size changed:', variationId, prices[variationId]);
              $('#product-price').text(prices[variationId] + ' birr');
-             updateColors(colors[variationId]);
+             if (colors[variationId]) {
+                updateColors(colors[variationId]);
+             } else {
+                console.error('No colors found for variation ID:', variationId);
+             }
              $('#selected-price').val(prices[variationId]);
              $('#selected-size').val($(this).val()); // Add this line
          });
