@@ -16,7 +16,8 @@ from django.views.decorators.http import require_POST
 from .models import Variation, SizeVariation
 from django.core.exceptions import ObjectDoesNotExist
 import uuid
-
+import logging
+logger = logging.getLogger(__name__)
 
 
 def store(request, category_slug=None):
@@ -106,15 +107,19 @@ def product_detail(request, category_slug, product_slug):
 def get_price_and_colors(request):
     variation_id = request.GET.get('variation_id')
     print(f"get_price_and_colors view was called with variation_id: {variation_id}")
+    logger.info(f"get_price_and_colors view was called with variation_id: {variation_id}")
     if variation_id is not None:
         try:
             variation = Variation.objects.get(id=variation_id)
+            logger.info(f"Fetched variation: {variation}")
             price = variation.size_variation.price
             colors = [color.name for color in variation.color.all()]
             return JsonResponse({'price': price, 'colors': colors})
         except ObjectDoesNotExist:
+            logger.error('Variation does not exist')
             return JsonResponse({'error': 'Variation does not exist'}, status=400)
     else:
+        logger.error('Invalid request')
         return JsonResponse({'error': 'Invalid request'}, status=400)
 # def get_price(request):
 #     variation_id = request.GET.get('variation_id')
