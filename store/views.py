@@ -123,7 +123,7 @@ def get_price_and_colors(request):
             print(f"Exception when trying to fetch Variation: {e}")
             logger.error(f"Exception when trying to fetch Variation: {e}")
             logger.error('Variation does not exist')
-            return JsonResponse({'error': 'Variation does not exist'}, status=400)
+            return JsonResponse({'error': f'Variation with id {variation_id} does not exist'}, status=400)
     else:
         logger.error('Invalid request')
         return JsonResponse({'error': 'Invalid request'}, status=400)
