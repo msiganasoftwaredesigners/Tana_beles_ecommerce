@@ -115,6 +115,7 @@ def get_price_and_colors(request):
             print(f"Trying to fetch Variation with ID: {variation_id}")
             logger.info(f"Trying to fetch Variation with ID: {variation_id}")
             variation = Variation.objects.get(id=variation_id)
+            print(f"Fetched variation: {variation}")
             logger.info(f"Fetched variation: {variation}")
             price = variation.size_variation.price
             colors = [color.name for color in variation.color.all()]
