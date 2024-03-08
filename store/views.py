@@ -15,6 +15,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
 from .models import Variation, SizeVariation
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
 import uuid
 import logging
 logger = logging.getLogger(__name__)
@@ -104,6 +105,7 @@ def product_detail(request, category_slug, product_slug):
     
     return render(request, 'product-detail.html', context)
 
+@csrf_exempt
 def get_price_and_colors(request):
     variation_id = request.GET.get('variation_id')
     print(f"get_price_and_colors view was called with variation_id: {variation_id}")
