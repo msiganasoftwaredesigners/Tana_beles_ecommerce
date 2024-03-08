@@ -116,7 +116,8 @@ class MakePaymentView(View):
             if response.get('code') == 200 and 'data' in response and 'toPayUrl' in response['data']:
                 # Redirect the user to the Telebirr H5 Web Payment URL
                 # return redirect(response['data']['toPayUrl'])
-                return HttpResponseRedirect(response['data']['toPayUrl'])
+                # return HttpResponseRedirect(response['data']['toPayUrl'])
+                return JsonResponse({"toPayUrl": response['data']['toPayUrl']})
             else:
                 return JsonResponse({"error": "An error occurred during payment processing"}, status=500)
 

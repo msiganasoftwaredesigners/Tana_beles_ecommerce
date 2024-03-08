@@ -224,13 +224,9 @@
                     type: 'POST',
                     url: '{% url 'make_payment' %}',  // Update the URL to your endpoint
                     data: formData,
-                    crossDomain: true,
-                    xhrFields: {
-                        withCredentials: true
-                    },
                     success: function(response) {
-                        // Handle the success response
-                        console.log('Payment successful');
+                         // Redirect the user to the Telebirr H5 Web Payment URL
+                        window.location.href = response.toPayUrl;
                         // You can redirect the user to a success page or do any other actions here
                     },
                     error: function(xhr, errmsg, err) {
