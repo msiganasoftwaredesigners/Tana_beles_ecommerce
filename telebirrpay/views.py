@@ -175,7 +175,7 @@ class TelebirrWeb:
         if totalAmount <= 0:
             raise TypeError("amount must be greater than 0.")
 
-        timeoutExpress = 30
+        timeoutExpress = 10
         timestamp = int(time.time() * 1000)
         
         stringA = f"appId={self.appId}&appKey={self.appKey}&nonce={nonce}&notifyUrl={notifyUrl}&outTradeNo={outTradeNo}&receiveName={self.receiveName}&returnUrl={returnUrl}&shortCode={self.shortCode}&subject={subject}&timeoutExpress={timeoutExpress}&timestamp={timestamp}&totalAmount={totalAmount}"
