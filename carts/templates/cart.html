@@ -194,10 +194,10 @@
                 <button type="submit" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400 hover:text-primary transition text-sm w-full block text-center">Proceed to Payment</button>
             </form>
             
-            <a href="{% url 'create_order' %}" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
+            {% comment %} <a href="{% url 'create_order' %}" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
              hover:text-primary transition text-sm w-full block text-center">
                 Process to checkout
-            </a>
+            </a> {% endcomment %}
             <a href="{% url 'store' %}" class="bg-blue-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
              hover:text-primary transition text-sm w-full block text-center">
              Continue Shopping
