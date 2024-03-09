@@ -80,9 +80,3 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Color)
 admin.site.register(Size)
-
-
-
-
-
-

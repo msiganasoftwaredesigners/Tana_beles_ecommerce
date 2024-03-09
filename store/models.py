@@ -87,6 +87,22 @@ class Product(models.Model):
     
     def likes_count(self):
         return self.likes.count()
+    
+    def save(self, *args, **kwargs):
+        is_new = not self.pk  # Check if this is a new instance
+        super().save(*args, **kwargs)
+
+        if is_new:
+            # Get the default color
+            default_color = Color.objects.get_or_create(name='White')[0]
+
+            # Create a SizeVariation for each size
+            for size in Size.objects.all():
+                size_variation = SizeVariation.objects.create(product=self, size=size)
+
+                # Create a Variation with the default color for each SizeVariation
+                variation = Variation.objects.create(size_variation=size_variation)
+                variation.color.set([default_color])
 
     def __str__(self):
         return self.product_name
@@ -164,7 +180,7 @@ class ProductImage(models.Model):
 class SizeVariation(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=5, decimal_places=2)
+    price = models.DecimalField(max_digits=5, decimal_places=2,default=0.00)
 
 class Variation(models.Model):
     size_variation = models.ForeignKey(SizeVariation, on_delete=models.CASCADE)

@@ -147,21 +147,17 @@
     </div>
 </div>
 {% endif %}
-
-
 <div class="mt-2 md:mt-2">
     <h3 class="text-sm md:text-base text-gray-800 font-semibold mb-1">Color</h3>
     <div id="color-container" class="flex flex-row flex-wrap items-center gap-2">
         <!-- Color radio buttons will be inserted here by JavaScript -->
     </div>
 </div>
-
 </div>
 </div> 
-            <!-- add to cart button -->
+       <!-- add to cart button -->
             <div class="flex gap-3 border-b border-gray-200 pb-5 mt-6">
                 {% if single_product.product_stock <= 0 %}
-
                 <span class="text">out of stock</span>
                 {% else %}
                 <form action="{% url 'add_cart' single_product.id %}" method="POST">
@@ -257,6 +253,9 @@
     {% endif %}
     <!-- related products end -->
     <!-- Heart button -->
+
+
+
     <script>
         $(document).ready(function() {
          var prices = {};
@@ -331,7 +330,7 @@
              });
          }
      });
-     </script>
+     </script> 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var viewedProducts = JSON.parse(localStorage.getItem('viewedProducts')) || {};

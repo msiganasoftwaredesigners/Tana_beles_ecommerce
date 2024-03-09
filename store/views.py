@@ -18,6 +18,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 import uuid
 import logging
+import pdb
 logger = logging.getLogger(__name__)
 
 
@@ -74,8 +75,6 @@ def product_detail(request, category_slug, product_slug):
         main_image = single_product.images.filter(is_main=True).first()
         other_images = single_product.images.all()
         related_products = Product.objects.filter(category=single_product.category).exclude(id=single_product.id).order_by('-product_created_date')[:8]
-        # color_variations = single_product.variations.filter(color__isnull=False)
-        # size_variations = single_product.variations.filter(size__isnull=False)
         size_variations = single_product.sizevariation_set.all()
         color_variations = [variation for size_variation in size_variations for variation in size_variation.variation_set.filter(color__isnull=False)]
 
@@ -89,6 +88,15 @@ def product_detail(request, category_slug, product_slug):
     except Exception as e:
         raise e
     
+    print(f'single_product: {single_product}')
+    print(f'in_cart: {in_cart}')
+    print(f'main_image: {main_image}')
+    print(f'other_images: {other_images}')
+    print(f'related_products: {related_products}')
+    print(f'size_variations: {size_variations}')
+    print(f'color_variations: {color_variations}')
+    print(f'liked: {liked}')
+    print(f'is_owner: {is_owner}')
     context = {
         'single_product': single_product,
         'in_cart': in_cart,
@@ -101,7 +109,15 @@ def product_detail(request, category_slug, product_slug):
         'is_owner': is_owner,
     }
     if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-        return JsonResponse({'liked': liked})
+        # If the request is an AJAX request, return the product details as JSON
+        size_variations = [size_variation.size for size_variation in size_variations]
+        color_variations = [color_variation.color for color_variation in color_variations]
+        return JsonResponse({
+            'liked': liked,
+            'sizes': size_variations,
+            'colors': color_variations,
+            'price': single_product.price,
+        })
     
     return render(request, 'product-detail.html', context)
 
@@ -119,11 +135,12 @@ def get_price_and_colors(request):
             logger.info(f"Fetched variation: {variation}")
             price = variation.size_variation.price
             colors = [color.name for color in variation.color.all()]
+            print(f'variation: {variation}')
+            print(f'price: {price}')
+            print(f'colors: {colors}')
             return JsonResponse({'price': price, 'colors': colors})
-        except Variation.DoesNotExist as e:
-            print(f"Exception when trying to fetch Variation: {e}")
-            logger.error(f"Exception when trying to fetch Variation: {e}")
-            logger.error('Variation does not exist')
+        except Variation.DoesNotExist:
+            print(f"Exception when trying to fetch Variation: {variation_id}")
             return JsonResponse({'error': f'Variation with id {variation_id} does not exist'}, status=400)
     else:
         logger.error('Invalid request')
