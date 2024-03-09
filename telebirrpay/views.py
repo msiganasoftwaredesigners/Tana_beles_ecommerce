@@ -61,6 +61,13 @@ def payment_notification(request):
             trade_no = decrypted_data.get('tradeNo')
             trade_status = decrypted_data.get('tradeStatus')
             transaction_no = decrypted_data.get('transactionNo')
+            print('msisdn',msisdn)
+            print('out_trade_no',out_trade_no)
+            print('total_amount',total_amount)
+            print('trade_date',trade_date)
+            print('trade_no',trade_no)
+            print('trade_status',trade_status)
+            print('transaction_no',transaction_no)
 
             # Create a new instance of the PaymentNotification model
             payment_notification = PaymentNotification.objects.create(
