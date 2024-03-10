@@ -11,6 +11,14 @@
             <img src="{{footer.nav_company_logo.url}}" alt="Main page image" />
          {% endif %}
         </a>
+        <a href="{% url 'home' %}" class="brand-wrap w-16 mr-2 pl-2">Home</a>
+        <nav class="hidden sm:flex space-x-4">
+            <a href="#" class="text-black hover:text-blue-700 transition">New Arrival</a>
+            <a href="#" class="text-black hover:text-blue-700 transition">Feature Product</a>
+            <a href="{% url 'post_list' %}" class="text-black hover:text-blue-700 transition">Blog</a>
+            <a href="{% url 'about-us' %}" class="text-black hover:text-blue-700 transition">About Us</a>
+            <a href="{% url 'contact-us' %}" class="text-black hover:text-blue-700 transition">Contact Us</a>
+        </nav>
         <div class="space-x-1 md:space-x-16 flex items-center">
             <div class="col-lg col-md-6 col-sm-12 col">
                 <form action="{% url 'search' %}" method="GET" class="flex items-center bg-white rounded-full text-sm relative ">
@@ -23,6 +31,7 @@
                         </button>
                     </div>
                 </form>
+                
             </div>
             <a href="{% url 'cart' %}" class="pl-2 relative">
                 <div class="w-12 h-12 rounded-full border bg-blue-600 hover:bg-green-600 flex items-center justify-center">
@@ -45,16 +54,6 @@
                 Login
             </a>
         {% endif %}
-            {% comment %} {% if user.is_authenticated %}
-    <a href="{% url 'users_profiles' %}" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-3">
-        Profile
-    </a>
-{% else %}
-    <a href="{% url 'account_login' %}" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-3">
-        Login
-    </a>
-{% endif %} {% endcomment %}
-
         </div>
     </div>
 </header>

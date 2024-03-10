@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 from category.models import Category
 from django.core.exceptions import ValidationError
-
+from decimal import Decimal
 from PIL import Image  
 from django.core.files.base import ContentFile
 from io import BytesIO 
@@ -164,13 +164,23 @@ class ProductImage(models.Model):
 class SizeVariation(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=5, decimal_places=2,default=0.00)
-    color = models.ManyToManyField(Color, blank=True)
+    price = models.DecimalField(max_digits=7, decimal_places=2,default=0.00)
+    color = models.ManyToManyField(Color, blank=True) 
 
-    def save(self, *args, **kwargs):
+
+    def clean(self):
+        # Check if price is a decimal
+        if not isinstance(self.price, Decimal):
+            raise ValidationError("Please insert number only.")
+        # Check if price is negative or zero
         if self.price < 1:
             raise ValidationError("Price should be greater than or equal to 1.")
-        
+        # Check if price is more than 7 digits
+        if self.price >= Decimal('1000000.00'):
+            raise ValidationError("Please insert less than 999999.99.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
         is_new = not self.pk  # Check if this is a new instance
         super().save(*args, **kwargs)
 
