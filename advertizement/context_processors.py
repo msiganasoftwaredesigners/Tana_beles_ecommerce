@@ -1,5 +1,5 @@
 from django.core.cache import cache
-from .models import AdvertizementFirst, AdvertizementSecond, AdvertizementThird
+from .models import AdvertizementFirst, AdvertizementSecond, AdvertizementThird, Favicon
 
 def advertizement_first(request):
     advertizement_first = cache.get('advertizement_first')
@@ -26,6 +26,6 @@ def advertizement_third(request):
 def favicon(request):
     favicon = cache.get('favicon')
     if not favicon:
-        favicon = AdvertizementThird.objects.first()
+        favicon = Favicon.objects.first()
         cache.set('favicon', favicon, 60*60*00)  
     return {'favicon': favicon}
