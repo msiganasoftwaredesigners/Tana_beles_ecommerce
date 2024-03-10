@@ -20,7 +20,7 @@ class VariationManager(models.Manager):
 
 
 class Size(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
@@ -88,22 +88,6 @@ class Product(models.Model):
     def likes_count(self):
         return self.likes.count()
     
-    def save(self, *args, **kwargs):
-        is_new = not self.pk  # Check if this is a new instance
-        super().save(*args, **kwargs)
-
-        if is_new:
-            # Get the default color
-            default_color = Color.objects.get_or_create(name='White')[0]
-
-            # Create a SizeVariation for each size
-            for size in Size.objects.all():
-                size_variation = SizeVariation.objects.create(product=self, size=size)
-
-                # Create a Variation with the default color for each SizeVariation
-                variation = Variation.objects.create(size_variation=size_variation)
-                variation.color.set([default_color])
-
     def __str__(self):
         return self.product_name
     
@@ -151,7 +135,7 @@ class ProductImage(models.Model):
            output = BytesIO()
   
            # Save the image in its original format
-           img_format = self.image.name.split('.')[-1]  # Get the file extension
+           img_format = img.format
            img.save(output, format=img_format, quality=75)
            output.seek(0)
            self.image = ContentFile(output.read(), self.image.name)
@@ -181,13 +165,19 @@ class SizeVariation(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=5, decimal_places=2,default=0.00)
-
-class Variation(models.Model):
-    size_variation = models.ForeignKey(SizeVariation, on_delete=models.CASCADE)
     color = models.ManyToManyField(Color, blank=True)
-    is_active = models.BooleanField(default=True)
-    created_date = models.DateTimeField(auto_now=True)
-    objects = VariationManager()
+
+    def save(self, *args, **kwargs):
+        if self.price < 1:
+            raise ValidationError("Price should be greater than or equal to 1.")
+        
+        is_new = not self.pk  # Check if this is a new instance
+        super().save(*args, **kwargs)
+
+        if is_new:
+            # Get the default color
+            default_color = Color.objects.get_or_create(name='White')[0]
+            self.color.add(default_color)
 
     def __str__(self):
-        return f"{self.size_variation.product.product_name} - {', '.join([color.name for color in self.color.all()])} - {self.size_variation.size} - {self.size_variation.price} - {self.is_active}"
+        return f"{self.product.product_name} - {', '.join([color.name for color in self.color.all()])} - {self.size.name} - {self.price}"

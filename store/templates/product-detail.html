@@ -266,7 +266,7 @@
              $.ajax({
                  url: '/store/get_price_and_colors/',
                  data: {
-                     'variation_id': variationId
+                     'size_variation_id': variationId
                  },
                  dataType: 'json',
                  success: function (data) {
@@ -343,7 +343,7 @@
                 localStorage.setItem('viewedProducts', JSON.stringify(viewedProducts));
     
                 // Increment the view count
-                fetch('/increment-view-count/{{ single_product.product_slug }}/', {
+                fetch('/store/increment-view-count/{{ single_product.product_slug }}/', {
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': '{{ csrf_token }}',

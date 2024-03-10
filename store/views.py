@@ -13,7 +13,7 @@ from .context_processors import most_liked_products
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
-from .models import Variation, SizeVariation
+from .models import  SizeVariation
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 import uuid
@@ -76,8 +76,7 @@ def product_detail(request, category_slug, product_slug):
         other_images = single_product.images.all()
         related_products = Product.objects.filter(category=single_product.category).exclude(id=single_product.id).order_by('-product_created_date')[:8]
         size_variations = single_product.sizevariation_set.all()
-        color_variations = [variation for size_variation in size_variations for variation in size_variation.variation_set.filter(color__isnull=False)]
-
+        color_variations = [size_variation.color for size_variation in size_variations if size_variation.color]
         is_owner = request.user == single_product.product_owner
         # like Implementation
         product_slug = single_product.product_slug
@@ -111,7 +110,7 @@ def product_detail(request, category_slug, product_slug):
     if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         # If the request is an AJAX request, return the product details as JSON
         size_variations = [size_variation.size for size_variation in size_variations]
-        color_variations = [color_variation.color for color_variation in color_variations]
+        color_variations = [color_variation.name for color_variation in color_variations]
         return JsonResponse({
             'liked': liked,
             'sizes': size_variations,
@@ -123,25 +122,25 @@ def product_detail(request, category_slug, product_slug):
 
 @csrf_exempt
 def get_price_and_colors(request):
-    variation_id = request.GET.get('variation_id')
-    print(f"get_price_and_colors view was called with variation_id: {variation_id}")
-    logger.info(f"get_price_and_colors view was called with variation_id: {variation_id}")
-    if variation_id is not None:
+    size_variation_id = request.GET.get('size_variation_id')
+    print(f"get_price_and_colors view was called with size_variation_id: {size_variation_id}")
+    logger.info(f"get_price_and_colors view was called with size_variation_id: {size_variation_id}")
+    if size_variation_id is not None:
         try:
-            print(f"Trying to fetch Variation with ID: {variation_id}")
-            logger.info(f"Trying to fetch Variation with ID: {variation_id}")
-            variation = Variation.objects.get(id=variation_id)
-            print(f"Fetched variation: {variation}")
-            logger.info(f"Fetched variation: {variation}")
-            price = variation.size_variation.price
-            colors = [color.name for color in variation.color.all()]
-            print(f'variation: {variation}')
+            print(f"Trying to fetch Variation with ID: {size_variation_id}")
+            logger.info(f"Trying to fetch Variation with ID: {size_variation_id}")
+            size_variation = SizeVariation.objects.get(id=size_variation_id)
+            print(f"Fetched variation: {size_variation}")
+            logger.info(f"Fetched variation: {size_variation}")
+            price = size_variation.price
+            colors = [color.name for color in size_variation.color.all()]
+            print(f'variation: {size_variation}')
             print(f'price: {price}')
             print(f'colors: {colors}')
             return JsonResponse({'price': price, 'colors': colors})
-        except Variation.DoesNotExist:
-            print(f"Exception when trying to fetch Variation: {variation_id}")
-            return JsonResponse({'error': f'Variation with id {variation_id} does not exist'}, status=400)
+        except SizeVariation.DoesNotExist:
+            print(f"Exception when trying to fetch SizeVariation: {size_variation_id}")
+            return JsonResponse({'error': f'Variation with id {size_variation_id} does not exist'}, status=400)
     else:
         logger.error('Invalid request')
         return JsonResponse({'error': 'Invalid request'}, status=400)
