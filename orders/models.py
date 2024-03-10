@@ -18,7 +18,7 @@ class Order(models.Model):
     order_date = models.DateField(auto_now_add=True)
     order_total_prices = models.DecimalField(max_digits=10, decimal_places=2)
     order_key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    payment_status = models.BooleanField(default=False)
+    payment_status = models.BooleanField(default=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='received')
 
     def __str__(self):
