@@ -4,7 +4,7 @@ from .models import Cart, CartItem
 from store.models import Product
 from uuid import uuid4
 from decimal import Decimal
-
+from django.http import Http404
 
 def _cart_id(request):
     cart_id = request.session.get('cart_id')
@@ -71,11 +71,14 @@ def increase_cart_item(request, product_id, cart_item_id):
     return redirect('cart')
 
 def remove_cart_item(request, product_id, cart_item_id):
-    cart = Cart.objects.get(cart_id=_cart_id(request))
-    product = get_object_or_404(Product, id=product_id)
-    cart_item = CartItem.objects.get(product=product, cart=cart, id=cart_item_id)
-    cart_item.delete()
-    return redirect('cart')
+        try:
+            cart = Cart.objects.get(cart_id=_cart_id(request))
+            product = get_object_or_404(Product, id=product_id)
+            cart_item = get_object_or_404(CartItem, product=product, cart=cart, id=cart_item_id)
+            cart_item.delete()
+        except Http404:
+           return redirect('cart')
+        return redirect('cart')
 
 
 def cart(request, total=0, quantity=0, cart_items=None):
