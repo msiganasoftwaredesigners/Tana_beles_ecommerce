@@ -1,6 +1,9 @@
 #orders/models.py
 from django.db import models
 import uuid
+import time
+import random
+import string
 
 # Create your models here.
 
@@ -12,14 +15,21 @@ class Order(models.Model):
     ]
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    order_phone = models.CharField(max_length=13)
+    order_phone = models.CharField(max_length=13, blank=True)
     order_email = models.EmailField(max_length=50, blank=True)
     order_address = models.CharField(max_length=100)
     order_date = models.DateField(auto_now_add=True)
     order_total_prices = models.DecimalField(max_digits=10, decimal_places=2)
     order_key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    payment_status = models.BooleanField(default=True)
+    payment_status = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='received')
+    outTradeNo = models.CharField(max_length=60, editable=False)
+    transaction_no = models.CharField(max_length=60, blank=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.outTradeNo:
+            self.outTradeNo = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return str(self.order_key)

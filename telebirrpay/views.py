@@ -25,9 +25,11 @@ from django.http import JsonResponse, HttpResponse
 from django.http import HttpResponseRedirect
 from .models import PaymentNotification
 from decouple import config
-
+from orders.models import Order
 # Define a logger
 logger = logging.getLogger(__name__)
+
+from carts.views import clear_cart
 
 
 @csrf_exempt
@@ -82,6 +84,22 @@ def payment_notification(request):
             # Save the instance to the database
             payment_notification.save()
 
+            try:
+                order = Order.objects.get(outTradeNo=out_trade_no)
+            except Order.DoesNotExist:
+                return JsonResponse({"error": "Order does not exist"}, status=404)
+
+            # Update the phone number
+            order.order_phone = msisdn
+            order.transaction_no = transaction_no
+            if  trade_status == 2:
+                order.payment_status = True
+            order.save()
+
+              # Clear the cart
+            clear_cart(request)
+
+
             return JsonResponse({"message": "Payment notification processed successfully"}, status=200)
         except Exception as e:
             return JsonResponse({"error": "Failed to decrypt data"}, status=500)
@@ -97,11 +115,21 @@ class MakePaymentView(View):
         print("Received form data:", request.POST)
      
         try:
+             # Get the latest order of the current user
+            order = Order.objects.filter(user=request.user).latest('order_date')
+
+            # Use the totalAmount and outTradeNo from the order
+            totalAmount = float(order.order_total_prices)
+            outTradeNo = order.outTradeNo
+
             subject = config('SUBJECT')
-            totalAmount = float(request.POST.get('totalAmount'))
+            form_totalAmount = float(request.POST.get('totalAmount'))
+            if totalAmount != form_totalAmount:
+                raise ValueError("The total amount from the form does not match the total amount of the order")
+
             print('totalAmount',totalAmount)
             nonce = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_lowercase, k=3))
-            outTradeNo = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+            # outTradeNo = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_letters + string.digits, k=6))
             notifyUrl = config('NOTIFY_URL')
             returnUrl = config('RETURN_URL')
             print('notifyUrl',notifyUrl)

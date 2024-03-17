@@ -85,19 +85,12 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
     
         # cache image during creation and update to handle error fields occured during form submission
     def add_view(self, request, form_url='', extra_context=None):
-        if request.method == 'POST':
-            request.session['uploaded_files'] = request.FILES
         return super().add_view(request, form_url, extra_context)
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
-        if request.method == 'POST':
-            request.session['uploaded_files'] = request.FILES
         return super().change_view(request, object_id, form_url, extra_context)
 
     def render_change_form(self, request, context, *args, **kwargs):
-        if 'uploaded_files' in request.session:
-            context['adminform'].form.files = request.session['uploaded_files']
-            del request.session['uploaded_files']
         return super().render_change_form(request, context, *args, **kwargs)
     
 admin.site.register(Product, ProductAdmin)
