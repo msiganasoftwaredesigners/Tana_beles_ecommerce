@@ -9,6 +9,7 @@ from django.core.files.base import ContentFile
 from io import BytesIO 
 import os
 from django_quill.fields import QuillField
+from users.models import CustomUser
 # from django.db.models import Count, F, Manager
 
 class VariationManager(models.Manager):
@@ -41,7 +42,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     product_created_date = models.DateTimeField(auto_now_add=True)
     product_modified_date = models.DateTimeField(auto_now=True)
-    likes = models.ManyToManyField('users.CustomUser', through="Like", related_name="liked_products")
+    likes = models.ManyToManyField(CustomUser, through="Like", related_name="liked_products")
     product_views_count = models.PositiveIntegerField(default=0)
     product_phone = models.CharField(max_length=15, blank=True, null=True)
     product_owner = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='owned_products', default=1)
@@ -94,7 +95,7 @@ class Product(models.Model):
 
 class Like(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_likes")
-    liked_by = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
+    liked_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)  # Call the "real" save() method.
