@@ -29,9 +29,13 @@ from orders.models import Order
 # Define a logger
 logger = logging.getLogger(__name__)
 
-from carts.views import clear_cart
+# from carts.views import clear_cart
 
-
+class PaymentPageView(View):
+    def get(self, request):
+        # Render your payment page template
+        return render(request, 'payment_page.html')
+    
 @csrf_exempt
 def payment_notification(request):
     if request.method == 'POST':
@@ -97,7 +101,7 @@ def payment_notification(request):
             order.save()
 
               # Clear the cart
-            clear_cart(request)
+            # clear_cart(request)
 
 
             return JsonResponse({"message": "Payment notification processed successfully"}, status=200)
@@ -123,10 +127,6 @@ class MakePaymentView(View):
             outTradeNo = order.outTradeNo
 
             subject = config('SUBJECT')
-            form_totalAmount = float(request.POST.get('totalAmount'))
-            if totalAmount != form_totalAmount:
-                raise ValueError("The total amount from the form does not match the total amount of the order")
-
             print('totalAmount',totalAmount)
             nonce = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_lowercase, k=3))
             # outTradeNo = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_letters + string.digits, k=6))

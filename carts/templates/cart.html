@@ -172,19 +172,7 @@
             </div>
             <!-- searchbar end -->
 
-            <!-- checkout -->
-            {% comment %} <p class="text-center mb-3">
-                <img src="{% static 'images/pay.jpg' %}" height="26">
-            </p> {% endcomment %}
-            {% comment %} <form method="post" action="{% url 'make_payment' %}">
-                {% csrf_token %}
-                <input type="hidden" name="totalAmount" value="{{total}}">
-                <button type="submit" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
-                 hover:text-primary transition text-sm w-full block text-center">
-                    Process to pay
-                </button>
-            </form> {% endcomment %}
-            <form id="payment-form">
+            {% comment %} <form id="payment-form">
                 {% csrf_token %}
                 <!-- Add your input fields here, e.g., total amount -->
                 <input type="hidden" name="totalAmount" value="{{ total }}">
@@ -192,12 +180,12 @@
                 
                 <!-- Submit button -->
                 <button type="submit" class="bg-green-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-green-700 hover:text-primary transition text-sm w-full block text-center">Proceed to Payment</button>
-            </form>
+            </form> {% endcomment %}
             
-            {% comment %} <a href="{% url 'create_order' %}" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
+            <a href="{% url 'create_order' %}" class="bg-red-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-pink-400
              hover:text-primary transition text-sm w-full block text-center">
                 Process to checkout
-            </a> {% endcomment %}
+            </a>
             <a href="{% url 'store' %}" class="bg-blue-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-blue-700
              hover:text-primary transition text-sm w-full block text-center">
              Continue Shopping
@@ -210,34 +198,7 @@
 </div>
     <!-- cart wrapper end -->
     <!-- Your HTML content -->
-    <script>
-        $(document).ready(function() {
-            $('#payment-form').submit(function(event) {
-                // Prevent the default form submission
-                event.preventDefault();
-        
-                // Serialize the form data
-                var formData = $(this).serialize();
-        
-                // Send an AJAX POST request to your backend server
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url 'make_payment' %}',  // Update the URL to your endpoint
-                    data: formData,
-                    success: function(response) {
-                         // Redirect the user to the Telebirr H5 Web Payment URL
-                        window.location.href = response.toPayUrl;
-                        // You can redirect the user to a success page or do any other actions here
-                    },
-                    error: function(xhr, errmsg, err) {
-                        // Handle any errors
-                        console.log('Error occurred:', errmsg);
-                    }
-                });
-            });
-        });
-        
-    </script>
+    
     
 </body>
 </html>

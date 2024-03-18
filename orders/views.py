@@ -13,6 +13,7 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.pagesizes import A3
 from django.shortcuts import get_list_or_404
+from carts.views import clear_cart
 
 def checkout(request):
     orders = Order.objects.all()
@@ -144,7 +145,8 @@ def create_order(request):
 
           
             # Redirect the user to a confirmation page
-            return redirect('order_complete')
+            clear_cart(request)
+            return redirect('payment_page')
         else:
             print(form.errors)
     else:

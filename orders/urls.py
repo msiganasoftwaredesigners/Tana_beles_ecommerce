@@ -11,4 +11,5 @@ urlpatterns = [
     path('orders/export_orders/pdf/', export_orders_pdf, name='export_orders_pdf'),
     path('orders/export_orders/xlsx/', export_orders_xlsx, name='export_orders_xlsx'),
     path('export_orders/', views.export_orders_view, name='export_orders'),
+    path('clear_cart/', views.clear_cart, name='clear_cart'),
 ]
