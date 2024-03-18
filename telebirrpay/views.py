@@ -26,16 +26,14 @@ from django.http import HttpResponseRedirect
 from .models import PaymentNotification
 from decouple import config
 from orders.models import Order
+from django.contrib.auth import get_user_model
 # Define a logger
 logger = logging.getLogger(__name__)
 
 # from carts.views import clear_cart
 
-class PaymentPageView(View):
-    def get(self, request):
-        # Render your payment page template
-        return render(request, 'payment_page.html')
-    
+def payment_page(request):
+    return render(request, 'payment_page.html')
 @csrf_exempt
 def payment_notification(request):
     if request.method == 'POST':
@@ -119,11 +117,10 @@ class MakePaymentView(View):
         print("Received form data:", request.POST)
      
         try:
-             # Get the latest order of the current user
-            order = Order.objects.filter(user=request.user).latest('order_date')
-
+            order = Order.objects.filter(user=request.user, payment_status=False).latest('order_date')
             # Use the totalAmount and outTradeNo from the order
             totalAmount = float(order.order_total_prices)
+            print("order outTradeNoooooooooooo",order.outTradeNo)
             outTradeNo = order.outTradeNo
 
             subject = config('SUBJECT')

@@ -26,7 +26,7 @@ class Order(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='received')
     outTradeNo = models.CharField(max_length=60, editable=False)
     transaction_no = models.CharField(max_length=60, blank=True)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     
     def save(self, *args, **kwargs):
         if not self.outTradeNo:

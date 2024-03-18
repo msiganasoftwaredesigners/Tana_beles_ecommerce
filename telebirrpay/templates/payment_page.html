@@ -5,33 +5,7 @@
     {% csrf_token %}
 <button type="submit" class="bg-green-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-green-700 hover:text-primary transition text-sm w-full block text-center">Pay with telebirr</button>
 </form>
-{% comment %} <script>
-    $(document).ready(function() {
-        $('#payment-form').submit(function(event) {
-            // Prevent the default form submission
-            event.preventDefault();
-    
-            // Serialize the form data
-            var formData = $(this).serialize();
-    
-            // Send an AJAX POST request to your backend server
-            $.ajax({
-                type: 'POST',
-                url: '/',  // Update the URL to your endpoint
-                data: formData,
-                success: function(response) {
-                     // Redirect the user to the Telebirr H5 Web Payment URL
-                    window.location.href = response.toPayUrl;
-                    // You can redirect the user to a success page or do any other actions here
-                },
-                error: function(xhr, errmsg, err) {
-                    // Handle any errors
-                    console.log('Error occurred:', errmsg);
-                }
-            });
-        });
-    });
-</script> {% endcomment %}
+
   <script>
     $(document).ready(function() {
         $('#payment-form').submit(function(event) {

@@ -123,6 +123,7 @@ def create_order(request):
                 order_email=user_email,
                 order_address=form.cleaned_data['order_address'],
                 order_total_prices=total,
+                user = request.user
             )
 
             # Save the Order object to the database
