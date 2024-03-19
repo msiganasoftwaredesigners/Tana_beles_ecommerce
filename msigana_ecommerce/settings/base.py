@@ -10,7 +10,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'  
-LOGIN_REDIRECT_URL = '/'  
+LOGIN_REDIRECT_URL = '/carts/'  
 SOCIALACCOUNT_QUERY_EMAIL = True  
 
 
@@ -127,6 +127,8 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+print('facebook client id', config('FACEBOOK_CLIENT_ID'))
+print('facebook secret', config('FACEBOOK_SECRET'))
 
 ACCOUNT_FORMS = {'signup': 'users.forms.CustomSignupForm'}
 
