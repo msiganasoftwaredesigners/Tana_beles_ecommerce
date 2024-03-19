@@ -117,8 +117,7 @@ class MakePaymentView(View):
         print("Received form data:", request.POST)
      
         try:
-            order = Order.objects.filter(user=request.user, payment_status=False).order_by('-order_date').first()
-            # order = Order.objects.filter(user=request.user, payment_status=False).latest('order_date')
+            order = Order.objects.filter(user=request.user, payment_status=False).latest('order_date')
             # Use the totalAmount and outTradeNo from the order
             totalAmount = float(order.order_total_prices)
             print("order outTradeNoooooooooooo",order.outTradeNo)

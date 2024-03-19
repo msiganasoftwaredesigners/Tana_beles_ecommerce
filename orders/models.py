@@ -19,7 +19,7 @@ class Order(models.Model):
     order_phone = models.CharField(max_length=13, blank=True)
     order_email = models.EmailField(max_length=50, blank=True)
     order_address = models.CharField(max_length=100)
-    order_date = models.DateField(auto_now_add=True)
+    order_date = models.DateTimeField(auto_now_add=True)
     order_total_prices = models.DecimalField(max_digits=10, decimal_places=2)
     order_key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     payment_status = models.BooleanField(default=False)
