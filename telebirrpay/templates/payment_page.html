@@ -1,24 +1,11 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content %}
-<h1 class="text-center text-2xl font-bold mb-4 mt-16 md:mt-48 ">Payment Page</h1>
-<form id="payment-form" class="flex flex-col items-center justify-center  mb-16 px-4">
+<form id="payment-form">
     {% csrf_token %}
-    <div class="w-full md:max-w-md mb-4">
-        <button type="submit" class="bg-green-600 border border-primary text-white px-4 py-3 font-medium rounded-md  hover:bg-green-700 hover:text-primary transition text-sm w-full md:max-w-md block text-center">
-            <img src="{% static 'images/tele.png' %}" alt="Payment Image" class="inline-block mr-2 h-4">
-            Pay with telebirr
-        </button>
-    </div>
+<button type="submit" class="bg-green-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-green-700 hover:text-primary transition text-sm w-full block text-center">Pay with telebirr</button>
 </form>
-<div class="flex justify-center">
-    <div class="w-full md:max-w-md">
-        <a href="{% url 'home' %}" class="bg-blue-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-blue-700 hover:text-primary transition text-sm w-full md:max-w-md block text-center">
-            Back to Store
-        </a>
-    </div>
-</div>
-<a href="{% url 'home' %}" class="text-blue-500 hover:text-blue-700 mt-4 inline-block">Back to Home</a>
+
   <script>
     $(document).ready(function() {
         $('#payment-form').submit(function(event) {
