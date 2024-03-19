@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <!-- checkout form -->
-    <div class="container mx-auto lg:w-2/3  2xl:w-2/5 pt-4 pb-6 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-4xl ">
+    <div class="container mx-auto lg:w-2/3  2xl:w-2/5 pt-4 pb-6 px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-4xl  md:mt-24">
        
         <form method="POST" action="{% url 'create_order' %}">
             {% csrf_token %}
