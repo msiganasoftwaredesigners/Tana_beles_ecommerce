@@ -35,11 +35,11 @@
             </div>
             
             {# Add a link for "Forgot Password" #}
-            <div class="mt-4 text-center">
+            {% comment %} <div class="mt-4 text-center">
                 <a href="{% url 'account_reset_password' %}" class="text-sm text-green-600 hover:text-green-500">
                     Forgot Password?
                 </a>
-            </div>
+            </div> {% endcomment %}
 
             {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
