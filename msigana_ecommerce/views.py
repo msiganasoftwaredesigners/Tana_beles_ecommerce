@@ -55,7 +55,7 @@ def update_profile(request):
             })
     else:
         form = ProfileForm(instance=request.user)
-
+    orders = request.user.order_set.all()
     liked_products = request.user.liked_products.all()
 
-    return render(request, 'profile.html', {'form': form, 'liked_products': liked_products})
+    return render(request, 'profile.html', {'form': form, 'orders': orders, 'liked_products': liked_products})
