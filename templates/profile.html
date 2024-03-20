@@ -87,7 +87,7 @@
                    </div> 
               </div>
             </div>
-            <div class="px-4 mt-4 pt-4 shadow bg-blue-100 mr-2">
+            {% comment %} <div class="px-4 mt-4 pt-4 shadow bg-blue-100 mr-2">
                 <div class="flex justify-between items center mb-4">
                     <h3 class="font-medium capitalize text-gray-800 text-lg">Orders</h3>
                 </div>
@@ -102,7 +102,39 @@
                         <hr class="border-t-2 border-blue-500 my-4">
                     {% endfor %}
                 </div>
+            </div> {% endcomment %}
+            <div class="space-y-1">
+                <hr class="border-t-2 border-blue-500 my-4">
+                {% for order in orders %}
+                    <div class="order">
+                        <p class="text-gray-800"><label class=" pr-2 font-bold">Order ID:</label> {{order.order_key}}</p>
+                        <p class="text-gray-800"><label class=" pr-2 font-bold">Order Date:</label>  {{order.order_date}}</p>
+                        <p class="text-gray-800"><label class=" pr-2 font-bold">Order Total:</label>  {{order.order_total_prices}}</p>
+                        <p class="text-gray-800"><label class=" pr-2 font-bold">Order Status:</label>  {{order.get_status_display}}</p>
+                        <p class="text-gray-800"><label class=" pr-2 font-bold">Payment Status:</label>  {{ order.payment_status|yesno:"Yes,No" }}</p>
+                        <hr class="border-t-2 border-blue-500 my-4">
+                    </div>
+                {% endfor %}
+                <button id="show-more-orders" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Show more orders
+                </button>
             </div>
+            <script>
+                $(document).ready(function() {
+                    // Hide all but the first three orders
+                    $('.order:gt(2)').hide();
+                
+                    // Show three more orders each time the button is clicked
+                    $('#show-more-orders').click(function() {
+                        $('.order:hidden:lt(3)').show();
+                
+                        // If there are no more hidden orders, hide the button
+                        if ($('.order:hidden').length == 0) {
+                            $(this).hide();
+                        }
+                    });
+                });
+            </script>
             <div class="md:w-9/12">
                 <h1 class="text-center text-2xl font-medium md:text-3xl my-2 md:mt-6"> My Wishlist</h1>
               <div class="flex flex-col items-start">

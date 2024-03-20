@@ -22,6 +22,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     whatsapp_url = models.URLField(_("whatsapp url"), blank=True)
     phone_number = models.CharField(max_length=20, blank=True)
     address = models.TextField(blank=True)
+    # point_reward = models.DecimalField(max_digits=11, decimal_places=2, default=0)
+  
 
 
     USERNAME_FIELD = "email"
