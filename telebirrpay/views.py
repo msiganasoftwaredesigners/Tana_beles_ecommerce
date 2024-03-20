@@ -27,7 +27,7 @@ from .models import PaymentNotification
 from decouple import config
 from orders.models import Order
 from django.contrib.auth import get_user_model
-from users.models import CustomUser
+# from users.models import CustomUser
 # Define a logger
 logger = logging.getLogger(__name__)
 
@@ -101,9 +101,9 @@ def payment_notification(request):
 
             # Update the user's point reward
             
-            user = CustomUser.objects.get(email=order.user.email)
-            user.point_reward += total_amount
-            user.save()
+            # user = CustomUser.objects.get(email=order.user.email)
+            # user.point_reward += total_amount
+            # user.save()
 
               # Clear the cart
             # clear_cart(request)
