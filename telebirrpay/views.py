@@ -95,12 +95,12 @@ def payment_notification(request):
                 try:
                     user = CustomUser.objects.get(referral_code=order.referral_code)
                     reward_rate = RewardRate.objects.first()
-                    get_point = total_amount * reward_rate.referral_rate
+                    get_point = total_amount * (reward_rate.referral_rate/100)
                     user.point_reward += get_point
                     user.save()
 
                     user = CustomUser.objects.get(email=order.user.email)
-                    get_point = total_amount * reward_rate.user_referral_rate
+                    get_point = total_amount * (reward_rate.user_referral_rate/100)
                     user.point_reward += get_point
                     user.save()
                 except CustomUser.DoesNotExist:
@@ -111,7 +111,7 @@ def payment_notification(request):
             # Update the user point reward
             try:
                 user = CustomUser.objects.get(email=order.user.email)
-                get_point = total_amount * reward_rate.user_rate
+                get_point = total_amount * (reward_rate.user_rate/100)
                 user.point_reward += get_point
                 user.save()
             except CustomUser.DoesNotExist: 
