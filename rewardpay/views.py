@@ -4,6 +4,7 @@ from users.models import CustomUser
 from orders.models import Order
 from .models import PaywithReward
 from django.urls import reverse
+from decimal import Decimal
 
 
 # Create your views here.
@@ -13,7 +14,7 @@ def pay_with_reward(request):
     if request.method == 'POST':
         user = CustomUser.objects.get(email=request.user.email)
         order = Order.objects.filter(user=request.user, payment_status=False).latest('order_date')
-        total_amount = float(order.order_total_prices)
+        total_amount = Decimal(order.order_total_prices)
 
         if user.point_reward >= total_amount:
             user.point_reward -= total_amount
