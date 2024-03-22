@@ -10,6 +10,14 @@
         </button>
     
 </form>
+<form id="payment-withreward" class="flex flex-col items-center justify-center  mb-4 px-4">
+    {% csrf_token %}
+        <button type="submit" class="bg-slate-400 border border-primary text-white px-4 py-3 font-medium rounded-md  hover:bg-slate-500 hover:text-primary transition text-sm w-full md:max-w-md block text-center">
+            
+            Pay with Reward Points
+        </button>
+    
+</form>
 <div class="flex justify-center mb-12 px-4">
     <div class="w-full md:max-w-md">
         <a href="{% url 'home' %}" class="bg-blue-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-blue-700 hover:text-primary transition text-sm w-full md:max-w-md block text-center">
@@ -46,5 +54,36 @@
         });
     });
     
+</script>
+<script>
+    $(document).ready(function() {
+        $('#payment-withreward').submit(function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+    
+            // Serialize the form data
+            var formData = $(this).serialize();
+    
+            // Send an AJAX POST request to your backend server
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'pay_with_reward' %}',  // Update the URL to your endpoint
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        // Redirect the user to a success page
+                        window.location.href = response.redirect_url;
+                    } else {
+                        // Show an error message
+                        alert(response.message);
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    // Handle any errors
+                    console.log('Error occurred:', errmsg);
+                }
+            });
+        });
+    });
 </script> 
 {% endblock %}

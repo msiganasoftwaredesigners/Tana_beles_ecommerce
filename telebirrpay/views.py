@@ -27,7 +27,9 @@ from .models import PaymentNotification
 from decouple import config
 from orders.models import Order
 from django.contrib.auth import get_user_model
-# from users.models import CustomUser
+from users.models import CustomUser
+from rewardpay.models import RewardRate
+
 # Define a logger
 logger = logging.getLogger(__name__)
 
@@ -66,14 +68,7 @@ def payment_notification(request):
             trade_no = decrypted_data.get('tradeNo')
             trade_status = decrypted_data.get('tradeStatus')
             transaction_no = decrypted_data.get('transactionNo')
-            print('msisdn',msisdn)
-            print('out_trade_no',out_trade_no)
-            print('total_amount',total_amount)
-            print('trade_date',trade_date)
-            print('trade_no',trade_no)
-            print('trade_status',trade_status)
-            print('transaction_no',transaction_no)
-
+         
             # Create a new instance of the PaymentNotification model
             payment_notification = PaymentNotification.objects.create(
                 msisdn=msisdn,
@@ -91,20 +86,38 @@ def payment_notification(request):
                 order = Order.objects.get(outTradeNo=out_trade_no)
             except Order.DoesNotExist:
                 return JsonResponse({"error": "Order does not exist"}, status=404)
-
             # Update the phone number
             order.order_phone = msisdn
             order.transaction_no = transaction_no
             if  trade_status == 2:
                 order.payment_status = True
+            if order.referral_code:
+                try:
+                    user = CustomUser.objects.get(referral_code=order.referral_code)
+                    reward_rate = RewardRate.objects.first()
+                    get_point = total_amount * reward_rate.referral_rate
+                    user.point_reward += get_point
+                    user.save()
+
+                    user = CustomUser.objects.get(email=order.user.email)
+                    get_point = total_amount * reward_rate.user_referral_rate
+                    user.point_reward += get_point
+                    user.save()
+                except CustomUser.DoesNotExist:
+                    pass
+
             order.save()
 
-            # Update the user's point reward
+            # Update the user point reward
+            try:
+                user = CustomUser.objects.get(email=order.user.email)
+                get_point = total_amount * reward_rate.user_rate
+                user.point_reward += get_point
+                user.save()
+            except CustomUser.DoesNotExist: 
+                pass
             
-            # user = CustomUser.objects.get(email=order.user.email)
-            # user.point_reward += total_amount
-            # user.save()
-
+            
               # Clear the cart
             # clear_cart(request)
 

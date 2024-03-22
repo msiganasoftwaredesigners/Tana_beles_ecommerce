@@ -111,7 +111,6 @@ def create_order(request):
     # Get the total price from the session
     total = request.session.get('total', 0)
     cart_id = request.session.get('cart_id')
-
     if request.method == 'POST':
         print(request.POST)
         form = OrderForm(request.POST)
@@ -122,6 +121,7 @@ def create_order(request):
                 last_name=form.cleaned_data['last_name'],
                 order_email=user_email,
                 order_address=form.cleaned_data['order_address'],
+                referral_code=form.cleaned_data['referral_code'],
                 order_total_prices=total,
                 user = request.user
             )
