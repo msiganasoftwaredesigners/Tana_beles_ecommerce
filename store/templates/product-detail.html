@@ -82,17 +82,57 @@
                         <span>{{ single_product.product_owner.first_name | capfirst }}</span>
                         <img class="h-6 ml-1" src="{% static 'images/verified-badge.png' %}" alt="Verified Badge">
                       </span>
-                      <div class="flex items-center mb-0 md:mb-2">
+                  
+                      {% load range_filter custom_filters %}
 
-                        <div class="flex gap-1 text-xs md:text-sm text-yellow-400">
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                            <span><i class="fas fa-star"></i></span>
-                        </div>
-                        <div class="text-xs text-gray-500 ml-3">(150 Reviews)</div>
-                    </div>
+                      <div class="flex items-center mb-0 md:mb-2">
+                          <div class="flex gap-1 text-xs md:text-sm text-yellow-400">
+                              {% for i in average_rating|to_range %}
+                                  <span><i class="fas fa-star rating" data-rating="{{ i|add:'1' }}"></i></span>
+                              {% endfor %}
+                              {% for i in 5|subtract:average_rating|to_range %}
+                                  <span><i class="far fa-star rating" data-rating="{{ i|add:average_rating|add:'1' }}"></i></span>
+                              {% endfor %}
+                          </div>
+                          <div class="text-xs text-gray-500 ml-3">({{ reviews_count }} Reviews)</div>
+                      </div>
+<script>
+    $(document).ready(function() {
+        var rateProductUrl = "/store/rate_product/{{single_product.product_slug}}/";
+        var product_slug = "{{ single_product.product_slug }}";
+        var csrf_token = "{{ csrf_token }}";
+        $('.rating').on('click', function() {
+            var rating = $(this).data('rating');
+            $.ajax({
+                url: rateProductUrl,
+                type: 'POST',
+                data: {
+                    'product_slug': product_slug,
+                    'rating': rating,
+                },
+                headers: {
+                    'X-CSRFToken': csrf_token,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status === 'success') {
+                        // Update the star rating display here
+                        $('.rating').each(function() {
+                            if ($(this).data('rating') <= rating) {
+                                $(this).removeClass('far').addClass('fas');
+                            } else {
+                                $(this).removeClass('fas').addClass('far');
+                            }
+                        });
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
+                },
+            });
+        });
+    });
+</script>
                       
             <div class="space-y-1">
                 <p class="text-sm md:text-base text-gray-800 font-semibold space-x-2">

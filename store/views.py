@@ -19,6 +19,8 @@ from django.views.decorators.csrf import csrf_exempt
 import uuid
 import logging
 import pdb
+from django.db.models import Avg
+from .models import ProductRating
 logger = logging.getLogger(__name__)
 
 
@@ -65,6 +67,7 @@ def product_detail(request, category_slug, product_slug):
     try:
         single_product = get_object_or_404(Product, category__category_slug=category_slug, product_slug=product_slug)
         single_product.increment_views()
+        reviews_count = single_product.review_count()
         if request.META.get('HTTP_X_MOZ') == 'prefetch':
             return HttpResponse('No prefetch', status=200)
         try:
@@ -80,22 +83,22 @@ def product_detail(request, category_slug, product_slug):
         is_owner = request.user == single_product.product_owner
         # like Implementation
         product_slug = single_product.product_slug
+        print("product_slug:", product_slug)
         
         liked = False
         if request.user.is_authenticated:
             liked = Like.objects.filter(product=single_product, liked_by=request.user).exists()
+
+        user_rating = None
+        if request.user.is_authenticated:
+            user_rating = ProductRating.objects.filter(user=request.user, product=single_product).first()
+            if user_rating:
+                user_rating = user_rating.rating
+
+        average_rating = ProductRating.objects.filter(product=single_product).aggregate(Avg('rating'))['rating__avg']
     except Exception as e:
         raise e
     
-    print(f'single_product: {single_product}')
-    print(f'in_cart: {in_cart}')
-    print(f'main_image: {main_image}')
-    print(f'other_images: {other_images}')
-    print(f'related_products: {related_products}')
-    print(f'size_variations: {size_variations}')
-    print(f'color_variations: {color_variations}')
-    print(f'liked: {liked}')
-    print(f'is_owner: {is_owner}')
     context = {
         'single_product': single_product,
         'in_cart': in_cart,
@@ -106,6 +109,9 @@ def product_detail(request, category_slug, product_slug):
         'size_variations': size_variations,
         'liked': liked,
         'is_owner': is_owner,
+        'user_rating': user_rating,
+        'average_rating': average_rating,
+        'reviews_count': reviews_count,
     }
     if request.headers.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         # If the request is an AJAX request, return the product details as JSON
@@ -120,6 +126,26 @@ def product_detail(request, category_slug, product_slug):
     
     return render(request, 'product-detail.html', context)
 
+@csrf_exempt
+def rate_product(request, product_slug):
+    print("called rate_product view")
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 'error', 'message': 'User not authenticated'}, status=401)
+
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Method not allowed'}, status=405)
+
+    try:
+        print('request.POST:', request.POST)
+        product = get_object_or_404(Product, product_slug=product_slug)
+        rating = request.POST.get('rating')
+        print('product_slug:', product_slug)
+        print('rating:', rating)
+        ProductRating.objects.update_or_create(user=request.user, product=product, defaults={'rating': rating})
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        print('Exception:', str(e))
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 @csrf_exempt
 def get_price_and_colors(request):
     size_variation_id = request.GET.get('size_variation_id')

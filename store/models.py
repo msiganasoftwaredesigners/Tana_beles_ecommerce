@@ -89,8 +89,18 @@ class Product(models.Model):
     def likes_count(self):
         return self.likes.count()
     
+    def review_count(self):
+        return ProductRating.objects.filter(product=self).count()
     def __str__(self):
         return self.product_name
+    
+class ProductRating(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+
+    class Meta:
+        unique_together = ('user', 'product',)
     
 
 class Like(models.Model):
