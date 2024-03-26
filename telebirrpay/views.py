@@ -91,6 +91,7 @@ def payment_notification(request):
             order.transaction_no = transaction_no
             if  trade_status == 2:
                 order.payment_status = True
+            order.save()
             if order.referral_code:
                 try:
                     user = CustomUser.objects.get(referral_code=order.referral_code)
@@ -100,17 +101,19 @@ def payment_notification(request):
                     user.save()
 
                     user = CustomUser.objects.get(email=order.user.email)
+                    reward_rate = RewardRate.objects.first()
                     get_point = total_amount * (reward_rate.user_referral_rate/100)
                     user.point_reward += get_point
                     user.save()
                 except CustomUser.DoesNotExist:
                     pass
 
-            order.save()
+            
 
             # Update the user point reward
             try:
                 user = CustomUser.objects.get(email=order.user.email)
+                reward_rate = RewardRate.objects.first()
                 get_point = total_amount * (reward_rate.user_rate/100)
                 user.point_reward += get_point
                 user.save()
