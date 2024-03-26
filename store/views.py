@@ -22,8 +22,9 @@ import pdb
 from django.db.models import Avg
 from .models import ProductRating
 logger = logging.getLogger(__name__)
-
-
+from django.http import JsonResponse
+from django.db.models import Q
+from django.core.cache import cache
 def store(request, category_slug=None):
     categories = None
     products = None
@@ -32,10 +33,13 @@ def store(request, category_slug=None):
     if category_slug != None:
         categories = get_object_or_404(Category, category_slug=category_slug)
         # products = Product.objects.filter(category=categories, product_is_available=True).prefetch_related('images').order_by('product_created_date')
-        products = Product.objects.filter(category=categories, product_is_available=True).select_related('category').prefetch_related('images').order_by('product_created_date')
+        products = Product.objects.filter(category=categories, product_is_available=True).select_related('category').prefetch_related('images').order_by('-product_created_date')
         template = 'store.html'
     else:
-        products = Product.objects.filter(product_is_available=True).prefetch_related('images').order_by('-product_created_date')
+        products = cache.get('latest_products')
+        if not products:
+            products = Product.objects.filter(product_is_available=True).prefetch_related('images').order_by('-product_created_date')[:30]
+            cache.set('latest_products', products, 60 * 60 * 2)  # Cache for 2 hours
 
 
     most_liked_products_with_count = most_liked_products(request)['most_liked_products']
@@ -65,8 +69,13 @@ def store(request, category_slug=None):
 def product_detail(request, category_slug, product_slug):
     print("product_detail view was called")
     try:
-        single_product = get_object_or_404(Product, category__category_slug=category_slug, product_slug=product_slug)
+        single_product = cache.get(f'product_{product_slug}')
+        if not single_product:
+            single_product = get_object_or_404(Product, category__category_slug=category_slug, product_slug=product_slug)
+            cache.set(f'product_{product_slug}', single_product, 60 * 60 * 2)  # Cache for 2 hours
         single_product.increment_views()
+        # single_product = get_object_or_404(Product, category__category_slug=category_slug, product_slug=product_slug)
+        # single_product.increment_views()
         reviews_count = single_product.review_count()
         if request.META.get('HTTP_X_MOZ') == 'prefetch':
             return HttpResponse('No prefetch', status=200)
@@ -125,6 +134,47 @@ def product_detail(request, category_slug, product_slug):
         })
     
     return render(request, 'product-detail.html', context)
+
+
+from django.db.models import Min
+
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.db.models import Q
+
+from django.db.models import Min, Max
+
+def filter_products(request):
+    print("filter_products view was called")
+    if request.method == 'GET':
+        print("filter_products after get view was called")
+        min_price = request.GET.get('min_price', 0)
+        max_price = request.GET.get('max_price', None)
+        product_name = request.GET.get('product_name', None)
+
+        # Initialize a base queryset
+        queryset = Product.objects.filter(product_is_available=True)
+
+        # Get the minimum and maximum prices of size variations
+        min_variation_price = SizeVariation.objects.aggregate(Min('price'))['price__min']
+        max_variation_price = SizeVariation.objects.aggregate(Max('price'))['price__max']
+
+        # Apply filtering based on combination of criteria
+        if min_price:
+            min_price = max(float(min_price), min_variation_price)  # Ensure min price is not less than min variation price
+            queryset = queryset.filter(sizevariation__price__gte=min_price)
+        if max_price:
+            max_price = min(float(max_price), max_variation_price)  # Ensure max price is not more than max variation price
+            queryset = queryset.filter(sizevariation__price__lte=max_price)
+        if product_name:
+            queryset = queryset.filter(product_name__icontains=product_name)
+
+        # Pass the filtered queryset to the template for rendering
+        print("filter_products after get view was called")
+        print("queryset:", queryset)
+        return render(request, 'filter_template.html', {'products': queryset})
+    else:
+        return redirect('filter_template')  # Assuming 'filter_template' is the URL name for the filter_template.html file
 
 @csrf_exempt
 def rate_product(request, product_slug):

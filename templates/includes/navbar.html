@@ -20,19 +20,48 @@
             <a href="{% url 'contact-us' %}" class="text-black hover:text-blue-700 transition">Contact Us</a>
         </nav>
         <div class="space-x-1 md:space-x-16 flex items-center">
-            <div class="col-lg col-md-6 col-sm-12 col">
-                <form action="{% url 'search' %}" method="GET" class="flex items-center bg-white rounded-full text-sm relative ">
-                    <input class="w-full py-3 px-3 md:px-16 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded-full pr-10" id="search" type="text" placeholder="Search" name="keyword">
-                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                        <button class="bg-white text-black rounded-full p-2 hover:bg-gray-200 focus:outline-none w-10 h-10 flex items-center justify-center" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 50 50" class="fill-current">
-                                <path d="M 21 3 C 11.622998 3 4 10.623005 4 20 C 4 29.376995 11.622998 37 21 37 C 24.712383 37 28.139151 35.791079 30.9375 33.765625 L 44.085938 46.914062 L 46.914062 44.085938 L 33.886719 31.058594 C 36.443536 28.083 38 24.223631 38 20 C 38 10.623005 30.377002 3 21 3 z M 21 5 C 29.296122 5 36 11.703883 36 20 C 36 28.296117 29.296122 35 21 35 C 12.703878 35 6 28.296117 6 20 C 6 11.703883 12.703878 5 21 5 z"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </form>
-                
+         
+            <div class="dropdown relative z-50">
+                <button id="filter-button" class="dropbtn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
+                <div id="dropdown-content" class="dropdown-content hidden absolute right-0 bg-white shadow-lg rounded-md p-4">
+                    <button id="close-button" class="absolute top-0 right-0 m-2 text-2xl ml-6">&times;</button>
+                    <form id="filter-form" class="flex flex-col space-y-4 mt-6" action="{% url 'filter_products' %}" method="GET">
+                        <input type="number" name="min_price" placeholder="Min price" class="border-2 border-gray-300 p-2 rounded-md">
+                        <input type="number" name="max_price" placeholder="Max price" class="border-2 border-gray-300 p-2 rounded-md">
+                        <input type="text" id="product-name" name="product_name" placeholder="Product name" class="border-2 border-gray-300 p-2 rounded-md">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Apply</button>
+                    </form>
+                </div>
             </div>
+            
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $('#filter-button').click(function() {
+                        $(this).hide();
+                        $('#dropdown-content').removeClass('hidden');
+                    });
+            
+                    $('#close-button').click(function() {
+                        $('#dropdown-content').addClass('hidden');
+                        $('#filter-button').show();
+                    });
+            
+                    $(document).click(function(event) {
+                        if (!$(event.target).closest('#dropdown-content').length && !$(event.target).is('#filter-button')) {
+                            $('#dropdown-content').addClass('hidden');
+                            $('#filter-button').show();
+                        }
+                    });
+                });
+            </script>
+            
+
+              
+           
+                
+                
+           
             <a href="{% url 'cart' %}" class="pl-2 relative">
                 <div class="w-12 h-12 rounded-full border bg-blue-600 hover:bg-green-600 flex items-center justify-center">
                     <i class=" fa fa-shopping-cart text-2xl text-white"></i>
@@ -137,6 +166,21 @@
 
   
     <!-- copyright end -->
+    {% comment %} <script>
+        $(document).ready(function() {
+            $('#filter-form').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '{% url "filter_products" %}',  // URL of the filter_products view
+                    data: $(this).serialize(),  // Serialize form data
+                    type: 'GET',  // HTTP method
+                    success: function(response) {
+                        // Update the product list with the filtered products
+                    }
+                });
+            });
+        });
+    </script> {% endcomment %}
     <script>
         let menuBar = document.querySelector('#menuBar')
         let mobileMenu = document.querySelector('#mobileMenu')
