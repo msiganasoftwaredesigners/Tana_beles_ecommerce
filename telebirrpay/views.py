@@ -29,6 +29,7 @@ from orders.models import Order
 from django.contrib.auth import get_user_model
 from users.models import CustomUser
 from rewardpay.models import RewardRate
+from decimal import Decimal
 
 # Define a logger
 logger = logging.getLogger(__name__)
@@ -63,7 +64,7 @@ def payment_notification(request):
 
             msisdn = decrypted_data.get('msisdn')
             out_trade_no = decrypted_data.get('outTradeNo')
-            total_amount = decrypted_data.get('totalAmount')
+            total_amount = Decimal(decrypted_data.get('totalAmount'))
             trade_date = datetime.fromtimestamp(int(decrypted_data.get('tradeDate')) / 1000)
             trade_no = decrypted_data.get('tradeNo')
             trade_status = decrypted_data.get('tradeStatus')
@@ -149,7 +150,7 @@ class MakePaymentView(View):
         try:
             order = Order.objects.filter(user=request.user, payment_status=False).latest('order_date')
             # Use the totalAmount and outTradeNo from the order
-            totalAmount = order.order_total_prices
+            totalAmount = float(order.order_total_prices)
             print("order outTradeNoooooooooooo",order.outTradeNo)
             outTradeNo = order.outTradeNo
 
