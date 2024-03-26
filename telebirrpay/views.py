@@ -63,7 +63,7 @@ def payment_notification(request):
 
             msisdn = decrypted_data.get('msisdn')
             out_trade_no = decrypted_data.get('outTradeNo')
-            total_amount = float(decrypted_data.get('totalAmount'))
+            total_amount = decrypted_data.get('totalAmount')
             trade_date = datetime.fromtimestamp(int(decrypted_data.get('tradeDate')) / 1000)
             trade_no = decrypted_data.get('tradeNo')
             trade_status = decrypted_data.get('tradeStatus')
@@ -131,7 +131,8 @@ def payment_notification(request):
             # clear_cart(request)
 
 
-            return JsonResponse({"message": "Payment notification processed successfully"}, status=200)
+            response_data = {"code": "0", "msg": "success"}
+            return JsonResponse(response_data)
         except Exception as e:
             return JsonResponse({"error": "Failed to decrypt data"}, status=500)
     else:
@@ -148,7 +149,7 @@ class MakePaymentView(View):
         try:
             order = Order.objects.filter(user=request.user, payment_status=False).latest('order_date')
             # Use the totalAmount and outTradeNo from the order
-            totalAmount = float(order.order_total_prices)
+            totalAmount = order.order_total_prices
             print("order outTradeNoooooooooooo",order.outTradeNo)
             outTradeNo = order.outTradeNo
 
