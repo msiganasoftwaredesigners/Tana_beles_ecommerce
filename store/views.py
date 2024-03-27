@@ -148,10 +148,11 @@ def filter_products(request):
     print("filter_products view was called")
     if request.method == 'GET':
         print("filter_products after get view was called")
-        min_price = request.GET.get('min_price', 0)
+        min_price = request.GET.get('min_price', None)
         max_price = request.GET.get('max_price', None)
         product_name = request.GET.get('product_name', None)
-
+        category_name = request.GET.get('category', None)
+      
         # Initialize a base queryset
         queryset = Product.objects.filter(product_is_available=True)
 
@@ -168,11 +169,15 @@ def filter_products(request):
             queryset = queryset.filter(sizevariation__price__lte=max_price)
         if product_name:
             queryset = queryset.filter(product_name__icontains=product_name)
+        if category_name and category_name.strip() != '':
+            queryset = queryset.filter(category__category_name=category_name)
+       
 
         # Pass the filtered queryset to the template for rendering
         print("filter_products after get view was called")
         print("queryset:", queryset)
-        return render(request, 'filter_template.html', {'products': queryset})
+        categories = Category.objects.all()
+        return render(request, 'filter_template.html', {'products': queryset, 'categories': categories})
     else:
         return redirect('filter_template')  # Assuming 'filter_template' is the URL name for the filter_template.html file
 

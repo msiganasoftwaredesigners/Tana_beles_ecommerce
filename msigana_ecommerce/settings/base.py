@@ -119,13 +119,13 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': config('GOOGLE_SECRET'),
         }
     },
-    # 'facebook': {
-    #     'APP': {
+    'facebook': {
+        'APP': {
 
-    #         'client_id': config('FACEBOOK_CLIENT_ID'),
-    #         'secret': config('FACEBOOK_SECRET'),
-    #     }
-    # }
+            'client_id': config('FACEBOOK_CLIENT_ID'),
+            'secret': config('FACEBOOK_SECRET'),
+        }
+    }
 }
 
 ACCOUNT_FORMS = {'signup': 'users.forms.CustomSignupForm'}

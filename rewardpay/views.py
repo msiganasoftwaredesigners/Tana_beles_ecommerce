@@ -29,6 +29,8 @@ def pay_with_reward(request):
 
             order.payment_status = True
             order.transaction_no = payment.transaction_no
+            if user.phone_number:
+                order.order_phone = user.phone_number
             order.save()
 
             return JsonResponse({'success': True, 'redirect_url':  reverse('order_complete')})  # Update with your success URL

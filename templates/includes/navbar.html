@@ -21,20 +21,27 @@
         </nav>
         <div class="space-x-1 md:space-x-16 flex items-center">
          
-            <div class="dropdown relative z-50">
+            <div class="dropdown z-50">
                 <button id="filter-button" class="dropbtn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
-                <div id="dropdown-content" class="dropdown-content hidden absolute right-0 bg-white shadow-lg rounded-md p-4">
-                    <button id="close-button" class="absolute top-0 right-0 m-2 text-2xl ml-6">&times;</button>
-                    <form id="filter-form" class="flex flex-col space-y-4 mt-6" action="{% url 'filter_products' %}" method="GET">
-                        <input type="number" name="min_price" placeholder="Min price" class="border-2 border-gray-300 p-2 rounded-md">
-                        <input type="number" name="max_price" placeholder="Max price" class="border-2 border-gray-300 p-2 rounded-md">
-                        <input type="text" id="product-name" name="product_name" placeholder="Product name" class="border-2 border-gray-300 p-2 rounded-md">
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Apply</button>
-                    </form>
+                <div id="dropdown-content" class="dropdown-content hidden absolute left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-md p-4">
+                        <button id="close-button" class="absolute top-0 right-0 m-2 text-2xl ml-6">&times;</button>
+                        <form id="filter-form" class="flex flex-col space-y-4 mt-6" action="{% url 'filter_products' %}" method="GET">
+                            <input type="number" name="min_price" placeholder="Min price" class="border-2 border-gray-300 p-2 rounded-md">
+                            <input type="number" name="max_price" placeholder="Max price" class="border-2 border-gray-300 p-2 rounded-md">
+                            <input type="text" id="product-name" name="product_name" placeholder="Product name" class="border-2 border-gray-300 p-2 rounded-md">
+                            <input type="hidden" id="category-input" name="category">
+                            <div class="border-2 border-gray-300 p-2 rounded-md overflow-y-auto max-h-60">
+                                <button type="button" class="w-full text-left" value="">Select category</button>
+                                {% for category in categories %}
+                                    <button type="button" class="w-full text-left text-green-600" value="{{ category.category_name }}">{{ category.category_name }}</button>
+                                {% endfor %}
+                            </div>
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Apply</button>
+                        </form>
                 </div>
             </div>
             
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
             <script>
                 $(document).ready(function() {
                     $('#filter-button').click(function() {
@@ -46,7 +53,13 @@
                         $('#dropdown-content').addClass('hidden');
                         $('#filter-button').show();
                     });
-            
+                    
+                    $('#filter-form button[type="button"]').click(function() {
+                        // Set the value of a hidden input field to the value of the clicked button
+                        if ($(this).val() != '') {
+                            $('#category-input').val($(this).val());
+                        }
+                    });
                     $(document).click(function(event) {
                         if (!$(event.target).closest('#dropdown-content').length && !$(event.target).is('#filter-button')) {
                             $('#dropdown-content').addClass('hidden');
@@ -57,10 +70,6 @@
             </script>
             
 
-              
-           
-                
-                
            
             <a href="{% url 'cart' %}" class="pl-2 relative">
                 <div class="w-12 h-12 rounded-full border bg-blue-600 hover:bg-green-600 flex items-center justify-center">
