@@ -21,7 +21,7 @@
         {{single_product.category}}
     </a>
     <span class="text-sm text-gray-400"><i class="fas fa-chevron-right"></i></span>
-    <p class="text-blue-600 font-medium uppercase " style="white-space: nowrap;">{{single_product.product_name}}</p>
+    <p class="text-blue-600 font-medium uppercase " style="white-space: nowrap;"> {{ single_product.get_short_name|capfirst }}</p>
 </div>
 <div class="container pt-4 pb-6 grid lg:grid-cols-2 gap-6 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
     <div>

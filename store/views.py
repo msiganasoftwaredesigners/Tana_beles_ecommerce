@@ -150,37 +150,44 @@ def filter_products(request):
         print("filter_products after get view was called")
         min_price = request.GET.get('min_price', None)
         max_price = request.GET.get('max_price', None)
-        product_name = request.GET.get('product_name', None)
         category_name = request.GET.get('category', None)
-      
+
         # Initialize a base queryset
-        queryset = Product.objects.filter(product_is_available=True)
+        queryset = Product.objects.all() if min_price or max_price or category_name else Product.objects.none()
 
         # Get the minimum and maximum prices of size variations
         min_variation_price = SizeVariation.objects.aggregate(Min('price'))['price__min']
         max_variation_price = SizeVariation.objects.aggregate(Max('price'))['price__max']
 
+        # Initialize a dictionary to hold the filter conditions
+        filters = {'product_is_available': True}
+
         # Apply filtering based on combination of criteria
         if min_price:
             min_price = max(float(min_price), min_variation_price)  # Ensure min price is not less than min variation price
-            queryset = queryset.filter(sizevariation__price__gte=min_price)
+            filters['sizevariation__price__gte'] = min_price
         if max_price:
             max_price = min(float(max_price), max_variation_price)  # Ensure max price is not more than max variation price
-            queryset = queryset.filter(sizevariation__price__lte=max_price)
-        if product_name:
-            queryset = queryset.filter(product_name__icontains=product_name)
+            filters['sizevariation__price__lte'] = max_price
         if category_name and category_name.strip() != '':
-            queryset = queryset.filter(category__category_name=category_name)
-       
+            filters['category__category_name'] = category_name
 
-        # Pass the filtered queryset to the template for rendering
+        # Apply the filters to the queryset
+        queryset = queryset.filter(**filters)
+
+        # Check if no filters are applied
+        if min_price is None and max_price is None and (category_name is None or category_name.strip() == ''):
+            message = 'Please apply some filters.'
+        else:
+            message = ''
+
+        # Pass the filtered queryset and the message to the template for rendering
         print("filter_products after get view was called")
         print("queryset:", queryset)
-        categories = Category.objects.all()
-        return render(request, 'filter_template.html', {'products': queryset, 'categories': categories})
-    else:
-        return redirect('filter_template')  # Assuming 'filter_template' is the URL name for the filter_template.html file
 
+        return render(request, 'filter_template.html', {'products': queryset, 'message': message})
+    else:
+        return render(request, 'filter_template.html', {'products': queryset})
 @csrf_exempt
 def rate_product(request, product_slug):
     print("called rate_product view")

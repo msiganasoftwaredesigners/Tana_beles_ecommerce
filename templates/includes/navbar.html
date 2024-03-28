@@ -11,7 +11,9 @@
             <img src="{{footer.nav_company_logo.url}}" alt="Main page image" />
          {% endif %}
         </a>
-        <a href="{% url 'home' %}" class="brand-wrap w-16 mr-2 pl-2">Home</a>
+       
+        <a href="{% url 'home' %}" class="brand-wrap w-16 mr-2 pl-2 hidden md:inline">Home</a>
+
         <nav class="hidden sm:flex space-x-4">
             <a href="#" class="text-black hover:text-blue-700 transition">New Arrival</a>
             <a href="#" class="text-black hover:text-blue-700 transition">Feature Product</a>
@@ -22,26 +24,27 @@
         <div class="space-x-1 md:space-x-16 flex items-center">
          
             <div class="dropdown z-50">
-                <button id="filter-button" class="dropbtn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filter</button>
+                <button id="filter-button" class="dropbtn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center">
+                    <i class="fa fa-filter mr-2"></i>
+                    Filter
+                </button>
+                
                 <div id="dropdown-content" class="dropdown-content hidden absolute left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-md p-4">
                         <button id="close-button" class="absolute top-0 right-0 m-2 text-2xl ml-6">&times;</button>
                         <form id="filter-form" class="flex flex-col space-y-4 mt-6" action="{% url 'filter_products' %}" method="GET">
                             <input type="number" name="min_price" placeholder="Min price" class="border-2 border-gray-300 p-2 rounded-md">
                             <input type="number" name="max_price" placeholder="Max price" class="border-2 border-gray-300 p-2 rounded-md">
-                            <input type="text" id="product-name" name="product_name" placeholder="Product name" class="border-2 border-gray-300 p-2 rounded-md">
                             <input type="hidden" id="category-input" name="category">
-                            <div class="border-2 border-gray-300 p-2 rounded-md overflow-y-auto max-h-60">
+                            <div class="border-2 border-gray-300 p-2 rounded-md overflow-y-auto max-h-32">
                                 <button type="button" class="w-full text-left" value="">Select category</button>
-                                {% for category in categories %}
-                                    <button type="button" class="w-full text-left text-green-600" value="{{ category.category_name }}">{{ category.category_name }}</button>
+                                {% for category in links %}
+                                    <button type="button" class="category-button w-full text-left text-gray-600  hover:bg-gray-300" value="{{ category.category_name }}">{{ category.category_name }}</button>
                                 {% endfor %}
                             </div>
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Apply</button>
                         </form>
                 </div>
             </div>
-            
-            {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
             <script>
                 $(document).ready(function() {
                     $('#filter-button').click(function() {
@@ -53,12 +56,40 @@
                         $('#dropdown-content').addClass('hidden');
                         $('#filter-button').show();
                     });
+
+                    $('.category-button').click(function() {
+                        // Remove the 'bg-gray-600' class from all category buttons
+                        $('.category-button').removeClass('bg-gray-400 text-white');
                     
-                    $('#filter-form button[type="button"]').click(function() {
-                        // Set the value of a hidden input field to the value of the clicked button
-                        if ($(this).val() != '') {
-                            $('#category-input').val($(this).val());
-                        }
+                        // Add the 'bg-gray-600' class to the clicked button
+                       $(this).addClass('bg-gray-400 text-white');
+
+                    // Store the selected category in localStorage
+                    var category = $(this).val();
+                    if (category != '') {
+                        localStorage.setItem('selectedCategory', category);
+                    } else {
+                        localStorage.removeItem('selectedCategory');
+                    }
+                    //localStorage.setItem('selectedCategory', $(button).val());
+                    
+                    // Set the value of a hidden input field to the value of the clicked button
+                    if ($(this).val() != '') {
+                        $('#category-input').val($(this).val());
+                    }
+                });
+
+                
+
+                      // Highlight the selected category button on page load
+                    var selectedCategory = localStorage.getItem('selectedCategory');
+                    if (selectedCategory) {
+                        $('.category-button[value="' + selectedCategory + '"]').addClass('bg-gray-400 text-white');
+                    }
+
+                    // Remove the selected category from localStorage when the Apply button is clicked
+                    $('#filter-form').submit(function() {
+                        localStorage.removeItem('selectedCategory');
                     });
                     $(document).click(function(event) {
                         if (!$(event.target).closest('#dropdown-content').length && !$(event.target).is('#filter-button')) {
@@ -68,6 +99,8 @@
                     });
                 });
             </script>
+            
+    
             
 
            
@@ -83,9 +116,11 @@
                     Admin
                 </a>
             {% else %}
-                <a href="{% url 'users_profiles' %}" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-3 pr-2">
-                    Profile
-                </a>
+            <a href="{% url 'users_profiles' %}" class="ml-auto justify-self-end flex items-center text-black hover:text-blue-700 transition pl-3 pr-2">
+                <i class="fa fa-user text-3xl mr-2"></i>
+              
+            </a>
+            
             {% endif %}
         {% else %}
             <a href="{% url 'account_login' %}" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-3 pr-2">
