@@ -116,9 +116,10 @@
                     Admin
                 </a>
             {% else %}
-            <a href="{% url 'users_profiles' %}" class="ml-auto justify-self-end flex items-center text-black hover:text-blue-700 transition pl-3 pr-2">
-                <i class="fa fa-user text-3xl mr-2"></i>
-              
+            <a href="{% url 'users_profiles' %}" class="ml-auto justify-self-end flex items-center text-black hover:text-blue-700 transition pl-3 pr-2 relative">
+                <div class="w-12 h-12 rounded-full border bg-blue-600 hover:bg-green-600 flex items-center justify-center">
+                    <i class="fa fa-user text-2xl text-white"></i>
+                </div>
             </a>
             
             {% endif %}
