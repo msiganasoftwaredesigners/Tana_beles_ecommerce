@@ -13,10 +13,14 @@
 
     <!-- order complete wrapper -->
     <div class="max-w-3xl mx-auto px-4 pt-16 pb-12 md:pb-24">
-        <div class="mb-8">
-            <svg xmlns="http://www.w3.org/2000/svg" height="64" width="48" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+        <div class="md:mb-8 text-center ">
+            <div class="mx-auto inline-block">
+                <svg xmlns="http://www.w3.org/2000/svg" height="64" width="48" viewBox="0 0 448 512" fill="green">
+                    <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+                </svg>
+            </div>
         </div>
-        <h2 class="text-gray-800 font-medium text-3xl mb-3">
+        <h2 class="text-gray-800 font-medium text-3xl mb-3 text-center">
             YOUR ORDER IS COMPLETED!
         </h2>
         <p class="text-gray-600 ">
@@ -24,6 +28,13 @@
             Your order is currently being processed and will be completed within 3-6 hours.
              We will contact you by phone and email during this time frame to confirm. 
              Once your order is ready for delivery, we will notify you promptly
+             <br><br>
+             If you need support please call us at  <a
+             href="tel:{{footer.phone_number}}"
+             class="text-sm md:text-lg hover:text-gray-900 block">
+             {{footer.phone_number|slice:":2"}}-{{footer.phone_number|slice:"2:4"}}-{{footer.phone_number|slice:"4:6"}}-{{footer.phone_number|slice:"6:8"}}-{{footer.phone_number|slice:"8:"}}
+           </a>
+             <span class="text-green-600">Tanabeles IT Solution PLC</span>
         </p>
         <div class="mt-10">
             <a href="{% url 'store' %}" class="bg-blue-600 border border-primary text-white px-6 py-3 font-medium rounded-md uppercase hover:bg-green-600
