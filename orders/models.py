@@ -22,13 +22,22 @@ class Order(models.Model):
     order_address = models.CharField(max_length=100)
     order_date = models.DateTimeField(auto_now_add=True)
     order_total_prices = models.DecimalField(max_digits=10, decimal_places=2)
-    order_key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     payment_status = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='received')
     outTradeNo = models.CharField(max_length=60, editable=False)
     transaction_no = models.CharField(max_length=60, blank=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     referral_code = models.CharField(max_length=30, blank=True)
+    order_key = models.CharField(max_length=6, editable=False, unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.order_key:
+            # Generate a sequence of 3 uppercase letters
+            letters = ''.join(random.choice(string.ascii_uppercase) for _ in range(3))
+            # Generate a sequence of 3 digits
+            numbers = ''.join(random.choice(string.digits) for _ in range(3))
+            self.order_key = letters + numbers
+        super().save(*args, **kwargs)
     
     def save(self, *args, **kwargs):
         if not self.outTradeNo:
