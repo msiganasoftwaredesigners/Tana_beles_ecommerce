@@ -32,18 +32,21 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.order_key:
-            # Generate a sequence of 3 uppercase letters
-            letters = ''.join(random.choice(string.ascii_uppercase) for _ in range(3))
-            # Generate a sequence of 3 digits
-            numbers = ''.join(random.choice(string.digits) for _ in range(3))
-            self.order_key = letters + numbers
+            while True:
+                # Generate a sequence of 3 uppercase letters
+                letters = ''.join(random.choice(string.ascii_uppercase) for _ in range(3))
+                # Generate a sequence of 3 digits
+                numbers = ''.join(random.choice(string.digits) for _ in range(3))
+                self.order_key = letters + numbers
+                # If the generated order_key is unique, break the loop
+                if not Order.objects.filter(order_key=self.order_key).exists():
+                    break
+
+        if not self.outTradeNo:
+           self.outTradeNo = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+
         super().save(*args, **kwargs)
     
-    def save(self, *args, **kwargs):
-        if not self.outTradeNo:
-            self.outTradeNo = str(int(time.time() * 1000)) + ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return str(self.order_key)
     
