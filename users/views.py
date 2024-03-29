@@ -24,3 +24,13 @@ class GoogleLoginCallbackView(OAuth2CallbackView):
             messages.error(request, 'You are already registered. Please log in.')
             return redirect('account_login')  # Use the appropriate login URL
 
+
+class FacebookLoginCallbackView(OAuth2CallbackView):
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            return super().dispatch(request, *args, **kwargs)
+        except IntegrityError:
+            # Handle the IntegrityError when email already exists
+            # For example, you can redirect the user to the login page or display a message
+            messages.error(request, 'You are already registered. Please log in.')
+            return redirect('account_login')  # Use the appropriate login URL

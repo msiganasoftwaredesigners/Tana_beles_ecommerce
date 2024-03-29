@@ -124,14 +124,23 @@
               </div>
             </div>
             <div class="space-y-1">
+                <h1 class="text-center text-2xl font-medium md:text-3xl my-2 md:mt-6"> My Orders</h1>
                 <hr class="border-t-2 border-blue-500 my-4">
                 {% for order in orders %}
                     <div class="order">
                         <p class="text-gray-800"><label class=" pr-2 font-bold">Order ID:</label> {{order.order_key}}</p>
-                        <p class="text-gray-800"><label class=" pr-2 font-bold">Order Date:</label>  {{order.order_date}}</p>
-                        <p class="text-gray-800"><label class=" pr-2 font-bold">Order Total:</label>  {{order.order_total_prices}}</p>
-                        <p class="text-gray-800"><label class=" pr-2 font-bold">Order Status:</label>  {{order.get_status_display}}</p>
-                        <p class="text-gray-800"><label class=" pr-2 font-bold">Payment Status:</label>  {{ order.payment_status|yesno:"Yes,No" }}</p>
+                        <p class="text-gray-800"><label class=" pr-2 font-bold">Date:</label>  {{order.order_date}}</p>
+                        <p class="text-gray-800"><label class=" pr-2 font-bold">Total Price:</label>  {{order.order_total_prices}}</p>
+                        <p class="text-gray-800"><label class=" pr-2 font-bold">Order Status:</label>  
+                            {% if order.status == 'received' %}
+                                Ordered
+                            {% elif order.status == 'complete' %}
+                                Received
+                            {% else %}
+                                {{ order.get_status_display }}
+                            {% endif %}
+                        </p>
+                        <p class="text-gray-800"><label class=" pr-2 font-bold">Payment Status:</label>  {{ order.payment_status|yesno:"Paid,Not Paid" }}</p>
                         <p class="text-gray-800"><label class=" pr-2 font-bold">Products:</label>
                             {% for item in order.items.all %}
                             <p>
