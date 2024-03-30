@@ -23,13 +23,14 @@ class AdvertizementFirst(models.Model):
         # Optimize image before saving
         if self.advertizement_first_image:
             img = Image.open(self.advertizement_first_image)
-            output = BytesIO()
+            if img.format != 'GIF':
+                output = BytesIO()
 
-            # Save the image in its original format
-            img_format = img.format
-            img.save(output, format=img_format, quality=75)
-            output.seek(0)
-            self.advertizement_first_image = ContentFile(output.read(), self.advertizement_first_image.name)
+                # Save the image in its original format
+                img_format = img.format
+                img.save(output, format=img_format, quality=75)
+                output.seek(0)
+                self.advertizement_first_image = ContentFile(output.read(), self.advertizement_first_image.name)
 
         return super().save(*args, **kwargs)
     
@@ -56,13 +57,14 @@ class AdvertizementSecond(models.Model):
         # Optimize image before saving
         if self.advertizement_second_image:
             img = Image.open(self.advertizement_second_image)
-            output = BytesIO()
+            if img.format != 'GIF':
+                output = BytesIO()
 
-            # Save the image in its original format
-            img_format = img.format
-            img.save(output, format=img_format, quality=75)
-            output.seek(0)
-            self.advertizement_second_image = ContentFile(output.read(), self.advertizement_second_image.name)
+                # Save the image in its original format
+                img_format = img.format
+                img.save(output, format=img_format, quality=75)
+                output.seek(0)
+                self.advertizement_second_image = ContentFile(output.read(), self.advertizement_second_image.name)
 
         return super().save(*args, **kwargs)
     def delete(self, *args, **kwargs):
@@ -88,13 +90,14 @@ class AdvertizementThird(models.Model):
         # Optimize image before saving
         if self.advertizement_third_image:
             img = Image.open(self.advertizement_third_image)
-            output = BytesIO()
+            if img.format != 'GIF':
+                output = BytesIO()
 
-            # Save the image in its original format
-            img_format = img.format
-            img.save(output, format=img_format, quality=75)
-            output.seek(0)
-            self.advertizement_third_image = ContentFile(output.read(), self.advertizement_third_image.name)
+                # Save the image in its original format
+                img_format = img.format
+                img.save(output, format=img_format, quality=75)
+                output.seek(0)
+                self.advertizement_third_image = ContentFile(output.read(), self.advertizement_third_image.name)
 
         return super().save(*args, **kwargs)
     

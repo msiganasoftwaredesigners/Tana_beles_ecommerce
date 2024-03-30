@@ -10,6 +10,7 @@ from io import BytesIO
 import os
 from django_quill.fields import QuillField
 from users.models import CustomUser
+from django.db.models import Avg
 # from django.db.models import Count, F, Manager
 
 class VariationManager(models.Manager):
@@ -89,7 +90,12 @@ class Product(models.Model):
     def likes_count(self):
         return self.likes.count()
     
+    def average_rating(self):
+        """Return the average rating for this product."""
+        return ProductRating.objects.filter(product=self).aggregate(Avg('rating'))['rating__avg'] or 0
+
     def review_count(self):
+        """Return the number of reviews for this product."""
         return ProductRating.objects.filter(product=self).count()
     def __str__(self):
         return self.product_name

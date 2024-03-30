@@ -25,6 +25,8 @@ logger = logging.getLogger(__name__)
 from django.http import JsonResponse
 from django.db.models import Q
 from django.core.cache import cache
+
+
 def store(request, category_slug=None):
     categories = None
     products = None
@@ -63,6 +65,9 @@ def store(request, category_slug=None):
         return JsonResponse(data, safe=False)
 
     # Your existing code
+    for product in products:
+        product.average_rating = product.average_rating()
+        product.review_count = product.review_count()
     most_liked_product = most_liked_products_with_count[0] if most_liked_products_with_count else None
     return render(request, template, {'products': products_page, 'most_liked_product': most_liked_product})
 

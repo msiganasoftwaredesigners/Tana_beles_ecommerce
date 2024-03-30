@@ -10,7 +10,7 @@
     {% for content in head_contents %}
     {{ content.header_meta_data|safe }}
     {% endfor %}
-
+    <title>{% block title %}{{ title }}{% endblock %}</title>
     <link rel="icon" type="image/png" href="{{ favicon.favicon_image.url }}">
 
     <!-- jQuery -->

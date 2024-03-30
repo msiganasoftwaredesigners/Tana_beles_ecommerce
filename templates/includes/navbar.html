@@ -3,7 +3,7 @@
 {% block content %}
 
 <header class="py-4 shadow-sm bg-sky-200">
-    <div class="container flex items-center justify-between">
+    <div class="container flex items-center md:justify-between">
         <a href="{% url 'home' %}" class="brand-wrap w-16 mr-4 pl-2">
             {% if not footer.nav_company_logo.url %}
             <p>Please insert nav company logo</p>
@@ -21,13 +21,19 @@
             <a href="{% url 'about-us' %}" class="text-black hover:text-blue-700 transition">About Us</a>
             <a href="{% url 'contact-us' %}" class="text-black hover:text-blue-700 transition">Contact Us</a>
         </nav>
-        <div class="space-x-1 md:space-x-16 flex items-center">
+        <div class="space-x-4  md:space-x-12 flex items-center pl-12  md:pl-0">
          
             <div class="dropdown z-50">
-                <button id="filter-button" class="dropbtn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center">
-                    <i class="fa fa-filter mr-2"></i>
-                    Filter
+                
+                <button id="filter-button" class="dropbtn bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded flex items-center">
+                    <span class="pr-2">Filter</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 2" viewBox="0 0 30 30" id="filter" class="mr-2" width="24" height="24">
+                        <path fill="#FFFFFF" stroke-width="2" d="M17 11H4A1 1 0 0 1 4 9H17A1 1 0 0 1 17 11zM26 11H22a1 1 0 0 1 0-2h4A1 1 0 0 1 26 11z"></path>
+                        <path fill="#FFFFFF" stroke-width="2" d="M19.5 13.5A3.5 3.5 0 1 1 23 10 3.5 3.5 0 0 1 19.5 13.5zm0-5A1.5 1.5 0 1 0 21 10 1.5 1.5 0 0 0 19.5 8.5zM26 21H13a1 1 0 0 1 0-2H26A1 1 0 0 1 26 21zM8 21H4a1 1 0 0 1 0-2H8A1 1 0 0 1 8 21z"></path>
+                        <path fill="#FFFFFF" stroke-width="2" d="M10.5,23.5A3.5,3.5,0,1,1,14,20,3.5,3.5,0,0,1,10.5,23.5Zm0-5A1.5,1.5,0,1,0,12,20,1.5,1.5,0,0,0,10.5,18.5Z"></path>
+                    </svg>
                 </button>
+                
                 
                 <div id="dropdown-content" class="dropdown-content hidden absolute left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-md p-4">
                         <button id="close-button" class="absolute top-0 right-0 m-2 text-2xl ml-6">&times;</button>
@@ -104,7 +110,7 @@
             
 
            
-            <a href="{% url 'cart' %}" class="pl-2 relative">
+            <a href="{% url 'cart' %}" class="pl-4 relative">
                 <div class="w-12 h-12 rounded-full border bg-blue-600 hover:bg-green-600 flex items-center justify-center">
                     <i class=" fa fa-shopping-cart text-2xl text-white"></i>
                 </div>
@@ -116,7 +122,7 @@
                     Admin
                 </a>
             {% else %}
-            <a href="{% url 'users_profiles' %}" class="ml-auto justify-self-end flex items-center text-black hover:text-blue-700 transition pl-3 pr-2 relative">
+            <a href="{% url 'users_profiles' %}" class="ml-auto justify-self-end flex items-center text-black hover:text-blue-700 transition pl-4 pr-4 relative">
                 <div class="w-12 h-12 rounded-full border bg-blue-600 hover:bg-green-600 flex items-center justify-center">
                     <i class="fa fa-user text-2xl text-white"></i>
                 </div>
@@ -124,7 +130,7 @@
             
             {% endif %}
         {% else %}
-            <a href="{% url 'account_login' %}" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-3 pr-2">
+            <a href="{% url 'account_login' %}" class="ml-auto justify-self-end text-black hover:text-blue-700 transition pl-4 pr-2">
                 Login
             </a>
         {% endif %}
