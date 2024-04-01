@@ -11,6 +11,7 @@ class SizeVariationInlineFormSet(BaseInlineFormSet):
         super().clean()
         for form in self.forms:
             if form.cleaned_data and form.cleaned_data['price'] < 1:
+                print("Price is less than 1:", form.cleaned_data['price'])
                 raise forms.ValidationError("Price should be greater than or equal to 1.")
 
 class SizeVariationInline(nested_admin.NestedTabularInline):
@@ -61,7 +62,10 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
     def save_model(self, request, obj, form, change):
         if not change:  # the object is being created, so set the user
             obj.product_owner = request.user
+        print("Product being saved. Change:", change)
         obj.save()
+        print("Product saved successfully.")
+       
 
     def delete_model(self, request, obj):
         # Clear the most liked products cache
