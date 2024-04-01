@@ -202,10 +202,6 @@ class SizeVariation(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2,default=0.00)
     color = models.ManyToManyField(Color, blank=True) 
 
-    def __str__(self):
-        return f"{self.product.product_name} - {self.size.name}"
-
-
     def clean(self):
         # Check if price is a decimal
         if not isinstance(self.price, Decimal):
