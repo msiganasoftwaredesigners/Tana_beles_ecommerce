@@ -11,6 +11,8 @@ import os
 from django_quill.fields import QuillField
 from users.models import CustomUser
 from django.db.models import Avg
+from django.db.models.signals import post_delete, pre_save
+from django.dispatch import receiver
 # from django.db.models import Count, F, Manager
 
 class VariationManager(models.Manager):
@@ -158,12 +160,13 @@ class ProductImage(models.Model):
            self.image = ContentFile(output.read(), self.image.name)
 
         super().save(*args, **kwargs)
+    
 
+  
     def delete(self, *args, **kwargs):
     # Delete the actual image file
         try:
-            if os.path.isfile(self.image.path):
-                os.remove(self.image.path)
+            self.image.delete(save=False)
         except PermissionError:
             print("Permission denied: Unable to delete the image file.")
         except Exception as e:
@@ -177,6 +180,20 @@ class ProductImage(models.Model):
     def __str__(self):
         return self.product.product_name + " Image"
     
+@receiver(post_delete, sender=ProductImage)
+def delete_product_image(sender, instance, **kwargs):
+    """Delete the actual image file when a ProductImage object is deleted."""
+    instance.image.delete(save=False)
+
+@receiver(pre_save, sender=ProductImage)
+def delete_old_image_on_update(sender, instance, **kwargs):
+    """Delete the old image file when a ProductImage object is updated."""
+    if instance.pk:
+        old_image = ProductImage.objects.get(pk=instance.pk).image
+        new_image = instance.image
+        if old_image != new_image:
+            old_image.delete(save=False)
+
 
 class SizeVariation(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
