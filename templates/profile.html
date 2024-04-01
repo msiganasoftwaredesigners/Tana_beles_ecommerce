@@ -3,7 +3,7 @@
 {% block content %}
 
 
-        <div class="flex flex-col md:flex-row   px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl">
+        <div class="flex flex-col md:flex-row   px-0 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl">
             <div class="md:w-3/12 py-4 pl-4">
               <div class="flex flex-col">
                     <div class="pl-4 mr-2 py-3 shadow flex items-center gap-4 bg-blue-100">
@@ -97,7 +97,7 @@
                                 {% endwith %}
                             </div>
                             </a>
-                            <div class="sm:p-2 pl-4  md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
+                            <div class="sm:p-2 pl-2  2xl:pl-6 md:pt-0 md:pb-1">
                                 <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.product_name|slice:":16"|capfirst }}</a>
                                 <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
                                     {% load price_filters%}
@@ -125,7 +125,7 @@
                 </div>
               </div>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1 ml-2">
                 <h1 class="text-center text-2xl font-medium md:text-3xl my-2 md:mt-6"> My Orders</h1>
                 <hr class="border-t-2 border-blue-500 my-4">
                 {% for order in orders %}
@@ -143,16 +143,15 @@
                             {% endif %}
                         </p>
                         <p class="text-gray-800"><label class=" pr-2 font-bold">Payment Status:</label>  {{ order.payment_status|yesno:"Paid,Not Paid" }}</p>
-                        <p class="text-gray-800"><label class=" pr-2 font-bold">Products:</label>
+                        <p class="text-gray-800"><label class="pr-2 font-bold">Products:</label>
                             {% for item in order.items.all %}
-                            <p>
                                 {% if item.product %}
-                                    <a href="{{ item.product.get_store_url }}">{{ item.product_name }}</a>
+                                    <a href="{{ item.product.get_store_url }}" class="inline-block mr-2">{{ item.product_name }},</a>
                                 {% else %}
-                                    {{ item.product_name }}
+                                    <span class="inline-block mr-2">{{ item.product_name }}</span>
                                 {% endif %}
-                            </p>
-                        {% endfor %}
+                            {% endfor %}
+                        </p>
                         <hr class="border-t-2 border-blue-500 my-4">
                     </div>
                 {% endfor %}

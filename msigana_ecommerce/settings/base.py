@@ -124,7 +124,8 @@ SOCIALACCOUNT_PROVIDERS = {
 
             'client_id': config('FACEBOOK_CLIENT_ID'),
             'secret': config('FACEBOOK_SECRET'),
-        }
+        },
+         'SCOPE': ['email', 'public_profile', 'user_friends'],
     }
 }
 

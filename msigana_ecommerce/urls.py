@@ -7,6 +7,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+    path('new-arrivals/', views.new_arrivals, name='new-arrivals'),
     path('store/', include('store.urls')),
     path('carts/', include('carts.urls')),
     path('orders/', include('orders.urls')),

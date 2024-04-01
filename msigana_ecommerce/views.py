@@ -19,6 +19,12 @@ def about_us(request):
 
 def privacy_policy(request):
     return render(request, 'privacy-policy.html')
+def new_arrivals(request):
+    products = Product.objects.all().filter(product_is_available=True)
+    context = {
+        'products': products
+    }
+    return render(request, 'new-arrivals.html', context)
 
 # def users_profiles(request):
 #     return render(request, 'profile.html')

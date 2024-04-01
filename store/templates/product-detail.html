@@ -259,7 +259,7 @@
         <img src="{{ advertizement_third.advertizement_third_image.url }}" class=" w-full  px-2 sm:px-8 md:px-16 lg:px-32 2xl:px-64  h-32 xl:h-64 object-cover" />
       </a>
     {% if related_products %}
-    <div class="container pb-8 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
+    <div class="container pb-8 items-center px-2 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
         <h2 class="text-2xl md:text-3xl font-medium text-gray-800 uppercase  pt-2 my-6">related products</h2>
         <div class="grid grid-cols-2 lg:grid-cols-4 sm:grid-cols-2 gap-6">
             {% for product in related_products %}
@@ -270,7 +270,7 @@
                 <div class="pt-4 pb-3 pl-2  md:px-4 ">
                     <a href="{% url 'product_detail' product.category.category_slug product.product_slug %}">
                         <h4
-                            class="uppercase font-medium text-base lg:text-sm  xl:text-lg mb-2 text-gray-800 hover:text-primary transition">
+                            class=" font-medium text-base lg:text-sm  xl:text-lg mb-2 text-gray-800 hover:text-primary transition">
                             {{ product.get_short_name|capfirst }}
                         </h4>
                     </a>
@@ -295,7 +295,7 @@
     {% endif %}
     <!-- related products end -->
     <!-- Heart button -->
-<div class="container pb-8 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
+<div class="container pb-8 items-center px-0 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
     <header class="section-heading">
         <h2
           class="text-2xl md:text-3xl font-medium text-gray-800 uppercase pt-4 mb-4 mt-4 px-6 md:px-0"
@@ -320,7 +320,7 @@
                       {% endwith %}
                   </div>
                   </a>
-                  <div class="sm:p-2 pl-4  md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
+                  <div class="sm:p-2 pl-2  2xl:pl-6 md:pt-0 md:pb-1">
                       <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.product_name|slice:":16"|capfirst }}</a>
                       <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
                           {% load price_filters%}

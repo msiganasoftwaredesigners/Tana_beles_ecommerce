@@ -99,6 +99,7 @@ class Product(models.Model):
     def review_count(self):
         """Return the number of reviews for this product."""
         return ProductRating.objects.filter(product=self).count()
+    
     def __str__(self):
         return self.product_name
     
@@ -200,6 +201,9 @@ class SizeVariation(models.Model):
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=7, decimal_places=2,default=0.00)
     color = models.ManyToManyField(Color, blank=True) 
+
+    def __str__(self):
+        return f"{self.product.product_name} - {self.size.name}"
 
 
     def clean(self):

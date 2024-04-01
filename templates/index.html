@@ -73,7 +73,7 @@
                         {% endwith %}
                     </div>
                     </a>
-                    <div class="sm:p-2 pl-4  md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
+                    <div class="sm:p-2 pl-2 2xl:pl-6 md:pt-0 md:pb-1">
                         <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.product_name|slice:":16"|capfirst }}</a>
                         <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
                             {% load price_filters%}
@@ -128,7 +128,7 @@
                       {% endwith %}
                   </div>
                   </a>
-                  <div class="sm:p-2 pl-4 md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
+                  <div class="sm:p-2 pl-2 2xl:pl-6 md:pt-0 md:pb-1">
                       <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  2xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.get_short_name|capfirst }}</a>
                       <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
                           {% load price_filters%}
@@ -153,7 +153,7 @@
               </div>
           </div>
           {% endfor %}
-      </div>
+         </div>
           <!-- product wrapper end -->
         </div>
         <!-- New product for you end -->
