@@ -179,7 +179,8 @@ class ProductImage(models.Model):
         verbose_name_plural = 'Product Images'
 
     def __str__(self):
-        return self.product.product_name + " Image"
+        product_name = self.product.product_name if self.product.product_name else "No name"
+        return product_name + " Image"
     
 @receiver(post_delete, sender=ProductImage)
 def delete_product_image(sender, instance, **kwargs):
