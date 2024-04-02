@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 
 class Footer(models.Model):
@@ -33,3 +35,10 @@ class Footer(models.Model):
         self.footer_company_logo.delete(save=False)
         self.main_page_image.delete(save=False)
         super().delete(*args, **kwargs)
+
+@receiver(post_delete, sender=Footer)
+def delete_footer_images(sender, instance, **kwargs):
+    """Delete the actual image files when a Footer object is deleted."""
+    instance.nav_company_logo.delete(save=False)
+    instance.footer_company_logo.delete(save=False)
+    instance.main_page_image.delete(save=False)
