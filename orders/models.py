@@ -18,7 +18,7 @@ class Order(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     order_phone = models.CharField(max_length=13, blank=True)
-    order_email = models.EmailField(max_length=50, blank=True)
+    order_username = models.CharField(max_length=50, blank=True)
     order_address = models.CharField(max_length=100)
     order_date = models.DateTimeField(auto_now_add=True)
     order_total_prices = models.DecimalField(max_digits=10, decimal_places=2)

@@ -36,10 +36,10 @@ class OrderAdmin(admin.ModelAdmin):
     export_selected_orders_xlsx.short_description = "Export selected orders to XLSX"
     
     actions = [export_selected_orders_to_gsheets, export_selected_orders_pdf, export_selected_orders_xlsx]
-    list_display = ['first_name', 'last_name', 'user', 'outTradeNo', 'order_phone', 'order_email', 'order_date', 'order_total_prices', 'order_address', 'payment_status', 'status']
+    list_display = ['first_name', 'last_name', 'user', 'outTradeNo', 'order_phone', 'order_username', 'order_date', 'order_total_prices', 'order_address', 'payment_status', 'status']
     list_filter = ['order_date', 'payment_status', 'status']
     inlines = [OrderItemInline]
-    readonly_fields = ['first_name', 'last_name', 'order_phone', 'order_email', 'order_date', 'order_total_prices', 'order_address', 'payment_status']
+    readonly_fields = ['first_name', 'last_name', 'order_phone', 'order_username', 'order_date', 'order_total_prices', 'order_address', 'payment_status']
 
     def has_add_permission(self, request):
         return False

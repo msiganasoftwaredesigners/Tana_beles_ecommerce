@@ -25,7 +25,7 @@ def export_orders_to_gsheets(queryset):
         sheet.update_cell(i, 1, order.first_name)
         sheet.update_cell(i, 2, order.last_name)
         sheet.update_cell(i, 3, order.order_phone)
-        sheet.update_cell(i, 4, order.order_email)
+        sheet.update_cell(i, 4, order.order_username)
         sheet.update_cell(i, 5, order.order_date.strftime('%Y-%m-%d'))
         sheet.update_cell(i, 6, float(order.order_total_prices))
         sheet.update_cell(i, 7, order.order_address)

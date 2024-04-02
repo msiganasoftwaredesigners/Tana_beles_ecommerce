@@ -54,7 +54,7 @@ def export_orders_view(request, queryset, format):
             ws.cell(row=row_num, column=1, value=order.first_name)
             ws.cell(row=row_num, column=2, value=order.last_name)
             ws.cell(row=row_num, column=3, value=order.order_phone)
-            ws.cell(row=row_num, column=4, value=order.order_email)
+            ws.cell(row=row_num, column=4, value=order.order_username)
             ws.cell(row=row_num, column=5, value=order.order_date.strftime('%Y-%m-%d'))
             ws.cell(row=row_num, column=6, value=str(order.order_total_prices))
             ws.cell(row=row_num, column=7, value=order.order_address)
@@ -76,7 +76,7 @@ def export_orders_view(request, queryset, format):
         data.append(headers)
 
         for order in orders:
-            row = [order.first_name, order.last_name, order.order_phone, order.order_email, order.order_date.strftime('%Y-%m-%d'), str(order.order_total_prices), order.order_address, order.payment_status, order.status]
+            row = [order.first_name, order.last_name, order.order_phone, order.order_username, order.order_date.strftime('%Y-%m-%d'), str(order.order_total_prices), order.order_address, order.payment_status, order.status]
             data.append(row)
 
         table = Table(data)
@@ -106,7 +106,9 @@ def export_orders_view(request, queryset, format):
 
 def create_order(request):
       # Get the current user's email
-    user_email = request.user.email
+    # user_email = request.user.email
+    user_username = request.user.username
+
 
     # Get the total price from the session
     total = request.session.get('total', 0)
@@ -119,7 +121,7 @@ def create_order(request):
             order = Order(
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
-                order_email=user_email,
+                order_username=user_username,
                 order_address=form.cleaned_data['order_address'],
                 referral_code=form.cleaned_data['referral_code'],
                 order_total_prices=total,
