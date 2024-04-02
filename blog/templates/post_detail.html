@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
+{% block title %}{{ post.title }}{% endblock title %}
 {% block content %}
 <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg overflow-hidden m-4">
     <h1 class="text-3xl text-center text-green-600 font-bold mb-4">{{ post.title }}</h1>

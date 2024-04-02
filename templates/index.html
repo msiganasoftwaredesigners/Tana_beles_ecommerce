@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %} 
+{% block title %}{{footer.company_main_page_title}}{% endblock %} 
+{% block content %}
 <div class="grid grid-cols-4 md:grid-cols-12 gap-2">
   <div class="col-span-2 bg-white h-screen overflow-auto md:block hidden">
     <div class="p-6 pt-0">
