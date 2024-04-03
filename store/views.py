@@ -46,7 +46,7 @@ def store(request, category_slug=None):
 
     most_liked_products_with_count = most_liked_products(request)['most_liked_products']
     
-    paginator = Paginator(products, 15)
+    paginator = Paginator(products, 30)
     page = request.GET.get('page')
 
     try:

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import RewardRate, PaywithReward
+from msigana_ecommerce.admin_site import admin_site
 
 class RewardRateAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
@@ -10,12 +11,18 @@ class RewardRateAdmin(admin.ModelAdmin):
 
 class PaywithRewardAdmin(admin.ModelAdmin):
 
-    def has_add_permission(self, request):
-        return False
+   
     list_display = ['user', 'total_amount', 'payment_date', 'payment_status']
     list_filter = ['payment_date', 'payment_status']
     search_fields = ['user', 'total_amount', 'payment_date', 'payment_status']
+    readonly_fields = ['transaction_no','user', 'total_amount', 'payment_date', 'payment_status']
     list_per_page = 30
 
-admin.site.register(RewardRate, RewardRateAdmin)
-admin.site.register(PaywithReward, PaywithRewardAdmin)
+    def has_add_permission(self, request):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
+        
+
+admin_site.register(RewardRate, RewardRateAdmin)
+admin_site.register(PaywithReward, PaywithRewardAdmin)

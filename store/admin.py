@@ -4,6 +4,7 @@ from django.core.cache import cache
 import nested_admin
 from django.forms.models import BaseInlineFormSet
 from django import forms
+from msigana_ecommerce.admin_site import admin_site
 
 
 class SizeVariationInlineFormSet(BaseInlineFormSet):
@@ -44,6 +45,7 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
         'display_sizes'  # Custom methods for display
     )
     inlines = [SizeVariationInline, ProductImageInline]
+    readonly_fields = ['product_owner']
 
     class Media:
         js = ('js/admin.js',)
@@ -92,7 +94,19 @@ class ProductAdmin(nested_admin.NestedModelAdmin):
     def render_change_form(self, request, context, *args, **kwargs):
         return super().render_change_form(request, context, *args, **kwargs)
     
-admin.site.register(Product, ProductAdmin)
-admin.site.register(Color)
-admin.site.register(Size)
+class ColorAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+    
+class SizeAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+    
+admin_site.register(Product, ProductAdmin)
+admin_site.register(Color, ColorAdmin)
+admin_site.register(Size, SizeAdmin)
 

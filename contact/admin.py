@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import GoogleAppsScript
+from msigana_ecommerce.admin_site import admin_site
 
 class GoogleAppsScriptAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
@@ -7,4 +8,4 @@ class GoogleAppsScriptAdmin(admin.ModelAdmin):
             return False
         return super().has_add_permission(request)
 
-admin.site.register(GoogleAppsScript, GoogleAppsScriptAdmin)
+admin_site.register(GoogleAppsScript, GoogleAppsScriptAdmin)

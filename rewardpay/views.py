@@ -28,6 +28,7 @@ def pay_with_reward(request):
             payment.save()
 
             order.payment_status = True
+            order.paid_by_points = True
             order.transaction_no = payment.transaction_no
             if user.phone_number:
                 order.order_phone = user.phone_number

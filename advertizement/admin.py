@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import AdvertizementFirst, AdvertizementSecond, AdvertizementThird, Favicon
+from msigana_ecommerce.admin_site import admin_site
 
 class AdvertizementFirstAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
@@ -24,7 +25,7 @@ class FaviconAdmin(admin.ModelAdmin):
             return False
         return super().has_add_permission(request)
     
-admin.site.register(AdvertizementFirst, AdvertizementFirstAdmin)
-admin.site.register(AdvertizementSecond, AdvertizementSecondAdmin)
-admin.site.register(AdvertizementThird, AdvertizementThirdAdmin)
-admin.site.register(Favicon, FaviconAdmin)
+admin_site.register(AdvertizementFirst, AdvertizementFirstAdmin)
+admin_site.register(AdvertizementSecond, AdvertizementSecondAdmin)
+admin_site.register(AdvertizementThird, AdvertizementThirdAdmin)
+admin_site.register(Favicon, FaviconAdmin)

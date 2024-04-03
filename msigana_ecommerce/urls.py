@@ -1,11 +1,12 @@
-from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from msigana_ecommerce.admin_site import admin_site
+from django.contrib import admin
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin_site.urls),
     path('', views.home, name='home'),
     path('new-arrivals/', views.new_arrivals, name='new-arrivals'),
     path('store/', include('store.urls')),
@@ -21,7 +22,7 @@ urlpatterns = [
     
     path("accounts/profile/", views.update_profile, name="users_profiles"),
 ]
-admin.site.site_header = 'Tanabeles Login'
+# admin.site.site_header = 'Tanabeles Login'
 
 if settings.DEBUG:
     urlpatterns += [

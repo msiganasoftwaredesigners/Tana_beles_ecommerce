@@ -24,6 +24,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     address = models.TextField(blank=True)
     point_reward = models.DecimalField(max_digits=11, decimal_places=2, default=0)
     referral_code = models.CharField(max_length=30, blank=True)
+    is_ordersuperuser = models.BooleanField(default=False)
   
 
 

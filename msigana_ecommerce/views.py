@@ -1,10 +1,8 @@
-#msigana_ecommerce/views.py
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render
 from store.models import Product
-# from django.contrib.auth import logout
-# from django.shortcuts import redirect
 from users.forms import ProfileForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 def home(request):
@@ -26,26 +24,6 @@ def new_arrivals(request):
     }
     return render(request, 'new-arrivals.html', context)
 
-# def users_profiles(request):
-#     return render(request, 'profile.html')
-
-
-# msigan_ecommerce/views.py
-# @login_required
-# def update_profile(request):
-#     if request.method == 'POST':
-#         form = ProfileForm(request.POST, instance=request.user)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/accounts/profile/')
-#     else:
-#         form = ProfileForm(instance=request.user)
-
-#     liked_products = request.user.liked_products.all()
-
-#     return render(request, 'profile.html', {'form': form, 'liked_products': liked_products})
-
-from django.http import JsonResponse
 
 @login_required
 def update_profile(request):
@@ -61,7 +39,7 @@ def update_profile(request):
             })
     else:
         form = ProfileForm(instance=request.user)
-    orders = request.user.order_set.all().order_by('-order_date')[:6]
+    orders = request.user.order_set.filter(payment_status=True).order_by('-order_date')[:6]
     liked_products = request.user.liked_products.all()
 
     return render(request, 'profile.html', {'form': form, 'orders': orders, 'liked_products': liked_products})

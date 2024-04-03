@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Footer
+from msigana_ecommerce.admin_site import admin_site
 
 class FooterAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
@@ -8,4 +9,4 @@ class FooterAdmin(admin.ModelAdmin):
             return False
         return super().has_add_permission(request)
 
-admin.site.register(Footer, FooterAdmin)
+admin_site.register(Footer, FooterAdmin)
