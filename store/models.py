@@ -133,9 +133,6 @@ class ProductImage(models.Model):
     
     def clean(self):
         super().clean()
-        if self.image:
-            if self.image.size > 2*1024 * 1024:  # 2MB
-                raise ValidationError({'image': ('Image file too large ( > 750mb )')})
 
     def save(self, *args, **kwargs):
         try:
@@ -145,18 +142,42 @@ class ProductImage(models.Model):
                this.image.delete(save=False)
         except: pass # when new photo then we do nothing, normal case
 
-        # Optimize image before saving
         if self.image:
-           img = Image.open(self.image)
-           output = BytesIO()
-  
-           # Save the image in its original format
-           img_format = img.format
-           img.save(output, format=img_format, quality=75)
-           output.seek(0)
-           self.image = ContentFile(output.read(), self.image.name)
+            # Open the image file
+            img = Image.open(self.image)
+
+            # Calculate target file size (e.g., 750 KB)
+            target_size_kb = 750
+            target_size_bytes = target_size_kb * 1024
+
+            # Optimize image size by adjusting quality dynamically
+            output = BytesIO()
+            img_format = img.format
+            quality = 85  # Initial quality value
+            while True:
+                # Save image with current quality
+                img.save(output, format=img_format, quality=quality)
+                output_size = output.tell()
+
+                # Check if output size meets target size
+                if output_size <= target_size_bytes or quality <= 0:
+                    break  # Image meets target size or quality is too low
+
+                # Reduce quality for next iteration
+                quality -= 5
+
+                # Reset buffer for next iteration
+                output.seek(0)
+                output.truncate()
+
+            # Rewind buffer for reading
+            output.seek(0)
+
+            # Save the optimized image as the new image file
+            self.image = ContentFile(output.read(), self.image.name)
 
         super().save(*args, **kwargs)
+
     def delete(self, *args, **kwargs):
     # Delete the actual image file
         try:
