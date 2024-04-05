@@ -35,13 +35,13 @@ def store(request, category_slug=None):
     if category_slug != None:
         categories = get_object_or_404(Category, category_slug=category_slug)
         # products = Product.objects.filter(category=categories, product_is_available=True).prefetch_related('images').order_by('product_created_date')
-        products = Product.objects.filter(category=categories, product_is_available=True).select_related('category').prefetch_related('images').order_by('-product_created_date')
+        products = Product.objects.filter(category=categories, product_is_available=True).select_related('category').prefetch_related('images').order_by('-product_modified_date')
         template = 'store.html'
     else:
         products = cache.get('latest_products')
         if not products:
-            products = Product.objects.filter(product_is_available=True).prefetch_related('images').order_by('-product_created_date')[:30]
-            cache.set('latest_products', products, 60 * 60 * 2)  # Cache for 2 hours
+            products = Product.objects.filter(product_is_available=True).prefetch_related('images').order_by('-product_modified_date')[:30]
+            cache.set('latest_products', products, 60 * 60 * 0)  # Cache for 2 hours
 
 
     most_liked_products_with_count = most_liked_products(request)['most_liked_products']
