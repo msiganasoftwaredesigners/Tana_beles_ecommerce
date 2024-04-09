@@ -54,7 +54,7 @@ class OrderAdmin(admin.ModelAdmin):
     
     actions = [export_selected_orders_to_gsheets, export_selected_orders_pdf, export_selected_orders_xlsx]
     list_display = ['first_name',  'payment_status','status', 'bank_ref_number','paid_by_bank', 'paid_by_telebirr','paid_by_points',  'order_phone', 'order_username', 'order_total_prices', 'order_address',  'order_date',  'outTradeNo', 'last_name']
-    list_filter = ['order_date', 'payment_status', 'status', 'paid_by_points']
+    list_filter = ['order_date', 'payment_status', 'status', 'paid_by_telebirr','paid_by_bank','paid_by_points']
     inlines = [OrderItemInline]
     readonly_fields = ['first_name', 'payment_status', 'order_phone', 'order_username', 'order_date', 'bank_ref_number', 'order_total_prices', 'order_address', 'transaction_no', 'bank_ref_number', 'user', 'paid_by_points', 'paid_by_telebirr', 'last_name', 'referral_code']
     def has_add_permission(self, request):
