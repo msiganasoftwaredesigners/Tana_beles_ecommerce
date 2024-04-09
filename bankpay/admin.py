@@ -50,6 +50,7 @@ class PaywithbankAdmin(admin.ModelAdmin):
 
 class BanknameAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
+    list_display = ('name','account')
 
 admin_site.register(Bankname, BanknameAdmin)
 admin_site.register(Paywithbank, PaywithbankAdmin)
