@@ -39,7 +39,7 @@ def update_profile(request):
             })
     else:
         form = ProfileForm(instance=request.user)
-    orders = request.user.order_set.filter(payment_status=True).order_by('-order_date')[:6]
+    orders = request.user.order_set.order_by('-order_date')[:6]
     liked_products = request.user.liked_products.all()
 
     return render(request, 'profile.html', {'form': form, 'orders': orders, 'liked_products': liked_products})
