@@ -51,5 +51,5 @@ class PaywithbankAdmin(admin.ModelAdmin):
 class BanknameAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
-admin_site.register(Bankname)
+admin_site.register(Bankname, BanknameAdmin)
 admin_site.register(Paywithbank, PaywithbankAdmin)
