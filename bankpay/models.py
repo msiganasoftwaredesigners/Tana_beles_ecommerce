@@ -33,9 +33,9 @@ class Paywithbank(models.Model):
     screenshot = models.ImageField(upload_to='images/bank', blank=False)
     bank_name = models.CharField(max_length=200)
     ref_number = models.CharField(max_length=200, unique=True)
-    user_bank_account_name = models.CharField(max_length=200, default="no name")
+    user_bank_account_name = models.CharField(max_length=200)
     paid_by_bank = models.BooleanField(default=False)
-    phone_number = models.CharField(max_length=13, blank=False, default="0900000000")
+    phone_number = models.CharField(max_length=13, blank=False)
 
 
     def save(self, *args, **kwargs):
