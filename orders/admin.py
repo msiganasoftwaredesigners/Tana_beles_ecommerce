@@ -9,6 +9,12 @@ from msigana_ecommerce.admin_site import admin_site
 from django.urls import reverse
 from django.utils.html import format_html
 from bankpay.models import Paywithbank
+from users.models import CustomUser
+from orders.models import Order
+from rewardpay.models import RewardRate
+from decimal import Decimal
+
+
 def export_selected_orders_to_gsheets(modeladmin, request, queryset):
     export_orders_to_gsheets(queryset)
 export_selected_orders_to_gsheets.short_description = "Export selected orders to Google Sheets"
@@ -101,9 +107,50 @@ class OrderAdmin(admin.ModelAdmin):
                 if obj.payment_status != paywithbank_obj.payment_status:
                     obj.payment_status = paywithbank_obj.payment_status
                     obj.save()
+                order= obj
+                total_amount = Decimal(obj.order_total_prices)
+                if order.referral_code:
+                    try:
+                        user = CustomUser.objects.get(referral_code=order.referral_code)
+                        print("user reward point referral",user.point_reward)
+                        reward_rate = RewardRate.objects.first()
+                        get_point = total_amount * (reward_rate.referral_rate/100)
+                        print("get point",get_point)
+                        user.point_reward += get_point
+                        user.save()
+
+                        user = CustomUser.objects.get(username=order.user.username)
+                        print("user reward point user referral",user.point_reward)
+                        reward_rate = RewardRate.objects.first()
+                        get_point = total_amount * (reward_rate.user_referral_rate/100)
+                        print("get point",get_point)
+                        user.point_reward += get_point
+                        user.save()
+                    except CustomUser.DoesNotExist:
+                        pass
+
+                 # Update the user point reward
+                try:
+                    user = CustomUser.objects.get(username=order.user.username)
+                    print("user reward point reward user",user.point_reward)
+                    reward_rate = RewardRate.objects.first()
+                    get_point = total_amount * (reward_rate.user_rate/100)
+                    user.point_reward += get_point
+                    print("get point",get_point)
+                    user.save()
+                except CustomUser.DoesNotExist: 
+                    pass
             except Paywithbank.DoesNotExist:
                 # Handle the case where Paywithbank object does not exist for this order
                 pass
+    def get_readonly_fields(self, request, obj=None):
+        if obj and obj.paid_by_bank:
+            return list(self.readonly_fields) + ['paid_by_bank']
+        return self.readonly_fields
 
+    def get_fieldsets(self, request, obj=None):
+        if obj and obj.paid_by_bank:
+            return [(None, {'fields': ('first_name', 'payment_status', 'order_phone', 'order_username', 'order_date', 'bank_ref_number', 'order_total_prices', 'order_address', 'transaction_no', 'bank_ref_number', 'user', 'paid_by_points', 'paid_by_telebirr', 'last_name', 'referral_code')})]
+        return super().get_fieldsets(request, obj=obj)
 
 admin_site.register(Order, OrderAdmin)

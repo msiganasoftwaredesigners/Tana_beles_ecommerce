@@ -46,37 +46,6 @@ def pay_with_bank(request):
             order.save()
             user.phone_number = payment.phone_number
             user.save()
-            if order.referral_code:
-                try:
-                    user = CustomUser.objects.get(referral_code=order.referral_code)
-                    print("user reward point referral",user.point_reward)
-                    reward_rate = RewardRate.objects.first()
-                    get_point = total_amount * (reward_rate.referral_rate/100)
-                    print("get point",get_point)
-                    user.point_reward += get_point
-                    user.save()
-
-                    user = CustomUser.objects.get(username=order.user.username)
-                    print("user reward point user referral",user.point_reward)
-                    reward_rate = RewardRate.objects.first()
-                    get_point = total_amount * (reward_rate.user_referral_rate/100)
-                    print("get point",get_point)
-                    user.point_reward += get_point
-                    user.save()
-                except CustomUser.DoesNotExist:
-                    pass
-
-                 # Update the user point reward
-            try:
-                user = CustomUser.objects.get(username=order.user.username)
-                print("user reward point reward user",user.point_reward)
-                reward_rate = RewardRate.objects.first()
-                get_point = total_amount * (reward_rate.user_rate/100)
-                user.point_reward += get_point
-                print("get point",get_point)
-                user.save()
-            except CustomUser.DoesNotExist: 
-                pass
 
             return JsonResponse({'success': True, 'redirect_url':  reverse('order_complete')})  # Update with your success URL
         else:
