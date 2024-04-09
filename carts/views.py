@@ -158,8 +158,3 @@ def clear_cart(request):
         pass
     return redirect('orders')
  
-
-
-
-
- 

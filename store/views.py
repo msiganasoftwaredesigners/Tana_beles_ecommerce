@@ -237,27 +237,15 @@ def get_price_and_colors(request):
     else:
         logger.error('Invalid request')
         return JsonResponse({'error': 'Invalid request'}, status=400)
-# def get_price(request):
-#     variation_id = request.GET.get('variation_id')
-#     print(f"get_price view was called with variation_id: {variation_id}")
-#     if variation_id is not None:
-#         try:
-#             variation = Variation.objects.get(id=variation_id)
-#             price = variation.price
-#             return JsonResponse({'price': price})
-#         except ObjectDoesNotExist:
-#             return JsonResponse({'error': 'Variation does not exist'}, status=400)
-#     else:
-#         return JsonResponse({'error': 'Invalid request'}, status=400)
 
-# @csrf_exempt
-# @require_POST
+
 def increment_view_count(request, product_slug):
     print("increment_view_count was called with product_slug:", product_slug)
     product = get_object_or_404(Product, product_slug=product_slug)
     product.increment_views()
     print("product_views_count after incrementing:", product.product_views_count)
     return JsonResponse({'product_views_count': product.product_views_count})
+
 
 @login_required
 def like_product(request, product_slug):
