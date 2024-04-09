@@ -103,7 +103,7 @@ def payment_notification(request):
                     user.point_reward += get_point
                     user.save()
 
-                    user = CustomUser.objects.get(email=order.user.email)
+                    user = CustomUser.objects.get(username=order.user.username)
                     print("user reward point user referral",user.point_reward)
                     reward_rate = RewardRate.objects.first()
                     get_point = total_amount * (reward_rate.user_referral_rate/100)
@@ -117,7 +117,7 @@ def payment_notification(request):
 
             # Update the user point reward
             try:
-                user = CustomUser.objects.get(email=order.user.email)
+                user = CustomUser.objects.get(username=order.user.username)
                 print("user reward point reward user",user.point_reward)
                 reward_rate = RewardRate.objects.first()
                 get_point = total_amount * (reward_rate.user_rate/100)

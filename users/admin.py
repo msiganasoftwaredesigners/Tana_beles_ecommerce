@@ -33,9 +33,9 @@ class StaffUserAdmin(NoAddUserAdmin):  # Use admin.ModelAdmin instead of UserAdm
     form = CustomUserChangeForm
     model = StaffUser
     change_password_form = AdminPasswordChangeForm
-    list_display = ("email", "first_name", "last_name", "is_active","is_ordersuperuser")
+    list_display = ("email", "first_name","username", "last_name", "is_active","is_ordersuperuser")
     list_filter = ("is_staff", "is_active",)
-    readonly_fields = ("point_reward", "referral_code", 'is_active', 'email')
+    readonly_fields = ("point_reward","username", "referral_code", 'is_active', 'email')
     
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = list(super().get_readonly_fields(request, obj))
@@ -154,7 +154,6 @@ class CustomerUserAdmin(NoAddUserAdmin):  # Use admin.ModelAdmin instead of User
     form = CustomUserChangeForm
     model = CustomerUser
     change_password_form = AdminPasswordChangeForm
-    list_display = ("email","address", "phone_number", "is_active",)
     list_filter = ("is_staff", "is_active",)
     readonly_fields = ('is_active','username', 'email' )
 
@@ -238,7 +237,7 @@ class CustomerUserAdmin(NoAddUserAdmin):  # Use admin.ModelAdmin instead of User
         return ""
 
     password_change_link.short_description = 'Password change link'  # sets column name
-    list_display = ("email", "first_name", "last_name", "is_active", "password_change_link",)
+    list_display = ("email", "username", "phone_number", "first_name", "last_name", "is_active", "password_change_link",)
     
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)

@@ -9,6 +9,7 @@ class PaymentNotification(models.Model):
     trade_no = models.CharField(max_length=100, unique=True)
     trade_status = models.IntegerField()
     transaction_no = models.CharField(max_length=100)
+    paid_by_telebirr = models.BooleanField(default=True)
 
     def __str__(self):
         return self.out_trade_no

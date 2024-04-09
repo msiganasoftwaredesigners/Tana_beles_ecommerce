@@ -1,7 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block title %}Order completed{% endblock %}
-{% block extra_css %}
 {% block content %}
 <!-- breadcrum -->
     <div class="py-4 container flex gap-3 items-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
@@ -50,47 +49,48 @@
         >
           recomended for you
         </h2>
-      </header>
+    </header>
         <!-- product wrapper -->
-         <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 2xl:gap-3  lg:pr-16 xl:pr-32 2xl:pr-64 mb-6 lg:mb-8">
+    <div id="product-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 2xl:gap-3  lg:pr-16 xl:pr-32 2xl:pr-64 mb-6 lg:mb-8">
           {% for product in most_liked_products %}
-          <div class="flex flex-col">
-              <div class="m-2 bg-white shadow-md rounded-lg overflow-hidden flex-grow">
-                  <a href="{{product.get_store_url}}" class="relative">
-                    <div class="w-full h-32 2xl:h-64 overflow-hidden relative">
-                      {% with product.get_main_image as main_image %}
-                      {% if main_image %}
-                          <img class="w-full h-full object-cover" src="{{ main_image.image.url }}" alt="{{ product.product_name }}">
-                          <div class="absolute inset-0 flex items-center justify-center">
-                              <span class="text-red-500 text-lg md:text-2xl font-thin p-2 rounded"><i class="fas fa-star"></i> tanabeles</span>
-                          </div>
+        <div class="flex flex-col">
+            <div class="m-2 bg-white shadow-md rounded-lg overflow-hidden flex-grow">
+                <a href="{{product.get_store_url}}" class="relative">
+                <div class="w-full h-32 2xl:h-64 overflow-hidden relative">
+                    {% with product.get_main_image as main_image %}
+                    {% if main_image %}
+                    <img class="w-full h-full object-cover" src="{{ main_image.image.url }}" alt="{{ product.product_name }}">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-red-500 text-lg md:text-2xl font-thin p-2 rounded"><i class="fas fa-star"></i> tanabeles</span>
+                    </div>
                       {% endif %}
                       {% endwith %}
-                  </div>
-                  </a>
-                  <div class="sm:p-2 pl-4  md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
-                      <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.product_name|slice:":16"|capfirst }}</a>
-                      <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
-                          {% load price_filters%}
-                          {{ product.default_price }} br
-                      </div>
-                      <div class="flex items-center">
-                        <div class="flex gap-1 text-sm text-yellow-400">
-                          <span><i class="fas fa-star"></i></span>
-                          <span><i class="fas fa-star"></i></span>
-                          <span><i class="fas fa-star"></i></span>
-                          <span><i class="fas fa-star"></i></span>
-                          <span><i class="fas fa-star"></i></span>
-                        </div>
-                        <div class="text-xs text-gray-500 ml-3">(150)</div>
-                      </div>
-                  </div>
-                  <div class="bg-blue-600  hover:text-purple-400 text-center py-2 rounded-b mt-1">
-                      <a href="{{product.get_store_url}}" class="text-white  w-full inline-block">Show Details</a>
-                  </div>
-              </div>
-          </div>
+                </div>
+                </a>
+                <div class="sm:p-2 pl-4  md:pl-2  2xl:pl-6 md:pt-0 md:pb-1">
+                    <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.product_name|slice:":16"|capfirst }}</a>
+                    <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
+                        {% load price_filters%}
+                        {{ product.default_price }} br
+                    </div>
+                    <div class="flex items-center">
+                    <div class="flex gap-1 text-sm text-yellow-400">
+                        <span><i class="fas fa-star"></i></span>
+                        <span><i class="fas fa-star"></i></span>
+                        <span><i class="fas fa-star"></i></span>
+                        <span><i class="fas fa-star"></i></span>
+                        <span><i class="fas fa-star"></i></span>
+                    </div>
+                    <div class="text-xs text-gray-500 ml-3">(150)</div>
+                </div>
+            </div>
+            <div class="bg-blue-600  hover:text-purple-400 text-center py-2 rounded-b mt-1">
+                <a href="{{product.get_store_url}}" class="text-white  w-full inline-block">Show Details</a>
+            </div>
+        </div>
+    </div>
           {% endfor %}
-      </div> 
+</div> 
+</div>
     <!-- order complete wrapper end -->
 {% endblock %}

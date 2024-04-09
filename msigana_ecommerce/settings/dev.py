@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'advertizement.apps.AdvertizementConfig',
     'telebirrpay.apps.TelebirrpayConfig',
     'rewardpay.apps.RewardpayConfig',
+    'bankpay.apps.BankpayConfig',
     'nested_admin',
     'tailwind',
     'theme',

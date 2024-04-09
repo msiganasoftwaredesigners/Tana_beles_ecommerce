@@ -19,6 +19,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('telebirrpay/', include('telebirrpay.urls')),
     path('rewardpay/', include('rewardpay.urls')),
+    path('bankpay/', include('bankpay.urls')),
     
     path("accounts/profile/", views.update_profile, name="users_profiles"),
 ]

@@ -8,7 +8,7 @@ from .views import export_orders_view
 from msigana_ecommerce.admin_site import admin_site
 from django.urls import reverse
 from django.utils.html import format_html
-
+from bankpay.models import Paywithbank
 def export_selected_orders_to_gsheets(modeladmin, request, queryset):
     export_orders_to_gsheets(queryset)
 export_selected_orders_to_gsheets.short_description = "Export selected orders to Google Sheets"
@@ -53,10 +53,10 @@ class OrderAdmin(admin.ModelAdmin):
     export_selected_orders_xlsx.short_description = "Export selected orders to XLSX"
     
     actions = [export_selected_orders_to_gsheets, export_selected_orders_pdf, export_selected_orders_xlsx]
-    list_display = ['first_name', 'last_name', 'user', 'outTradeNo', 'paid_by_points','order_phone', 'order_username', 'order_date', 'order_total_prices', 'order_address', 'payment_status', 'status']
+    list_display = ['first_name',  'payment_status','status', 'bank_ref_number','paid_by_bank', 'paid_by_telebirr','paid_by_points',  'order_phone', 'order_username', 'order_total_prices', 'order_address',  'order_date',  'outTradeNo', 'last_name']
     list_filter = ['order_date', 'payment_status', 'status', 'paid_by_points']
     inlines = [OrderItemInline]
-    readonly_fields = ['first_name', 'last_name', 'order_phone', 'order_username', 'order_date', 'order_total_prices', 'order_address', 'payment_status', 'transaction_no', 'user', 'referral_code', 'paid_by_points']
+    readonly_fields = ['first_name', 'payment_status', 'order_phone', 'order_username', 'order_date', 'bank_ref_number', 'order_total_prices', 'order_address', 'transaction_no', 'bank_ref_number', 'user', 'paid_by_points', 'paid_by_telebirr', 'last_name', 'referral_code']
     def has_add_permission(self, request):
         return False
     
@@ -78,5 +78,32 @@ class OrderAdmin(admin.ModelAdmin):
         if request.user.is_superuser or (request.user.is_authenticated and request.user.is_ordersuperuser):
             return qs
         return qs.filter(items__product__product_owner=request.user)
+    
+
+    def save_model(self, request, obj, form, change):
+        # Call the parent class's save_model method to save the object
+        super().save_model(request, obj, form, change)
+
+        # Check if the 'paid_by_bank' field has changed
+        if 'paid_by_bank' in form.changed_data:
+            try:
+                paywithbank_obj = Paywithbank.objects.get(transaction_no=obj.transaction_no)
+                paywithbank_obj.paid_by_bank = obj.paid_by_bank
+
+                # Update payment status based on paid_by_bank value
+                if obj.paid_by_bank:
+                    paywithbank_obj.payment_status = True  # Assuming payment status should be True if paid by bank
+                else:
+                    paywithbank_obj.payment_status = False  # Assuming payment status should be False if not paid by bank
+
+                paywithbank_obj.save()
+                # Update payment status in Order model
+                # if obj.payment_status != paywithbank_obj.payment_status:
+                #     obj.payment_status = paywithbank_obj.payment_status
+                #     obj.save()
+            except Paywithbank.DoesNotExist:
+                # Handle the case where Paywithbank object does not exist for this order
+                pass
+
 
 admin_site.register(Order, OrderAdmin)

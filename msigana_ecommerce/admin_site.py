@@ -36,6 +36,12 @@ class AdminSite(DjangoAdminSite):
             app_list.remove(store_app)
             app_list.insert(0, store_app)
 
+        # Move the 'orders' app next to the 'store' app.
+        orders_app = next((app for app in app_list if app['app_label'] == 'orders'), None)
+        if orders_app:
+            app_list.remove(orders_app)
+            app_list.insert(1, orders_app)
+
         return app_list
     
     def app_index(self, request, app_label, extra_context=None):

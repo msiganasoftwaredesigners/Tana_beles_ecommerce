@@ -28,6 +28,10 @@ class Order(models.Model):
     referral_code = models.CharField(max_length=30, blank=True)
     order_key = models.CharField(max_length=6, editable=False, unique=True)
     paid_by_points = models.BooleanField(default=False)
+    paid_by_telebirr = models.BooleanField(default=False)
+    paid_by_bank = models.BooleanField(default=False)
+    bank_ref_number = models.CharField(max_length=200, blank=True)
+
 
     def save(self, *args, **kwargs):
         if not self.order_key:

@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'heads.apps.HeadsConfig',
     'telebirrpay.apps.TelebirrpayConfig',
     'rewardpay.apps.RewardpayConfig',
+    'bankpay.apps.BankpayConfig',
     'nested_admin',
     'tailwind',
     'theme',
