@@ -97,10 +97,10 @@ class OrderAdmin(admin.ModelAdmin):
                     paywithbank_obj.payment_status = False  # Assuming payment status should be False if not paid by bank
 
                 paywithbank_obj.save()
-                # Update payment status in Order model
-                # if obj.payment_status != paywithbank_obj.payment_status:
-                #     obj.payment_status = paywithbank_obj.payment_status
-                #     obj.save()
+                #Update payment status in Order model
+                if obj.payment_status != paywithbank_obj.payment_status:
+                    obj.payment_status = paywithbank_obj.payment_status
+                    obj.save()
             except Paywithbank.DoesNotExist:
                 # Handle the case where Paywithbank object does not exist for this order
                 pass
