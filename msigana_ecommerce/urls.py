@@ -3,6 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 from msigana_ecommerce.admin_site import admin_site
+from django.views.generic import TemplateView
 # from django.contrib import admin
 
 urlpatterns = [
@@ -22,6 +23,8 @@ urlpatterns = [
     path('bankpay/', include('bankpay.urls')),
     
     path("accounts/profile/", views.update_profile, name="users_profiles"),
+    path('googleeb174eafe2c6e97d.html', TemplateView.as_view(template_name='googleeb174eafe2c6e97d.html')),
+
 ]
 # admin.site.site_header = 'Tanabeles Login'
 
