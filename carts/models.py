@@ -7,7 +7,7 @@ class Cart(models.Model):
     cart_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):  # to override the object name of this class
+    def __str__(self):  
         return str(self.cart_id)
 
 
@@ -20,7 +20,7 @@ class CartItem(models.Model):
     selected_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     selected_color = models.CharField(max_length=100, blank=True)
     category = models.CharField(max_length=100, blank=True)
-    product_image_url = models.URLField(blank=True)  # Add product image URL field
+    product_image_url = models.URLField(blank=True)  
     product_brand = models.CharField(max_length=100, blank=True)
     product_name = models.CharField(max_length=100, blank=True)
 

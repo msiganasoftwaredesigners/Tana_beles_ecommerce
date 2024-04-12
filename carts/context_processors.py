@@ -3,7 +3,6 @@ from .views import _cart_id
 
 def counter(request):
     cart_id = _cart_id(request)
-    print(f"cart_idddddddddddddddddddddddddddddddddddddddcccccccccccc: {cart_id}")  # Debug print
     cart, _ = Cart.objects.get_or_create(cart_id=cart_id)
     cart_items = CartItem.objects.filter(cart=cart)
     count = 0

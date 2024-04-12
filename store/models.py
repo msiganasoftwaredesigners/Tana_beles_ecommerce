@@ -13,7 +13,7 @@ from users.models import CustomUser
 from django.db.models import Avg
 from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
-# from django.db.models import Count, F, Manager
+
 
 class VariationManager(models.Manager):
     def colors(self):
@@ -29,12 +29,14 @@ class Size(models.Model):
     def __str__(self):
         return self.name
     
+
 class Color(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
     
+
 class Product(models.Model):
     product_name = models.CharField(max_length=150, unique=True)
     product_brand = models.CharField(max_length=150, blank=True,default='Custom')
@@ -99,6 +101,7 @@ class Product(models.Model):
     def __str__(self):
         return self.product_name 
     
+
 class ProductRating(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -113,18 +116,19 @@ class Like(models.Model):
     liked_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)  # Call the "real" save() method.
+        super().save(*args, **kwargs)  
         self.product.product_likes_count = self.product.product_likes.count()
         self.product.save()
 
     def delete(self, *args, **kwargs):
         product = self.product
-        super().delete(*args, **kwargs)  # Call the "real" delete() method.
+        super().delete(*args, **kwargs) 
         product.product_likes_count = product.product_likes.count()
         product.save()
 
     def __str__(self):
         return f"{self.liked_by} liked {self.product.product_name}"
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
@@ -136,50 +140,39 @@ class ProductImage(models.Model):
 
     def save(self, *args, **kwargs):
         try:
-           # is the object in the database yet?
            this = ProductImage.objects.get(id=self.id)
            if this.image != self.image:
                this.image.delete(save=False)
-        except: pass # when new photo then we do nothing, normal case
+        except: pass 
 
         if self.image:
-            # Open the image file
             img = Image.open(self.image)
 
-            # Calculate target file size (e.g., 750 KB)
             target_size_kb = 750
             target_size_bytes = target_size_kb * 1024
 
-            # Optimize image size by adjusting quality dynamically
             output = BytesIO()
             img_format = img.format
-            quality = 85  # Initial quality value
+            quality = 85  
             while True:
-                # Save image with current quality
                 img.save(output, format=img_format, quality=quality)
                 output_size = output.tell()
 
-                # Check if output size meets target size
                 if output_size <= target_size_bytes or quality <= 0:
-                    break  # Image meets target size or quality is too low
+                    break  
 
-                # Reduce quality for next iteration
                 quality -= 5
 
-                # Reset buffer for next iteration
                 output.seek(0)
                 output.truncate()
 
-            # Rewind buffer for reading
             output.seek(0)
 
-            # Save the optimized image as the new image file
             self.image = ContentFile(output.read(), self.image.name)
 
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-    # Delete the actual image file
         try:
             self.image.delete(save=False)
         except PermissionError:
@@ -195,10 +188,12 @@ class ProductImage(models.Model):
     def __str__(self):
         return self.product.product_name + " Image"
     
+
 @receiver(post_delete, sender=ProductImage)
 def delete_product_image(sender, instance, **kwargs):
     """Delete the actual image file when a ProductImage object is deleted."""
     instance.image.delete(save=False)
+
 
 @receiver(pre_save, sender=ProductImage)
 def delete_old_image_on_update(sender, instance, **kwargs):
@@ -209,6 +204,7 @@ def delete_old_image_on_update(sender, instance, **kwargs):
         if old_image != new_image:
             old_image.delete(save=False)
 
+
 class SizeVariation(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
@@ -216,25 +212,31 @@ class SizeVariation(models.Model):
     color = models.ManyToManyField(Color, blank=True) 
 
     def clean(self):
-        # Check if price is a decimal
         if not isinstance(self.price, Decimal):
             raise ValidationError("Please insert number only.")
-        # Check if price is negative or zero
         if self.price < 1:
             raise ValidationError("Price should be greater than or equal to 1.")
-        # Check if price is more than 7 digits
         if self.price >= Decimal('1000000.00'):
             raise ValidationError("Please insert less than 999999.99.")
 
     def save(self, *args, **kwargs):
         self.full_clean()
-        is_new = not self.pk  # Check if this is a new instance
+        is_new = not self.pk  
         super().save(*args, **kwargs)
 
         if is_new:
-            # Get the default color
             default_color = Color.objects.get_or_create(name='White')[0]
             self.color.add(default_color)
 
     def __str__(self):
-        return f"{self.product.product_name} - {', '.join([color.name for color in self.color.all()])} - {self.size.name} - {self.price}"
+        colors = "Unknown"
+        if self.id:
+            try:
+                colors = ', '.join([color.name for color in self.color.all()])
+            except Exception as e:
+                print(f"Exception occurred while accessing colors: {e}")
+        return f"{self.product.product_name} - {colors} - {self.size.name} - {self.price}" 
+    # def __str__(self):
+    #     print("Inside __str__ method of SizeVariation")
+    #     return f"{self.product.product_name} - {', '.join([color.name for color in self.color.all()])} - {self.size.name} - {self.price}" 
+  

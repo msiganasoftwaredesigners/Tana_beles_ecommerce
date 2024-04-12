@@ -4,6 +4,7 @@
 {% block title %}
 {{ single_product.get_short_name|capfirst }}
 {% endblock %}
+
 {% block content %}
 <style>
     input[type="radio"]:checked + .size-label,
@@ -61,14 +62,89 @@
         
 </div>
 </div>
-<div class="grid grid-cols-5 gap-2 mt-4">
-    {% for image in other_images %}
-    <div>
-        <img src="{{ image.image.url }}"
-            class="single-img w-full h-12 md:h-16 xl:h-20 cursor-pointer border rounded-lg object-cove">
+<div class="relative">
+    <div class="grid grid-cols-5 gap-2 mt-4 overflow-hidden">
+        {% for image in other_images %}
+        <div class="{% if forloop.counter > 5 %}hidden{% endif %}">
+            <img src="{{ image.image.url }}"
+                class="single-img w-full h-12 md:h-16 xl:h-20 cursor-pointer border rounded-lg object-cover">
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+    {% if other_images|length > 5 %}
+    <button id="prevBtn" class="absolute left-0 top-1/2 transform -translate-y-1/2 ml-2 bg-gray-200 rounded-full px-2 py-1" onclick="slideImages(-1)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+    <button id="nextBtn" class="absolute right-0 top-1/2 transform -translate-y-1/2 mr-2 bg-gray-200 rounded-full px-2 py-1" onclick="slideImages(1)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
+    {% endif %}
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+function slideImages(direction) {
+    const totalImages = $('.single-img').length;
+    let currentIndex = $('.single-img.border-green-600').index();
+    let nextIndex = currentIndex + direction;
+
+    // Highlight clicked image
+    clearActive();
+    $('.single-img').eq(nextIndex).addClass('border-green-600');
+
+    // Update visibility of images in the list
+    if (nextIndex === 0) {
+        $('#prevBtn').hide();
+        $('#nextBtn').show();
+    } else if (nextIndex === totalImages - 1) {
+        $('#prevBtn').show();
+        $('#nextBtn').hide();
+    } else {
+        $('#prevBtn').show();
+        $('#nextBtn').show();
+    }
+    
+    $('.single-img').parent().addClass('hidden');
+    for (let i = nextIndex - 2, count = 0; count < 5; i++, count++) {
+        $('.single-img').eq((i + totalImages) % totalImages).parent().removeClass('hidden');
+    }
+}
+
+    
+    
+
+</script>
+
+
+
+{% comment %} <script>
+    const images = document.querySelectorAll('.single-img');
+    const totalImages = images.length;
+
+    let currentIndex = 0;
+
+    function slideImages(direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        } else if (currentIndex > totalImages - 5) {
+            currentIndex = totalImages - 5;
+        }
+        images.forEach((image, index) => {
+            if (index >= currentIndex && index < currentIndex + 5) {
+                image.parentElement.classList.remove('hidden');
+            } else {
+                image.parentElement.classList.add('hidden');
+            }
+        });
+    }
+</script> {% endcomment %}
+
 </div>
 </div>
         <!-- product image end -->
@@ -228,18 +304,18 @@
                         class="text-base md:text-base xl:text-lg">{{single_product.product_phone|slice:":2"}}-{{single_product.product_phone|slice:"2:4"}}-{{single_product.product_phone|slice:"4:6"}}-{{single_product.product_phone|slice:"6:8"}}-{{single_product.product_phone|slice:"8:"}}</span>
                 </a>
             </div>
-            <div class="flex space-x-3 mt-4">
+            <div class="flex space-x-12 mt-4 justify-center md:justify-start item-center text-center">
                 <a href="{{ single_product.product_owner.facebook_url }}" target="_blank"
-                    class="bg-amber-200 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
-                    <i class="fab fa-facebook-f text-blue-600"></i>
+                    class="border-slate-800 h-12 w-12  hover:bg-slate-400 rounded-full border  flex items-center justify-center">
+                    <i class="fab fa-facebook-f text-2xl text-blue-600"></i>
                 </a>
                 <a href="{{ single_product.product_owner.telegram_url }}" target="_blank"
-                    class="bg-amber-200 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
-                    <i class="fab fa-telegram text-blue-600"></i>
+                    class="border-slate-800 h-12 w-12 hover:bg-slate-400 rounded-full border flex items-center justify-center">
+                    <i class="fab fa-telegram text-2xl text-blue-600"></i>
                 </a>
                 <a href="{{ single_product.product_owner.whatsapp_url }}" target="_blank"
-                    class="bg-amber-200 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
-                    <i class="fab fa-whatsapp text-xl text-bold text-green-700"></i>
+                    class="border-slate-800 h-12 w-12 hover:bg-slate-400 rounded-full border  flex items-center justify-center">
+                    <i class="fab fa-whatsapp text-2xl text-bold text-green-700"></i>
                 </a>
             </div>
         </div>
@@ -533,6 +609,14 @@
         <i class="fas fa-arrow-left"></i> Back to shop
     </a>
 </div>
+<div class="fixed bottom-0 right-0 mb-24 mr-0">
+    <a href="tel:{{ single_product.product_phone }}"
+        class="  text-3xl  text-white px-3 py-3 rounded-full hover:bg-blue-700 transition-colors duration-200  flex items-center justify-center">
+        <img src="{% static 'images/phone-call.png' %}" alt="Phone Call" class="mr-0 w-14">
+
+    </a>
+</div>
+
 
 <button
   id="phoneCallButton"
