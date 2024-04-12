@@ -42,7 +42,7 @@ def store(request, category_slug=None):
         products = cache.get('latest_products')
         if not products:
             products = Product.objects.filter(product_is_available=True).prefetch_related('images').order_by('-product_modified_date')[:30]
-            cache.set('latest_products', products, 60 * 60 * 0)  
+            cache.set('latest_products', products, 60*60*2)  
 
 
     most_liked_products_with_count = most_liked_products(request)['most_liked_products']
@@ -78,7 +78,7 @@ def product_detail(request, category_slug, product_slug):
         single_product = cache.get(f'product_{product_slug}')
         if not single_product:
             single_product = get_object_or_404(Product, category__category_slug=category_slug, product_slug=product_slug)
-            cache.set(f'product_{product_slug}', single_product, 60 * 60 * 0)  # Cache for 2 hours
+            cache.set(f'product_{product_slug}', single_product, 60*60*2)  # Cache for 2 hours
         single_product.increment_views()
         # single_product = get_object_or_404(Product, category__category_slug=category_slug, product_slug=product_slug)
         # single_product.increment_views()

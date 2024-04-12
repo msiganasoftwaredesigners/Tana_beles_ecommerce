@@ -335,34 +335,47 @@ function slideImages(direction) {
         <img src="{{ advertizement_third.advertizement_third_image.url }}" class=" w-full  px-2 sm:px-8 md:px-16 lg:px-32 2xl:px-64 object-cover" />
       </a>
     {% if related_products %}
-    <div class="container pb-8 items-center px-2 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
+    <div class="container pb-8 items-center px-0 sm:px-8 md:px-16 lg:px-32 xl:px-32 2xl:max-w-9xl 2xl:mx-auto">
         <h2 class="text-2xl md:text-3xl font-medium text-gray-800 uppercase  pt-2 my-6">related products</h2>
-        <div class="grid grid-cols-2 lg:grid-cols-4 sm:grid-cols-2 gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 sm:grid-cols-2 gap-1 md:gap-6">
             {% for product in related_products %}
-            <div class="group rounded bg-white shadow overflow-hidden">
-                <div class="w-full h-32 2xl:h-64 overflow-hidden relative">
-                    <img src="{{ product.get_main_image.image.url }}" class="w-full">
-                </div>
-                <div class="pt-4 pb-3 pl-2  md:px-4 ">
-                    <a href="{% url 'product_detail' product.category.category_slug product.product_slug %}">
-                        <h4
-                            class=" font-medium text-base lg:text-sm  xl:text-lg mb-2 text-gray-800 hover:text-primary transition">
-                            {{ product.get_short_name|capfirst }}
-                        </h4>
-                    </a>
-                    <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
-                        {% load price_filters%}
-                        {{ product.default_price }} br
+            <div class="flex flex-col">
+                <div class="m-2 bg-white shadow-md rounded-lg overflow-hidden flex-grow">
+                    <a href="{{product.get_store_url}}" class="relative">
+                      <div class="w-full h-32 2xl:h-64 overflow-hidden relative">
+                        {% with product.get_main_image as main_image %}
+                        {% if main_image %}
+                            <img class="w-full h-full object-cover" src="{{ main_image.image.url }}" alt="{{ product.product_name }}">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-red-500 text-lg md:text-2xl font-thin p-2 rounded"><i class="fas fa-star"></i> tanabeles</span>
+                            </div>
+                        {% endif %}
+                        {% endwith %}
                     </div>
-                    <!-- Add your product rating and reviews here -->
+                    </a>
+                    <div class="sm:p-2 pl-2  2xl:pl-6 md:pt-0 md:pb-1">
+                        <a href="{{product.get_store_url}}" class="block text-base lg:text-sm  xl:text-lg font-semibold text-gray-800 hover:text-blue-600">{{ product.product_name|slice:":16"|capfirst }}</a>
+                        <div class="my-0 2xl:my-2 text-blue-600 text-sm md:text-base">
+                            {% load price_filters%}
+                            {{ product.default_price }} br
+                        </div>
+                        <div class="flex items-center">
+                          <div class="flex gap-1 text-xs md:text-sm text-yellow-400">
+                              {% for i in "12345"|make_list %}
+                                  {% if i|add:0 <= product.average_rating|add:0 %}
+                                      <span class="text-yellow-400"><i class="fas fa-star rating"></i></span>
+                                  {% else %}
+                                      <span class=""><i class="far fa-star rating"></i></span>
+                                  {% endif %}
+                              {% endfor %}
+                          </div>
+                          <div class="text-xs text-gray-500 ml-3">({{ product.review_count }} Reviews)</div>
+                      </div>
+                    </div>
+                    <div class="bg-blue-600  hover:text-purple-400 text-center py-2 rounded-b mt-1">
+                        <a href="{{product.get_store_url}}" class="text-white  w-full inline-block">Show Details</a>
+                    </div>
                 </div>
-                <!-- product content end -->
-                <!-- product button -->
-                <a href="{% url 'product_detail' product.category.category_slug product.product_slug %}"
-                    class="block w-full py-1 text-center text-white bg-blue-600 border border-primary rounded-b hover:bg-blue-300 hover:text-primary transition">
-                    Product details
-                </a>
-                <!-- product button end -->
             </div>
             <!-- single product end -->
             {% endfor %}
@@ -609,13 +622,13 @@ function slideImages(direction) {
         <i class="fas fa-arrow-left"></i> Back to shop
     </a>
 </div>
-<div class="fixed bottom-0 right-0 mb-24 mr-0">
+<div class="fixed bottom-0 right-0 mb-24 mr-0 z-50 ">
     <a href="tel:{{ single_product.product_phone }}"
-        class="  text-3xl  text-white px-3 py-3 rounded-full hover:bg-blue-700 transition-colors duration-200  flex items-center justify-center">
+        class="text-3xl text-white mr-2 md:mr-6 rounded-full bg-white  transition-colors duration-200 flex items-center justify-center">
         <img src="{% static 'images/phone-call.png' %}" alt="Phone Call" class="mr-0 w-14">
-
     </a>
 </div>
+
 
 
 <button

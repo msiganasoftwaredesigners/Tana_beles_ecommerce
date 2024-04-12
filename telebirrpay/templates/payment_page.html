@@ -10,22 +10,23 @@
         </button>
     
 </form>
+<div  class="flex flex-col items-center justify-center  mb-4 px-4">
+    
+    <a href="{% url 'bankpay' %}" class="bg-slate-400 border border-primary text-white px-4 py-3 font-medium rounded-md  hover:bg-slate-500 hover:text-primary transition text-sm w-full md:max-w-md block text-center">
+        
+        Pay with Bank
+    </a>
+
+</div>
 <form id="payment-withreward" class="flex flex-col items-center justify-center  mb-4 px-4">
     {% csrf_token %}
         <button type="submit" class="bg-slate-400 border border-primary text-white px-4 py-3 font-medium rounded-md  hover:bg-slate-500 hover:text-primary transition text-sm w-full md:max-w-md block text-center">
             
-           {{user.point_reward}} Birr Pay with Reward Points
+            Pay with Reward ({{ user.point_reward }} points)
         </button>
     
 </form>
-<div  class="flex flex-col items-center justify-center  mb-4 px-4">
-    
-        <a href="{% url 'bankpay' %}" class="bg-slate-400 border border-primary text-white px-4 py-3 font-medium rounded-md  hover:bg-slate-500 hover:text-primary transition text-sm w-full md:max-w-md block text-center">
-            
-            Pay with Bank
-        </a>
-    
-    </div>
+
 <div class="flex justify-center mb-12 px-4">
     <div class="w-full md:max-w-md">
         <a href="{% url 'home' %}" class="bg-blue-600 border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-blue-700 hover:text-primary transition text-sm w-full md:max-w-md block text-center">
