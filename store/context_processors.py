@@ -26,7 +26,7 @@ def most_liked_products(request):
             ).order_by('-likes_count')[:8]
 
             # Store the most liked products in cache for 3 days
-            cache.set('most_liked_products', most_liked_products, 60*60*4)
+            cache.set('most_liked_products', most_liked_products, 60*60*1)
         else:
             # Check if the products in cache still exist in the database
             updated_products = []
