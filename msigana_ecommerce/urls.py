@@ -4,8 +4,8 @@ from django.conf.urls.static import static
 from . import views
 from msigana_ecommerce.admin_site import admin_site
 from django.views.generic import TemplateView
-from django.views.generic.base import RedirectView
-from django.contrib.staticfiles.storage import staticfiles_storage
+from django.contrib.staticfiles.views import serve
+
 # from django.contrib import admin
 
 urlpatterns = [
@@ -26,10 +26,8 @@ urlpatterns = [
     
     path("accounts/profile/", views.update_profile, name="users_profiles"),
     path('googleeb174eafe2c6e97d.html', TemplateView.as_view(template_name='googleeb174eafe2c6e97d.html')),
-    path(
-        "Ads.txt",
-        RedirectView.as_view(url=staticfiles_storage.url("Ads.txt")),
-    ),
+    path("Ads.txt", serve, {"path": "Ads.txt"}),
+
 ]
 # admin.site.site_header = 'Tanabeles Login'
 
