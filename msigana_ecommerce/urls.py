@@ -26,7 +26,7 @@ urlpatterns = [
     
     path("accounts/profile/", views.update_profile, name="users_profiles"),
     path('googleeb174eafe2c6e97d.html', TemplateView.as_view(template_name='googleeb174eafe2c6e97d.html')),
-    path("Ads.txt", serve, {"path": "Ads.txt"}),
+    path('Ads.txt', views.ads_txt, name='ads_txt'),
 
 ]
 # admin.site.site_header = 'Tanabeles Login'
