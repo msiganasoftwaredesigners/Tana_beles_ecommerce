@@ -48,7 +48,7 @@ def update_profile(request):
 
 def ads_txt(request):
     # Path to the Ads.txt file
-    ads_txt_path = os.path.join(settings.BASE_DIR, '../static', 'Ads.txt')
+    ads_txt_path = os.path.join(settings.BASE_DIR, '../static', 'ads.txt')
 
     # Read the contents of the Ads.txt file
     with open(ads_txt_path, 'r') as f:
